@@ -16,7 +16,7 @@ But our daily computing also involves a lot of small, but important, tasks. In t
 
 ### Python libraries
 
-- [A quick and dirty introduction to `sqlalchemy`](/Quick-n-dirty-sqlalchemy.md)
+- [A quick and dirty introduction to `sqlalchemy`](/quick-n-dirty-sqlalchemy.md)
 - Prefetching objects in Django
 - [`lxml` for web scraping](/lxml-for-web-scraping.md)
 
