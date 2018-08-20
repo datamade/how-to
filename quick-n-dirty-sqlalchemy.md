@@ -2,7 +2,7 @@
 
 ## Foreword
 
-SQLAlchemy is arguably _the_ SQL toolkit for Python. A library of such stature requires encyclopedic documentation. In contrast to other libraries, where minutae is relegated to the source code, the SQLAlchemy docs center details. This is wonderful for advanced use, but it makes it slightly harder (especially for beginners) to parse out answers to broader questions, like:
+SQLAlchemy is arguably _the_ SQL toolkit for Python. A library of such stature requires encyclopedic documentation. In contrast to other libraries, where minutiae is relegated to the source code, the SQLAlchemy docs center details. This is wonderful for advanced use, but it makes it slightly harder (especially for beginners) to parse out answers to broader questions, like:
 
 - When are connections to my database opened and closed?
 - How many connections are available to my application?
