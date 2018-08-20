@@ -8,14 +8,14 @@ You can access that data directly via SSH tunneling, or binding a port on your m
 
 ### Authenticate
 
-Some servers don't like strangers. If you're dealing with one, [you'll need SSH access](https://www.digitalocean.com/community/tutorials/how-to-set-up-ssh-keys--2). (Not sure? Try running `ssh ubuntu@your-server.com` in your terminal.)
+Some servers don't like strangers. If you're dealing with one, [you'll need SSH access](https://www.digitalocean.com/community/tutorials/how-to-set-up-ssh-keys--2). (Not sure? Try running `ssh ubuntu@<your-server.com>` in your terminal.)
 
 ### Create the tunnel
 
 Once you're authorized, open your terminal and build the tunnel.
 
 ```bash
-ssh -L 9000:localhost:5432 ubuntu@your-server.com
+ssh -L 9000:localhost:5432 ubuntu@<your-server.com>
 ```
 
 Let's break this down.
@@ -24,7 +24,7 @@ Let's break this down.
 
 The `-L` flag tells `ssh` you'd like to make a **L**ocal tunnel from the port you specify first, `9000`, to the host and port specified next, `localhost:5432`. (Note that `localhost` in this instance is relative to the server, not your local machine; `localhost` on your side is implicit when you use the `-L` flag, unless you explicitly declare an IP address.)
 
-Finally, `ubuntu@ocd.datamade.us` tells `ssh` we want to connect to the `ocd.datamade.us` server as the user `ubuntu`.
+Finally, `ubuntu@<your-server.com>` tells `ssh` we want to connect to the `ocd.datamade.us` server as the user `ubuntu`.
 
 ### Connect to the database
 
