@@ -25,3 +25,7 @@ But our daily computing also involves a lot of small, but important, tasks. In t
 - [Interacting with a remote database](/Interacting-with-a-remote-database.md)
 - [Dumping and restoring a Postgres database](/Dump-and-restore-Postgres.md)
 - [Dockerizing Postgres](/Dockerizing-Postgres.md)
+
+### Devops
+
+- [tmux, best practices](tmux-best-practices.md)
