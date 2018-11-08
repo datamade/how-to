@@ -35,12 +35,11 @@ sudo mv /home/datamade/pubkey.txt .
 sudo chown ubuntu.ubuntu pubkey.txt
 ```
 
-#### 5. SCP the key to the specified production server, shell into that server, and change to the DataMade user.
+#### 5. SCP the key to the specified production server, and shell into that server.
 
 ```
 scp pubkey.txt ubuntu@newserver.datamade.us:/home/ubuntu
 ssh ubuntu@newserver.datamade.us
-sudo su - datamade
 ```
 
 #### 6. Move the key, and change its ownership.
@@ -50,9 +49,10 @@ sudo mv pubkey.txt /home/datamade/
 sudo chown datamade.datamade /home/datamade/pubkey.txt
 ```
 
-####  7. Import the key, and check your work.
+####  7. Change to the DataMade user. Import the key, and check your work.
 
 ```
+sudo su - datamade
 gpg --import pubkey.txt
 gpg --list-secret-keys
 ```
