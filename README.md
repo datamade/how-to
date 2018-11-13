@@ -29,3 +29,4 @@ But our daily computing also involves a lot of small, but important, tasks. In t
 ### Devops
 
 - [tmux, best practices](tmux-best-practices.md)
+- [How to move a gpg key between servers](moving-keys-between-servers.md)
