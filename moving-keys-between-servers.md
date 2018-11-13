@@ -17,7 +17,8 @@ If these situations sound familiar, then learn how to seamlessly and securely mo
 ssh-add ~/.ssh/id_rsa
 ```
 
-#### 2. Shell into the "old" server, and in doing so, forward the authentication credentials to this server.
+#### 2. Shell into the "old" server, and in doing so, forward the authentication credentials to this server. 
+The `-A` flag tells ssh to use your locally saved, private key, rather than putting your private key on the server. Why? [You need credentials to shell into the "new" server from the "old" server (step 7).](https://yakking.branchable.com/posts/ssh-A/)
 
 ```
 # "old" server (ubuntu user)
@@ -66,10 +67,10 @@ sudo chown ubuntu.ubuntu pubkey.txt
 scp pubkey.txt ubuntu@newserver.datamade.us:/home/ubuntu
 ```
 
-#### 7. On your local machine, shell into the "new" server.
+#### 7. *Still* on the old server, shell into the "new" server.
 
 ```
-# local machine
+# "old" server (ubuntu user)
 ssh ubuntu@newserver.datamade.us
 ```
 
