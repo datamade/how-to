@@ -1,7 +1,6 @@
 # The shell and Ubuntu
 
-This directory records best practices for working with the shell (at DataMade,
-usually Bash) and Ubuntu, our choice of operating system for our servers.
+This directory records best practices for working with the shell -- typically Bash -- and Ubuntu, our choice of operating system for our servers.
 
 ## Guides
 

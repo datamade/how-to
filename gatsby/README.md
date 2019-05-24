@@ -22,12 +22,12 @@ Gatsby and Jekyll can both be deployed on Netlify as purely static sites, which 
 In general, you should prefer Gatsby to Jekyll when:
 
 - You have a team that has working knowledge of ES6, NPM, React, and GraphQL
-- You would like to load and display data from datasources other than Markdown
+- You would like to load and display data from data sources other than Markdown
 
 #### Pros
 
 - Gatsby is built on top of JavaScript, a language that we use much more regularly than Ruby.
-- Gatsby supports data loading from a huge variety of datasources via its extensible data layer API. Jekyll can only read data from Markdown posts, or from specially-formatted YAML, JSON, or CSV files living in the `_data` folder.
+- Gatsby supports data loading from a huge variety of data sources via its extensible data layer API. Jekyll can only read data from Markdown posts, or from specially-formatted YAML, JSON, or CSV files living in the `_data` folder.
 - Gatsby uses React under the hood and exposes a fully-configured React development environment, meaning you can make use of JSX and the React plugin ecosystem. Jekyll requires you to use the [Liquid templating language](https://jekyllrb.com/docs/liquid/), which does not integrate as closely with JavaScript as JSX.
 - Gatsby builds in a lot of performance optimizations, including code splitting, progressive rendering, and resized images for different devices. (For a deep dive on Gatsby's performance optimizations, see [Why is Gatsby so fast?](https://www.gatsbyjs.org/blog/2017-09-13-why-is-gatsby-so-fast/))
 - Gatsby bakes in a modern JavaScript development environment by default, including hot reloading, source maps, and JavaScript package management.
@@ -51,7 +51,6 @@ In general, you should prefer Gatsby to Django when:
 - Your primary motivation for considering Django over static HTML/CSS/JS is the ability to generate views based on data
 
 #### Pros
-
 
 - By treating JavaScript as a first-class citizen, Gatsby and React make the process of building frontend interactions much more intuitive (and much more testable) than Django does.
 - Deploying on Netlify reduces the overhead of Continuous Deployment and server provisioning/management.

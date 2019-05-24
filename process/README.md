@@ -1,7 +1,6 @@
 # Collaborative processes
 
-This directory records best practices for collaborative software development
-processes.
+This directory records best practices for collaborative software development processes.
 
 ## Guides
 
