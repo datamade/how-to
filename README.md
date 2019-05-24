@@ -1,32 +1,23 @@
-# tutorials
+# howto
 
 _📚 Doing all sorts of things, the DataMade way_
 
 ## What's this?
 
-Here at DataMade, we do a lot of computer programming. Sometimes, we create entire repos dedicated to the practices we employ:
+Here at DataMade, we do a lot of computer programming. In the spirit of [better living through documentation](https://datamade.us/blog/better-living-through-documentation), we're preserving guides to how we do that here.
 
-- [Making Data, the DataMade Way](https://github.com/datamade/data-making-guidelines)
-- [Analyzing Data, the DataMade Way](https://github.com/datamade/data-analysis-guidelines)
-- [Writing Tests, the DataMade Way](https://github.com/datamade/testing-guidelines)
+## Contents
 
-But our daily computing also involves a lot of small, but important, tasks. In the spirit of [better living through documentation](https://datamade.us/blog/better-living-through-documentation), we're preserving guides to those tasks, here.
-
-## Index
-
-### Python libraries
-
-- [A quick and dirty introduction to `sqlalchemy`](/quick-n-dirty-sqlalchemy.md)
-- Prefetching objects in Django
-- [`lxml` for web scraping](/lxml-for-web-scraping.md)
-
-### Database operations
-
-- [Interacting with a remote database](/Interacting-with-a-remote-database.md)
-- [Dumping and restoring a Postgres database](/Dump-and-restore-Postgres.md)
-- [Dockerizing Postgres](/Dockerizing-Postgres.md)
-
-### Devops
-
-- [tmux, best practices](tmux-best-practices.md)
-- [How to move a gpg key between servers](moving-keys-between-servers.md)
+- [Data processing and ETL](https://github.com/datamade/data-making-guidelines)
+- [Reproducible data analysis](https://github.com/datamade/data-analysis-guidelines)
+- [Software testing](https://github.com/datamade/testing-guidelines)
+- [PostgreSQL](/postgres/)
+    - [A quick and dirty introduction to `sqlalchemy`](/postgres/quick-n-dirty-sqlalchemy.md)
+    - [Interacting with a remote database](/postgres/Interacting-with-a-remote-database.md)
+    - [Dumping and restoring a Postgres database](/postgres/Dump-and-restore-Postgres.md)
+    - [Dockerizing Postgres](/postgres/Dockerizing-Postgres.md)
+- [Web scraping](/scraping/)
+    - [`lxml` for web scraping](/scraping/lxml-for-web-scraping.md)
+- [The shell and Ubuntu](/shell/)
+    - [tmux, best practices](/shell/tmux-best-practices.md)
+    - [How to move a gpg key between servers](/shell/moving-keys-between-servers.md)
