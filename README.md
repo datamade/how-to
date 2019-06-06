@@ -1,4 +1,4 @@
-# howto
+# how-to
 
 _📚 Doing all sorts of things, the DataMade way_
 
