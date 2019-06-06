@@ -21,7 +21,9 @@ Here at DataMade, we do a lot of computer programming. In the spirit of [better 
 - [The shell and Ubuntu](/shell/)
     - [tmux, best practices](/shell/tmux-best-practices.md)
     - [How to move a gpg key between servers](/shell/moving-keys-between-servers.md)
-- [Collaborative processes](/process/)
-    - [Making changes to the standard stack](/process/stack-changes.md)
 - [Amazon Web Services](/aws/)
     - [AWS Relational Database Service (RDS)](/aws/rds.md)
+
+## Contributing
+
+The process for making changes to the DataMade Stack, and by extension this repo, is documented in [`CONTRIBUTING.md`](./CONTRIBUTING.md).
