@@ -30,4 +30,4 @@ These instructions are loosely based on [AWS's official documentation](https://d
     - Protocol: `TCP`
     - Port range: `5432`
     - Source: `Custom`, and paste in the value of the EC2 instance security group from above
-- Test that your server can access your database by [opening up an SSH tunnel](/postgres/Interacting-with-a-remote-database.md) and attempting to `psql` into the database. 
+- Shell into your server and test that you can access your database by [opening up an SSH tunnel](/postgres/Interacting-with-a-remote-database.md) to your RDS instance and attempting to `psql` into the database. (N.b., you can find the URL to your RDS instance on the database detail page in the RDS console.)
