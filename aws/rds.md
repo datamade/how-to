@@ -28,6 +28,6 @@ These instructions are loosely based on [AWS's official documentation](https://d
 - In the detail view for your database's security group, select `Inbound > Edit > Add Rule` with the following attributes:
     - Type: `PostgreSQL`
     - Protocol: `TCP`
-    - Port range: `5432`j
+    - Port range: `5432`
     - Source: `Custom`, and paste in the value of the EC2 instance security group from above
 - Test that your server can access your database by [opening up an SSH tunnel](/postgres/Interacting-with-a-remote-database.md) and attempting to `psql` into the database. 
