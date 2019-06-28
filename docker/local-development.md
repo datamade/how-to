@@ -1,12 +1,12 @@
 # Docker for Local Development
 
 Docker for local development was piloted on `dedupe-service`, a repository to
-which some DataMade employees do not access. Luckily, we can abstract general
+which some DataMade employees do not have access. Luckily, we can abstract general
 patterns for Dockerizing an application to guide our next effort.
 
 ## Overview
 
-A containerized local development environment has three components:
+A containerized local development environment has four components:
 
 1. [A Dockerfile](#dockerfile), containing building instructions for the application itself.
 2. [A database initialization script](#scriptsinit-dbsh)
@@ -14,42 +14,9 @@ that creates your database and installs any extensions
 2. [A root `docker-compose.yml` file](#docker-composeyml)
 that declares the application and its dependent services
 3. [A `tests/docker-compose.yml` file](#testsdocker-composeyml)
-that overrides the application service in the root file, in order to run the tests.
+that overrides the application service in the root file, in order to run the tests
 
-Together, these enable running the application with the following command:
-
-```bash
-docker-compose up
-```
-
-Meanwhile, you can run the tests like:
-
-```bash
-docker-compose -f docker-compose.yml -f tests/docker-compose.yml up app
-# The --rm flag will remove the temporary container created to run your command after the command exits.
-docker-compose -f docker-compose.yml -f tests/docker-compose.yml run --rm app <YOUR_COMMAND>
-```
-
-– where `<YOUR_COMMAND>` is something like `pytest tests/test_admin.py -sxv --pdb`.
-
-Stop the application or test execution like:
-
-```bash
-docker-compose down
-```
-
-### A few helpful notes
-
-- Run your application on the `0.0.0.0` host.
-- The IP addresses for services defined in `docker-compose.yml` are aliased to
-the name of the service, e.g., if you need to include a host name for a database
-and you are using a containerized version of Postgres defined as a service
-called `postgres`, you can use `postgres` as the host name.
-- In the case of both the application and the tests, you will have access to
-your database on the 32001 port:
-`psql -h localhost -p 32001 -U postgres -d <YOUR_DATABASE>`.
-
-### `Dockerfile`
+### 1. `Dockerfile`
 
 ```Dockerfile
 # Extend the base Python image
@@ -87,7 +54,10 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY . /app
 ```
 
-### `scripts/init-db.sh`
+### 2. `scripts/init-db.sh`
+
+The Postgres image provides a harness for executing arbitrary SQL and Bash
+scripts when containers are initialized. [Read more. &raquo;](https://docs.docker.com/samples/library/postgres/#initialization-scripts)
 
 ```bash
 #!/bin/bash
@@ -98,7 +68,7 @@ psql -U postgres -d <YOUR_DATABASE> -c "CREATE EXTENSION IF NOT EXISTS <YOUR_EXT
 # ad inf.
 ```
 
-### `docker-compose.yml`
+### 3. `docker-compose.yml`
 
 ```docker-compose.yml
 version: '3'
@@ -113,7 +83,7 @@ services:
       # Map ports on your computer to ports on your container. This allows you,
       # e.g., to visit your containerized application in a browser on your
       # computer.
-      - <HOST_PORT>:<CONTAINER_PORT>  # e.g., 5000:5000
+      - <HOST_PORT>:<CONTAINER_PORT>  # e.g., 8000:8000
     depends_on:
       # Declare any services that should be started first. Beware: It checks
       # that a service has started, but not that a service is ready.
@@ -124,7 +94,7 @@ services:
       - .:/app
       # Mount example configs as live configs in the container.
       - ${PWD}/api/settings_deployment.py.example:/app/api/settings_deployment.py
-    command: python runserver.py --host 0.0.0.0
+    command: <RUNSERVER_COMMAND>  # e.g., python runserver.py --host 0.0.0.0
 
   migration:
     container_name: <YOUR_APP>-migration
@@ -139,28 +109,29 @@ services:
       # These should generally be the same as your application volumes.
       - .:/app
       - ${PWD}/api/settings_deployment.py.example:/app/api/settings_deployment.py
-    command: bash -c "python manage.py migrate"
+    command: <MIGRATION_COMMAND>  # e.g., python manage.py migrate
 
   postgres:
     container_name: dedupe-postgres
     restart: always
     image: postgres:<YOUR_VERSION>
     volumes:
-      # By default, Postgres instantiates an anonymous volume. Declare a named
+      # By default, Postgres instantiates an anonymous volume. Use a named
       # one, so your data persists beyond the life of the container. See this
       # post for a discussion of the pitfalls of Postgres and anonymous
       # volumes: https://linuxhint.com/run_postgresql_docker_compose/
       - <YOUR_APP>-db-data:/var/lib/postgresql/data
-      # See https://docs.docker.com/samples/library/postgres/#initialization-scripts
+      # Mount our initialization script.
       - ${PWD}/scripts/init-db.sh:/docker-entrypoint-initdb.d/10-init.sh
     ports:
       - 32001:5432
 
 volumes:
+  # Declare your named volume for Postgres.
   <YOUR_APP>-db-data:
 ```
 
-### `tests/docker-compose.yml`
+### 4. `tests/docker-compose.yml`
 
 ```docker-compose.yml
 version: '3'
@@ -179,3 +150,40 @@ services:
       - ...
     command: pytest -sxv
 ```
+
+### Running the application
+
+Once you've containerized your development environment, run the application
+like:
+
+```bash
+docker-compose up
+```
+
+Meanwhile, run the tests like:
+
+```bash
+docker-compose -f docker-compose.yml -f tests/docker-compose.yml run --rm app
+# The --rm flag will remove the temporary container created to run your command after the command exits.
+docker-compose -f docker-compose.yml -f tests/docker-compose.yml run --rm app <YOUR_COMMAND>
+```
+
+– where `<YOUR_COMMAND>` is something like `pytest tests/test_admin.py -sxv --pdb`.
+
+Stop the application or test execution like:
+
+```bash
+docker-compose down
+```
+
+## A few helpful notes
+
+- Your containerized application should run on the `0.0.0.0` host. In Django,
+that looks like `python manage.py runserver 0.0.0.0`.
+- The IP addresses for services defined in `docker-compose.yml` are aliased to
+the name of the service, e.g., if you need to include a host name for a database
+and you are using a containerized version of Postgres defined as a service
+called `postgres`, you can use `postgres` as the host name.
+- In the case of both the application and the tests, you can access your
+containerized database from your computer on the `32001` port, like
+`psql -h localhost -p 32001 -U postgres -d <YOUR_DATABASE>`.
