@@ -72,4 +72,5 @@ over virtual environments and manual installation of external services.
 
 We recommend using a containerized development environment for the next new
 website we build, while continuing to use the containerized environment for
-Dedupe.io development.
+Dedupe.io development. It may also be an instructive exercise to containerize
+`django-councilmatic`.

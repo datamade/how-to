@@ -1,130 +1,181 @@
-**Relevant directory structure**
+# Docker for Local Development
 
+Docker for local development was piloted on `dedupe-service`, a repository to
+which some DataMade employees do not access. Luckily, we can abstract general
+patterns for Dockerizing an application to guide our next effort.
+
+## Overview
+
+A containerized local development environment has three components:
+
+1. [A Dockerfile](#dockerfile), containing building instructions for the application itself.
+2. [A database initialization script](#scriptsinit-dbsh)
+that creates your database and installs any extensions
+2. [A root `docker-compose.yml` file](#docker-composeyml)
+that declares the application and its dependent services
+3. [A `tests/docker-compose.yml` file](#testsdocker-composeyml)
+that overrides the application service in the root file, in order to run the tests.
+
+Together, these enable running the application with the following command:
+
+```bash
+docker-compose up
 ```
-├── Dockerfile
-├── docker-compose.yml
-├── requirements.txt
-├── dev_requirements.txt
-├── init_db.py
-├── run_queue.py
-├── runserver.py
-├── alembic.ini.example
-├── dedupe.stop
-├── api
-│   ├── app_config.py
-│   ├── local.py.example
-│   └── secrets.py.example
-├── scripts
-│   └── init-dedupeapi.sh
-└── tests
-    └── docker-compose.yml
+
+Meanwhile, you can run the tests like:
+
+```bash
+docker-compose -f docker-compose.yml -f tests/docker-compose.yml up app
+# The --rm flag will remove the temporary container created to run your command after the command exits.
+docker-compose -f docker-compose.yml -f tests/docker-compose.yml run --rm app <YOUR_COMMAND>
 ```
 
-Run the app: `docker-compose up --build`
+– where `<YOUR_COMMAND>` is something like `pytest tests/test_admin.py -sxv --pdb`.
 
-**`Dockerfile`**
+Stop the application or test execution like:
+
+```bash
+docker-compose down
+```
+
+### A few helpful notes
+
+- Run your application on the `0.0.0.0` host.
+- The IP addresses for services defined in `docker-compose.yml` are aliased to
+the name of the service, e.g., if you need to include a host name for a database
+and you are using a containerized version of Postgres defined as a service
+called `postgres`, you can use `postgres` as the host name.
+- In the case of both the application and the tests, you will have access to
+your database on the 32001 port:
+`psql -h localhost -p 32001 -U postgres -d <YOUR_DATABASE>`.
+
+### `Dockerfile`
 
 ```Dockerfile
-FROM python:3.4
+# Extend the base Python image
+# See https://hub.docker.com/_/python for version options
+# N.b., there are many options for Python images. We used the plain
+# version number in the pilot. YMMV. See this post for a discussion of
+# some options and their pros and cons:
+# https://pythonspeed.com/articles/base-image-python-docker-images/
+FROM python:<PYTHON_VERSION>
+
+# Give ourselves some credit
 LABEL maintainer "DataMade <info@datamade.us>"
+
+# Install and upgrade pip
+# This may not be necessary, depending on your base Python image
 RUN apt-get update
 RUN apt-get install -y python-pip
+RUN pip install --upgrade pip setuptools
+
+# Inside the container, create an app directory and switch into it
 RUN mkdir /app
 WORKDIR /app
+
+# Copy the requirements file into the app directory, and install them. Copy
+# only the requirements file, so Docker can cache this build step. Otherwise,
+# the requirements must be reinstalled every time you build the image after
+# the app code changes. See this post for further discussion of strategies
+# for building lean and efficient containers:
+# https://blog.realkinetic.com/building-minimal-docker-containers-for-python-applications-37d0272c52f3
 COPY ./requirements.txt /app/requirements.txt
-COPY ./dev_requirements.txt /app/dev_requirements.txt
 RUN pip install --no-cache-dir -r requirements.txt
-RUN pip install --no-cache-dir -r dev_requirements.txt
+
+# Copy the contents of the current host directory (i.e., our app code) into
+# the container.
 COPY . /app
 ```
 
-**`docker-compose.yml`**
+### `scripts/init-db.sh`
+
+```bash
+#!/bin/bash
+set -e
+
+psql -U postgres -c "CREATE DATABASE <YOUR_DATABASE>"
+psql -U postgres -d <YOUR_DATABASE> -c "CREATE EXTENSION IF NOT EXISTS <YOUR_EXTENSION>"
+# ad inf.
+```
+
+### `docker-compose.yml`
 
 ```docker-compose.yml
 version: '3'
 
 services:
   app:
-    image: dedupeio
-    container_name: dedupe-service
+    image: <YOUR_APP>
+    container_name: <YOUR_APP>
     restart: always
     build: .
     ports:
-      - 5000:5000
+      # Map ports on your computer to ports on your container. This allows you,
+      # e.g., to visit your containerized application in a browser on your
+      # computer.
+      - <HOST_PORT>:<CONTAINER_PORT>  # e.g., 5000:5000
     depends_on:
+      # Declare any services that should be started first. Beware: It checks
+      # that a service has started, but not that a service is ready.
       - postgres
-      - redis
     volumes:
+      # Mount the development directory as a volume into the container, so
+      # Docker automatically recognizes your changes.
       - .:/app
-      - ${PWD}/api/local.py.example:/app/api/local.py
-      - ${PWD}/api/secrets.py.example:/app/api/secrets.py
-      - dedupe-tmp:/tmp
+      # Mount example configs as live configs in the container.
+      - ${PWD}/api/settings_deployment.py.example:/app/api/settings_deployment.py
     command: python runserver.py --host 0.0.0.0
 
-  queue:
-    container_name: dedupe-queue
-    restart: always
-    image: dedupeio:latest
-    depends_on:
-      - migration
-    volumes:
-      - .:/app
-      - ${PWD}/api/local.py.example:/app/api/local.py
-      - ${PWD}/api/secrets.py.example:/app/api/secrets.py
-      - dedupe-tmp:/tmp
-    command: python run_queue.py
-
   migration:
-    container_name: dedupe-migration
-    image: dedupeio:latest
+    container_name: <YOUR_APP>-migration
+    image: <YOUR_APP>:latest
     depends_on:
+      # Declaring this dependency ensures that your application image is built
+      # before migrations are run, and that your application and migrations can
+      # be run from the same image, rather than creating purpose-specific
+      # copies.
       - app
     volumes:
+      # These should generally be the same as your application volumes.
       - .:/app
-      - ${PWD}/api/local.py.example:/app/api/local.py
-      - ${PWD}/alembic.ini.example:/app/alembic.ini
-    command: bash -c "python init_db.py && alembic upgrade head"
+      - ${PWD}/api/settings_deployment.py.example:/app/api/settings_deployment.py
+    command: bash -c "python manage.py migrate"
 
   postgres:
     container_name: dedupe-postgres
     restart: always
-    image: postgres:9.6
+    image: postgres:<YOUR_VERSION>
     volumes:
-      - db-data:/var/lib/postgresql/data
-      - ${PWD}/scripts/init-dedupeapi.sh:/docker-entrypoint-initdb.d/10-init.sh
-      - ${PWD}/dedupe.stop:/usr/share/postgresql/9.6/tsearch_data/dedupe.stop
+      # By default, Postgres instantiates an anonymous volume. Declare a named
+      # one, so your data persists beyond the life of the container. See this
+      # post for a discussion of the pitfalls of Postgres and anonymous
+      # volumes: https://linuxhint.com/run_postgresql_docker_compose/
+      - <YOUR_APP>-db-data:/var/lib/postgresql/data
+      # See https://docs.docker.com/samples/library/postgres/#initialization-scripts
+      - ${PWD}/scripts/init-db.sh:/docker-entrypoint-initdb.d/10-init.sh
     ports:
       - 32001:5432
 
-  redis:
-    container_name: dedupe-redis
-    restart: always
-    image: redis:latest
-    ports:
-      - 6379:6379
-
 volumes:
-  db-data:
-  dedupe-tmp:
+  <YOUR_APP>-db-data:
 ```
 
-Run the tests: `docker-compose -f docker-compose.yml -f tests/docker-compose.yml run app`
-
-**tests/docker-compose.yml**
+### `tests/docker-compose.yml`
 
 ```docker-compose.yml
 version: '3'
 
 services:
   app:
+    # Don't restart the service when the command exits
     restart: "no"
     environment:
-      - TEST_DATABASE_URL=postgresql+dedupe://postgres@postgres:5432/dedupe_test
-      - REDIS_HOST=redis
+      # Define any relevant environmental variables here
+      - ...
     volumes:
       # Multi-value fields are concatenated, i.e., this file will be mounted
       # in addition to the files and directories specified in the root
       # docker-compose.yml
-      - ${PWD}/alembic.ini.example:/app/alembic.ini
+      - ...
     command: pytest -sxv
 ```
