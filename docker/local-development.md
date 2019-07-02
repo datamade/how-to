@@ -93,8 +93,8 @@ services:
       # Docker automatically recognizes your changes.
       - .:/app
       # Mount example configs as live configs in the container.
-      - ${PWD}/api/settings_deployment.py.example:/app/api/settings_deployment.py
-    command: <RUNSERVER_COMMAND>  # e.g., python runserver.py --host 0.0.0.0
+      - ${PWD}/<YOUR_PROJECT>/settings_deployment.py.example:/app/<YOUR_PROJECT>/settings_deployment.py
+    command: <RUNSERVER_COMMAND>  # e.g., python manage.py runserver 0.0.0.0:8000
 
   migration:
     container_name: <YOUR_APP>-migration
@@ -108,7 +108,7 @@ services:
     volumes:
       # These should generally be the same as your application volumes.
       - .:/app
-      - ${PWD}/api/settings_deployment.py.example:/app/api/settings_deployment.py
+      - ${PWD}/<YOUR_PROJECT>/settings_deployment.py.example:/app/<YOUR_PROJECT>/settings_deployment.py
     command: <MIGRATION_COMMAND>  # e.g., python manage.py migrate
 
   postgres:
