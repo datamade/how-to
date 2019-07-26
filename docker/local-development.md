@@ -6,15 +6,25 @@ patterns for Dockerizing an application to guide our next effort.
 
 ## Overview
 
-A containerized local development environment has four components:
+A containerized local development environment has four components, and one
+optional service:
 
-1. [A Dockerfile](#dockerfile), containing building instructions for the application itself.
-2. [A database initialization script](#scriptsinit-dbsh)
+1. [A Dockerfile](#1-dockerfile), containing building instructions for the application itself.
+2. [A database initialization script](#2-scriptsinit-dbsh)
 that creates your database and installs any extensions
-2. [A root `docker-compose.yml` file](#docker-composeyml)
+3. [A root `docker-compose.yml` file](#3-docker-composeyml)
 that declares the application and its dependent services
-3. [A `tests/docker-compose.yml` file](#testsdocker-composeyml)
+4. [A `tests/docker-compose.yml` file](#4-testsdocker-composeyml)
 that overrides the application service in the root file, in order to run the tests
+4. [A `docker-compose.db-ops.yml` file](#5-docker-composedb-opsyml-optional)
+that automates a multi-step data loading routine (Optional)
+
+With this setup, you can:
+
+- [Run your application or tests](#run-the-application)
+- [Run custom commands on your container](#run-custom-commands-on-containers)
+
+## Components
 
 ### 1. `Dockerfile`
 
@@ -70,8 +80,8 @@ psql -U postgres -d <YOUR_DATABASE> -c "CREATE EXTENSION IF NOT EXISTS <YOUR_EXT
 
 ### 3. `docker-compose.yml`
 
-```docker-compose.yml
-version: '3'
+```yaml
+version: '2.4'
 
 services:
   app:
@@ -87,7 +97,8 @@ services:
     depends_on:
       # Declare any services that should be started first. Beware: It checks
       # that a service has started, but not that a service is ready.
-      - postgres
+      postgres:
+        condition: service_healthy
     volumes:
       # Mount the development directory as a volume into the container, so
       # Docker automatically recognizes your changes.
@@ -115,6 +126,11 @@ services:
     container_name: dedupe-postgres
     restart: always
     image: postgres:<YOUR_VERSION>
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
     volumes:
       # By default, Postgres instantiates an anonymous volume. Use a named
       # one, so your data persists beyond the life of the container. See this
@@ -133,8 +149,8 @@ volumes:
 
 ### 4. `tests/docker-compose.yml`
 
-```docker-compose.yml
-version: '3'
+```yaml
+version: '2.4'
 
 services:
   app:
@@ -151,10 +167,49 @@ services:
     command: pytest -sxv
 ```
 
-### Running the application
+### 5. `docker-compose.db-ops.yml` (Optional)
 
-Once you've containerized your development environment, run the application
-like:
+Data-rich applications may come with a multi-step process for loading in data.
+In those instances, it can be helpful to define a service that automates each
+of those steps, so initializing your application is a breeze.
+
+Define this, in _addition_ to a `migration` service, because you will always
+want to capture migrations on app start, but it may not always be desirable to
+run the rest of your data loading steps. See [Run custom commands on containers](#run-custom-commands-on-containers) if you want to run arbitrary commands.
+
+```yaml
+version: '2.4'
+
+services:
+  dbload:
+    container_name: <APP_NAME>-dbload
+    image: <APP_NAME>:latest
+    depends_on:
+      - app
+    volumes:
+      - .:/app
+      - ${PWD}/<YOUR_PROJECT>/settings_deployment.py.example:/app/<YOUR_PROJECT>/settings_deployment.py
+    # For some reason, Python logs are buffered if they don't come through
+    # logging. For instant reporting of non-logging output, i.e., print state-
+    # ments or writing to STDOUT directly, run python commands with the -u flag.
+    # https://github.com/moby/moby/issues/12447#issuecomment-263846539
+    command: >
+      bash -c "python manage.py migrate &&
+      python -u manage.py import_data &&
+      ..."
+```
+
+## Using your `docker-compose` setup
+
+### Run the application
+
+If you've defined a `dbload` service, run that first.
+
+```bash
+docker-compose -f docker-compose.yml -f docker-compose.db-ops.yml run --rm dbload
+```
+
+Then, run your application:
 
 ```bash
 docker-compose up
@@ -164,17 +219,47 @@ Meanwhile, run the tests like:
 
 ```bash
 docker-compose -f docker-compose.yml -f tests/docker-compose.yml run --rm app
-# The --rm flag will remove the temporary container created to run your command after the command exits.
-docker-compose -f docker-compose.yml -f tests/docker-compose.yml run --rm app <YOUR_COMMAND>
 ```
 
-– where `<YOUR_COMMAND>` is something like `pytest tests/test_admin.py -sxv --pdb`.
-
-Stop the application or test execution like:
+Stopping your application or test execution is as simple as:
 
 ```bash
 docker-compose down
 ```
+
+Prefer `docker-compose down` to manually stopping containers one by one, as it
+will stop and clean up all of your containers for you.
+
+### Run custom commands on containers
+
+Sometimes, you'll want to run an individual command on your container, e.g.,
+`update_index` or some data loading operation. Other times, you'll want to run
+your application or tests such that you can drop into a pdb shell.
+
+Luckily, that's easy with `docker-compose`. Simply run a command that looks like
+this:
+
+```bash
+# The --rm flag will remove the temporary container created to run your command after the command exits.
+docker-compose run --rm <CONTAINER_NAME> <COMMAND>
+```
+
+Say you put a pdb breakpoint in your code to debug a problem. `docker-compose up`
+will interpret the pdb breakpoint as a failure and restart your application.
+Instead, run your (Django) application, like so:
+
+```bash
+docker-compose run --rm app python manage.py runserver 0.0.0.0:8000
+```
+
+Or, maybe you want to run a specific test module:
+
+
+```bash
+docker-compose -f docker-compose.yml -f tests/docker-compose.yml run --rm app <YOUR_COMMAND>
+```
+
+– where `<YOUR_COMMAND>` is something like `pytest tests/test_admin.py -sxv --pdb`.
 
 ## A few helpful notes
 
