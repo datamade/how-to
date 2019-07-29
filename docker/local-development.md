@@ -249,8 +249,13 @@ will interpret the pdb breakpoint as a failure and restart your application.
 Instead, run your (Django) application, like so:
 
 ```bash
-docker-compose run --rm app python manage.py runserver 0.0.0.0:8000
+docker-compose run --rm --service-ports app python manage.py runserver 0.0.0.0:8000
 ```
+
+Note that this command includes an extra `--service-ports` flag! This exposes
+and maps the ports as defined in your docker-compose file. If you don't do this,
+you won't be able to see your application in your browser, because your
+container will not be mapped to that port on your computer (the host machine).
 
 Or, maybe you want to run a specific test module:
 
