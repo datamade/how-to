@@ -11,3 +11,5 @@ In some cases, it also provides extended documentation for setup and use.
 | Search | [`django-haystack`](https://github.com/django-haystack/django-haystack) | |
 | Autocomplete | [`django-autocomplete-light`](https://github.com/yourlabs/django-autocomplete-light) | |
 | Cross-browser ES6 support | [`django-compressor`](https://github.com/django-compressor/django-compressor) + [`django-compressor-toolkit`](https://github.com/kottenator/django-compressor-toolkit) | [Link](django-compressor.md) |
+| Content management system | [`django-cms`](https://github.com/divio/django-cms) | [Link](django-cms.md) |
+| API | [`django-rest-framework`](https://github.com/encode/django-rest-framework) + [`django-cors-headers`](https://github.com/ottoyiu/django-cors-headers) | [Link](django-rest-framework.md) |
