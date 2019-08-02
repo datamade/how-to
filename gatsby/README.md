@@ -27,6 +27,8 @@ For more details on the specific pros and cons of Gatsby, see the [comparisons w
 
 To start a Gatsby project, [create a new repository from our Static App Template](https://github.com/datamade/static-app-template/generate). Once you're ready to publish the site, follow our guide to [deploy a static site](https://github.com/datamade/deploy-a-site/blob/master/Deploy-a-static-site.md).
 
+For an example of a DataMade app deployed with Gatsby, see [LISC CNDA](https://github.com/datamade/lisc-cnda).
+
 ## Resources for learning
 
 The following is a list of good resources for learning how to use Gatsby.
