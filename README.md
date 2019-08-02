@@ -23,7 +23,7 @@ Here at DataMade, we do a lot of computer programming. In the spirit of [better 
     - [How to move a gpg key between servers](/shell/moving-keys-between-servers.md)
 - [Amazon Web Services](/aws/)
     - [AWS Relational Database Service (RDS)](/aws/rds.md)
-- [User Experience (UX)][/ux/]
+- [User Experience (UX)](/ux/)
     - [Project research and interviews](/ux/project-research-and-interviews.md)
 
 ## Contributing
