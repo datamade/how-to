@@ -27,3 +27,7 @@ Here at DataMade, we do a lot of computer programming. In the spirit of [better 
 ## Contributing
 
 The process for making changes to the DataMade Stack, and by extension this repo, is documented in [`CONTRIBUTING.md`](./CONTRIBUTING.md).
+
+## Code of Conduct
+
+The Code of Conduct in this repo follows the DataMade Anti-Harassment Policy and Procedures, and is documented in [`CODE_OF_CONDUCT.md`](./CODE_OF_CONDUCT.md). 
