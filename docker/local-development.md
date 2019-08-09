@@ -1,8 +1,11 @@
 # Docker for Local Development
 
 Docker for local development was piloted on `dedupe-service`, a repository to
-which some DataMade employees do not have access. Luckily, we can abstract general
-patterns for Dockerizing an application to guide our next effort.
+which some DataMade employees do not have access. Luckily, we have since applied
+the pattern to other projects. Some examples in the wild:
+
+- [🏡 `ihs-website-v2`](https://github.com/datamade/ihs-website-v2)
+- [🏆 `lisc-cdna`](https://github.com/datamade/lisc-cnda)
 
 ## Overview
 
@@ -95,8 +98,6 @@ services:
       # computer.
       - <HOST_PORT>:<CONTAINER_PORT>  # e.g., 8000:8000
     depends_on:
-      # Declare any services that should be started first. Beware: It checks
-      # that a service has started, but not that a service is ready.
       postgres:
         condition: service_healthy
     volumes:
