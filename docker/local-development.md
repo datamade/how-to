@@ -35,7 +35,7 @@ With this setup, you can:
 # version number in the pilot. YMMV. See this post for a discussion of
 # some options and their pros and cons:
 # https://pythonspeed.com/articles/base-image-python-docker-images/
-FROM python:<PYTHON_VERSION>
+FROM python:3.7
 
 # Give ourselves some credit
 LABEL maintainer "DataMade <info@datamade.us>"
@@ -75,7 +75,7 @@ set -e
 
 psql -U postgres -c "CREATE DATABASE <YOUR_DATABASE>"
 psql -U postgres -d <YOUR_DATABASE> -c "CREATE EXTENSION IF NOT EXISTS <YOUR_EXTENSION>"
-# ad inf.
+# Add any more database initialization commands you may need here
 ```
 
 ### 3. `docker-compose.yml`
@@ -125,7 +125,7 @@ services:
   postgres:
     container_name: dedupe-postgres
     restart: always
-    image: postgres:<YOUR_VERSION>
+    image: postgres:11
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U postgres"]
       interval: 10s
@@ -162,7 +162,7 @@ services:
     volumes:
       # Multi-value fields are concatenated, i.e., this file will be mounted
       # in addition to the files and directories specified in the root
-      # docker-compose.yml
+      # docker-compose.yml, so we don't need to specify those volumes again
       - ...
     command: pytest -sxv
 ```
@@ -236,7 +236,7 @@ Sometimes, you'll want to run an individual command on your container, e.g.,
 `update_index` or some data loading operation. Other times, you'll want to run
 your application or tests such that you can drop into a pdb shell.
 
-Luckily, that's easy with `docker-compose`. Simply run a command that looks like
+Luckily, that's easy with `docker-compose run`. Simply run a command that looks like
 this:
 
 ```bash
