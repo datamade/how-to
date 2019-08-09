@@ -25,6 +25,7 @@ that automates a multi-step data loading routine (Optional)
 With this setup, you can:
 
 - [Run your application or tests](#run-the-application)
+- [Access the `pdb` shell](#docker-and-pdb)
 - [Run custom commands on your container](#run-custom-commands-on-containers)
 
 ## Components
@@ -99,6 +100,9 @@ services:
     container_name: <YOUR_APP>
     restart: always
     build: .
+    # Allow container to be attached to, e.g., to access the pdb shell
+    stdin_open: true
+    tty: true
     ports:
       # Map ports on your computer to ports on your container. This allows you,
       # e.g., to visit your containerized application in a browser on your
@@ -238,6 +242,18 @@ docker-compose down
 Prefer `docker-compose down` to manually stopping containers one by one, as it
 will stop and clean up all of your containers for you.
 
+### Docker and `pdb`
+
+Say you put a pdb breakpoint in your code to debug a problem. Provided you
+included the `stdin_open` and `tty` directives from the standard setup, you
+can shell into your container to access your debugger frame like this:
+
+```bash
+docker attach <container_name>
+```
+
+`Ctrl-c` to detach when you're finished.
+
 ### Run custom commands on containers
 
 Sometimes, you'll want to run an individual command on your container, e.g.,
@@ -252,20 +268,7 @@ this:
 docker-compose run --rm <CONTAINER_NAME> <COMMAND>
 ```
 
-Say you put a pdb breakpoint in your code to debug a problem. `docker-compose up`
-will interpret the pdb breakpoint as a failure and restart your application.
-Instead, run your (Django) application, like so:
-
-```bash
-docker-compose run --rm --service-ports app python manage.py runserver 0.0.0.0:8000
-```
-
-Note that this command includes an extra `--service-ports` flag! This exposes
-and maps the ports as defined in your docker-compose file. If you don't do this,
-you won't be able to see your application in your browser, because your
-container will not be mapped to that port on your computer (the host machine).
-
-Or, maybe you want to run a specific test module:
+E.g., to run a specific test module:
 
 
 ```bash
