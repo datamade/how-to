@@ -83,6 +83,13 @@ psql -U postgres -d <YOUR_DATABASE> -c "CREATE EXTENSION IF NOT EXISTS <YOUR_EXT
 
 ### 3. `docker-compose.yml`
 
+There are [several versions](https://docs.docker.com/compose/compose-file/compose-versioning/)
+of `docker-compose` syntax. We prefer v2, in order to take advantage of health
+checks and expressive `depends_on` declarations. This allows us to delay the
+start of an application until the services it needs have finished building.
+
+v3 no longer supports this syntax. More on that [in this issue](https://github.com/peter-evans/docker-compose-healthcheck/issues/3#issuecomment-329037485).
+
 ```yaml
 version: '2.4'
 
