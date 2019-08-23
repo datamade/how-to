@@ -258,8 +258,9 @@ deployment practices with EC2 and CodeDeploy.
 
 It appears to play nicely with Travis, also: https://docs.travis-ci.com/user/deployment/heroku/
 
-With that said, I didn't trial interactions between dynos, e.g., between an app
-and worker process, so there may be some kinks to iron out there.
+With that said, I only had a single dyno to use, so I didn't trial interactions
+between dynos, e.g., between an app and worker process. There may yet be some
+kinks to iron out there.
 
 There also seems to be a price on convenience.
 
