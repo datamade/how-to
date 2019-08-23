@@ -116,6 +116,9 @@ AWS offered.
 
 Start there for useful context.
 
+The changes I made to stand up `dedupe-service` on Heroku are in
+[a branch](https://github.com/dedupeio/dedupe-service/pull/1496).
+
 ### Server provisioning
 
 Heroku abstracts this away, however I only wanted to use the cheapo, single-dyno
