@@ -4,6 +4,7 @@ When organizing a new project, DataMade encourages producing a set of standard a
 
 Project collateral generally includes the following artifacts:
 
+- [Project folder](#project-folder)
 - [Project plan](#project-plan)
     - [Responsibility matrix](#responsibility-matrix)
     - [Project timeline](#project-timeline)
@@ -11,11 +12,15 @@ Project collateral generally includes the following artifacts:
 - [Repositories](#repositories)
 - [Project board](#project-board)
 
+## Project folder
+
+The project folder is the central repository for all documents related to the project. It should be a Google Drive subfolder under the `Projects` folder in the shared `DataMade` drive.
+
 ## Project plan
 
 _[Project plan template](https://docs.google.com/document/d/1rwMSxjZqrGxSRqmxSY35r5kBCfgSPEa59vRQtKydeD8/edit?usp=sharing)_
 
-The project plan is the root document that represents the central store of administrative knowledge about a project. It should be a Google Doc with an obvious title (e.g. `LISC CNDA Site Redesign Project Plan`) stored in a Google Drive subfolder under the `Projects` folder. The project plan should contain links to all of the artifacts mentioned in this document. In the case of prose artifacts like the project timeline, the project plan may contain the artifacts themselves.
+The project plan is the root document that represents the central store of administrative knowledge about a project. It should be a Google Doc with an obvious title (e.g. `LISC CNDA Site Redesign Project Plan`) stored in the project folder. The project plan should contain links to all of the artifacts mentioned in this document. In the case of prose artifacts like the project timeline, the project plan may contain the artifacts themselves.
 
 For an example project plan, DataMade employees can see the [LISC CNDA Site Redesign Project Plan](https://docs.google.com/document/d/1lZS-_Pr3P5dcrabnZ_e270lAl0l2Hqmzy2gSsKj_nIs/edit?usp=sharing).
 
