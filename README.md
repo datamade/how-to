@@ -26,6 +26,8 @@ Here at DataMade, we do a lot of computer programming. In the spirit of [better 
     - [AWS Relational Database Service (RDS)](/aws/rds.md)
 - [User Experience (UX)](/ux/)
     - [Project research and interviews](/ux/project-research-and-interviews.md)
+- [Project Management](/project-management/)
+    - [Project collateral](/project-management/project-collateral.md)
 
 ## Contributing
 
