@@ -28,6 +28,7 @@ Here at DataMade, we do a lot of computer programming. In the spirit of [better 
     - [Project research and interviews](/ux/project-research-and-interviews.md)
 - [Project Management](/project-management/)
     - [Project collateral](/project-management/project-collateral.md)
+    - [Best practices for working with source control](./source-control.md)
 
 ## Contributing
 
