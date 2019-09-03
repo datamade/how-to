@@ -1,5 +1,26 @@
 # Recommendation of adoption: Heroku
 
+## Table of contents
+
+- [Introduction](#introduction)
+- [Areas of improvement](#areas-of-improvement)
+    - [Containerization](#containerization)
+    - [Deployment scripts](#deployment-scripts)
+    - [DNS](#dns)
+    - [SSH](#ssh)
+    - [Logging](#logging)
+    - [Time to First Deploy](#time-to-first-deploy)
+    - [Permissioning](#permissioning)
+    - [Application cleanup](#application-cleanup)
+    - [Isolation](#isolation)
+- [Other considerations](#other-considerations)
+    - [Pricing](#pricing)
+    - [Maintenance outlook](#maintenance-outlook)
+    - [Secrets management](#secrets-management)
+- [Transition plan](#transition-plan)
+
+## Introduction
+
 Over the course of the past two months, we've spent time evaluating different possibilities
 for containerizing our applications in production. We evaluated:
 
@@ -21,7 +42,7 @@ and that the benefit to developer productivity will offset the higher price.
 We consider these needs in detail below, and explain the specifics of why we believe
 Heroku to be the right fit for dynamic client apps at DataMade.
 
-## Background: DevOps dreams
+## Areas of improvement
 
 During a conversation in May 2019, the DevOps committee discussed and synthesized
 our thoughts on [the ways our infrastructure is painful, and how we want to change
@@ -38,7 +59,9 @@ focus areas of improvement included:
 - [Application cleanup](#application-cleanup)
 - [Isolation](#isolation)
 
-We consider each focus area in detail and explain how Heroku will address it.
+We consider each focus area in detail and explain how the different providers
+we considered measure up, ultimately offering evidence for why we believe Heroku
+is our best choice.
 
 ### Containerization
 
@@ -268,9 +291,60 @@ minimal and we expect this to continue in the future for our AWS-deployed apps.
 
 ### Secrets management
 
-How do we thread secrets into running applications without keeping them under
-version control?
+In order to deploy production applications, we need to define secret values
+(such as passwords and API keys) that can't be safely stored under version control.
+Currently, we define these secret values in GPG-encrypted files which we store
+in version control, and then during
+deployments we decrypt those files using a secret key stored on the server
+and move them to the correct place in the application where they can be imported.
+
+This pattern poses challenges for all of the deployment providers we considered.
+Since Heroku, ECS, and Divio all run applications as containers with ephemeral
+storage, they don't support storing secret variables in files that we
+can move to the proper spot on disk. Instead, these providers encourage you to
+define your secrets as environment variables that are then threaded into the
+container environment at runtime. In Heroku, these environment variables are defined using [config
+vars](https://devcenter.heroku.com/articles/config-vars), which can be
+defined per environment in the web app or using the Heroku CLI.
+
+Ultimately, we believe that moving to a containerized deployment provider will
+require a significant shift in our secrets management practices. Rather than
+continue to store secrets in encrypted files, we will instead only store a maximum of one
+encrypted file per repo, representing a development `.env` file that is threaded
+into the development containers to provide secret environment variables. (In
+projects where the development variables are not secret, we can even keep
+this file unencrypted.) In staging and production, secret values will be configured
+in Heroku as config vars for the application.
 
 ## Transition plan
 
-How will we transition to Heroku? What are our next steps?
+Switching infrastructure providers is not a trivial change, and consequentially
+we expect this transition to take somewhere between 12 and 20 months.
+
+Anticipated steps for the transition include:
+
+1. **Deploy a pilot production app with Heroku**. _Timeline: 6-12 weeks._
+   We plan to have a Lead Developer use Heroku to deploy the next dynamic client app.
+   This deployment will act as a pilot project to help inform our documentation, templates, and
+   cost estimates for Heroku. We won't deploy any new projects to
+   Heroku until the pilot project is completely wrapped, and if for some reason the pilot
+   project reveals Heroku to be unworkable for our needs, we will devote R&D time
+   to migrating it to a standard zero-downtime EC2 deployment.
+2. **Create a template for Heroku deployments**. _Timeline: 1 week._
+   Since Heroku works primarily with config files, it is particularly well-suited to templates.
+   Once the pilot project is complete, we will use devops time to create a template for
+   Heroku-enabled applications to help new developers get onboarded quickly.
+3. **Write detailed documentation for deploying with Heroku**. _Timeline: 2 weeks._
+   Since Heroku natively supports most of our deployment requirements, we expect
+   our documentation to be much simpler than the current deploy-a-site docs. Still,
+   we will use devops time to put  together an index that points to the relevant Heroku documentation
+   and catalogues the tips and tricks we've learned from testing the platform so far.
+4. **Have a developer deploy a second production app with Heroku.** _Timeline: 2-4 weeks._
+   Once the pilot project, templates, and documentation are complete, we will
+   put them to the test by having a developer deploy the next available production app with Heroku.
+   This will help clarify the documentation and templates, as well as provide
+   a baseline for future deployment estimates with Heroku.
+5. **Mark zero-downtime deployments as deprecated.** _Timeline: 1 week._
+   Once a developer successfully deploys a production client app with Heroku, we
+   will consider the transition complete. We will update our deployment documentation
+   to mark zero-downtime deployments as deprecated and for maintenance only.
