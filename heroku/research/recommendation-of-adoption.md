@@ -160,7 +160,7 @@ AWS service.
 Similar to Heroku, Divio exposes the [last 1,000 lines of container output
 in their web app](http://support.divio.com/en/articles/735542-how-to-access-logs-for-your-cloud-sites).
 
-### Time to first deploy (TTFD)
+### Time to first deploy
 
 **Problem**: "Deployment takes too long."
 
