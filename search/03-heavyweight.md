@@ -43,28 +43,28 @@ Beware: Configuring and administering Solr is of intermediate to advanced diffic
 2. Create a `docker-compose.yml` file at the root of your project directory.
 
 
-  ```yaml
-  version: '2.4'
+    ```yaml
+    version: '2.4'
 
-  services:
-    solr:
-      image: solr:latest
-      container_name: <APP_NAME>-solr
-      volumes:
-        - ./solr_configs:/<APP_NAME>_configs
-        - solr-data:/opt/solr/server/solr/mycores
-      command: sh -c 'solr-create -c <SOLR_CORE_NAME> -d /<APP_NAME>_configs'
-      ports:
-        - 8986:8983
-      environment:
-        SOLR_LOG_LEVEL: INFO
-      restart: on-failure
+    services:
+      solr:
+        image: solr:latest
+        container_name: <APP_NAME>-solr
+        volumes:
+          - ./solr_configs:/<APP_NAME>_configs
+          - solr-data:/opt/solr/server/solr/mycores
+        command: sh -c 'solr-create -c <SOLR_CORE_NAME> -d /<APP_NAME>_configs'
+        ports:
+          - 8986:8983
+        environment:
+          SOLR_LOG_LEVEL: INFO
+        restart: on-failure
 
-  volumes:
-    solr-data:
-```
+    volumes:
+      solr-data:
+    ```
 
-  Next, in your terminal, run `docker-compose up -d solr`. To view the logs, run `docker logs -f solr`. To stop Solr, or if you make changes to your underlying Solr or container configuration, run `docker-compose down`. This will remove your Solr container, but keep your index data in tact, thanks to use of the named `solr-data` volume. To spin up a new Solr container, start over with `docker-compose up -d solr`.
+    Next, in your terminal, run `docker-compose up -d solr`. To view the logs, run `docker logs -f solr`. To stop Solr, or if you make changes to your underlying Solr or container configuration, run `docker-compose down`. This will remove your Solr container, but keep your index data in tact, thanks to use of the named `solr-data` volume. To spin up a new Solr container, start over with `docker-compose up -d solr`.
 
 #### Configure Haystack
 
@@ -73,7 +73,7 @@ The [Haystack docs](https://django-haystack.readthedocs.io/en/master/tutorial.ht
 1. Tell your Django app where Haystack can find Solr (i.e., define a [HAYSTACK_CONNECTIONS](https://django-haystack.readthedocs.io/en/master/tutorial.html#solr) variable in your settings).
 2. Create a [Haystack SearchIndex](https://django-haystack.readthedocs.io/en/master/tutorial.html#handling-data). Define the models to be indexed in a *.py file, as with [django-councilmatic](https://github.com/datamade/django-councilmatic/blob/master/councilmatic_core/haystack_indexes.py).
 3. Run build_solr_schema & update_index [management commands](https://django-haystack.readthedocs.io/en/master/management_commands.html).
-  - Building an index can consume substantive memory, and Haystack does not have great memory management. Call these commands with a batch size argument to avoid memory errors, e.g., `python manage.py rebuild_index --batch-size=100`.
+    - Building an index can consume substantive memory, and Haystack does not have great memory management. Call these commands with a batch size argument to avoid memory errors, e.g., `python manage.py rebuild_index --batch-size=100`.
 4. Use a Haystack [search view](https://django-haystack.readthedocs.io/en/master/views_and_forms.html#views) and [search form](https://django-haystack.readthedocs.io/en/master/views_and_forms.html#forms) to query your new index.
 
 ### Examples
