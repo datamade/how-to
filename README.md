@@ -11,6 +11,7 @@ Here at DataMade, we do a lot of computer programming. In the spirit of [better 
 - [Data processing and ETL](https://github.com/datamade/data-making-guidelines)
 - [Reproducible data analysis](https://github.com/datamade/data-analysis-guidelines)
 - [Software testing](https://github.com/datamade/testing-guidelines)
+- [Searching data](/search/)
 - [PostgreSQL](/postgres/)
     - [A quick and dirty introduction to `sqlalchemy`](/postgres/quick-n-dirty-sqlalchemy.md)
     - [Interacting with a remote database](/postgres/Interacting-with-a-remote-database.md)
