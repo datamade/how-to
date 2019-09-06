@@ -1,3 +1,15 @@
+# 🔍 Searching Data, the DataMade way
+
+1. [Lightweight](01-lightweight.md)
+    - DataTables
+    - django-filter
+    - django-autocomplete-light
+2. **Middleweight**
+    - Custom SQL (Postgres)
+3. [Heavyweight](03-heavyweight.md)
+   - Solr & Haystack
+4. [Glossary](glossary.md)
+
 ## Middleweight
 
 Using DataTables or django-filters to build a queryset from distinct fields comes with limitations. What if you want tailor-made filters? Do you need fuzzy matching? How about field aggregation? Querying the database with custom SQL can maximize data gathering possibilities.

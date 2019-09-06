@@ -1,3 +1,15 @@
+# 🔍 Searching Data, the DataMade way
+
+1. [Lightweight](01-lightweight.md)
+    - DataTables
+    - django-filter
+    - django-autocomplete-light
+2. [Middleweight](02-middleweight.md)
+    - Custom SQL (Postgres)
+3. **Heavyweight**
+   - Solr & Haystack
+4. [Glossary](glossary.md)
+
 ## Heavyweight
 
 Do you need more control of fuzzy matches than Postgres search vectors provide? Do calculated values slow your queries to a crawl? Is your search corpus just plain huge? While a more involved solution than issuing SQL or handling search client side, an implementation of powerful search engine [Solr](https://lucene.apache.org/solr/guide/7_1/index.html) may be your best bet.

@@ -1,4 +1,14 @@
-# Searching Data, the DataMade way
+# 🔍 Searching Data, the DataMade way
+
+1. **Lightweight**
+    - DataTables
+    - django-filter
+    - django-autocomplete-light
+2. [Middleweight](02-middleweight.md)
+    - Custom SQL (Postgres)
+3. [Heavyweight](03-heavyweight.md)
+   - Solr & Haystack
+4. [Glossary](glossary.md)
 
 ## Lightweight
 
