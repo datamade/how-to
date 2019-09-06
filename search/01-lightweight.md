@@ -52,7 +52,7 @@ On the plus side, Select2 is already integrated into this option, i.e., you donâ
 
 On the other hand, there are multiple moving parts to getting django-autocomplete-light up and running. If you find yourself setting up an autocomplete view that does no additional filtering just for search, falling back to DataTables may just as effective, in half the time.
 
-### Examples
+## Examples
 
 **[Councilmatic](https://github.com/datamade/la-metro-councilmatic/blob/master/lametro/templates/lametro/board_members.html#L165)** **(Django)**
 

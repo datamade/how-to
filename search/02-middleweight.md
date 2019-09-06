@@ -43,9 +43,9 @@ Still wanting more? Just keep in mind these three things:
 2. Decide on a way to execute raw SQL in your Python app environment. For Django, you can [use the `connection` object](https://docs.djangoproject.com/en/2.1/topics/db/sql/#executing-custom-sql-directly), and for Flask, you can use [sqlalchemy and the `create_engine`](http://docs.sqlalchemy.org/en/latest/core/engines.html#sqlalchemy.create_engine) function (which instantiates a new instance of an engine for connecting to your database).
 3. Remember to use a [context manager](http://book.pythontips.com/en/latest/context_managers.html#context-managers) when executing your query.
 
-### Examples
+## Examples
 
-**[LargeLots](https://github.com/datamade/large-lots/blob/master/lots_admin/views.py#L85) (Django)**
+**[Large Lots](https://github.com/datamade/large-lots/blob/master/lots_admin/views.py#L85) (Django)**
 
 Users can execute full text searches of designated fields in the database (i.e., [name or ward number](https://github.com/datamade/large-lots/blob/master/lots_admin/views.py#L149)) and order or filter those results by a variety of parameters (e.g., step number, applicant last name).
 
