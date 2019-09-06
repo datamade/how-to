@@ -371,8 +371,9 @@ make use of an external static file host. Heroku recommends persisting these
 types of files to AWS S3, and [offers documentation on doing
 so](https://devcenter.heroku.com/articles/s3-upload-python). In Django, we will
 also need to use an app like [`django-storages`](https://django-storages.readthedocs.io/en/latest/backends/amazon-S3.html)
-in order to serve these files back to the user. This represents a pattern that we
-have not tested thoroughly, and that could use further research.
+in order to serve these files back to the user. This pattern was successfully piloted in
+the BGA Payroll project and Hannah has [provided some initial
+documentation](https://gist.github.com/hancush/7d8340d79b919fce7f0b8e6103da6e83).
 
 #### 2. Nginx cannot serve static files
 
