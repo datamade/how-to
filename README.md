@@ -22,6 +22,7 @@ Here at DataMade, we do a lot of computer programming. In the spirit of [better 
 - [The shell and Ubuntu](/shell/)
     - [tmux, best practices](/shell/tmux-best-practices.md)
     - [How to move a gpg key between servers](/shell/moving-keys-between-servers.md)
+- [Django](/django/)
 - [GatsbyJS](/gatsby/)
 - [Amazon Web Services](/aws/)
     - [AWS Relational Database Service (RDS)](/aws/rds.md)
