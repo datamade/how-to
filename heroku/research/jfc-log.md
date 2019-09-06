@@ -1,4 +1,4 @@
-# Heroku R&D notes
+# Heroku notes
 
 Jean Cochrane | Lead developer | July 2019
 
@@ -181,3 +181,22 @@ These notes are pretty raw, and just represent things I wanted to keep for later
 
 - Why won't new production app recognize heroku.yml?
     - You have to run `heroku -a app-name stack:set container`
+
+# Divio notes
+
+Divio is a really nifty platform, but after a couple hours of trying to get LISC CNDA
+deployed on it, I can already tell that it's not right for our workflow.
+I recommend abandoning this R&D.
+
+The biggest reasons that Divio won't work with our stack are:
+
+1. **Requires strict adherence to their repository structure.** Divio doesn't require any configuration files to deploy, which is nice, but the lack of configuration options also means that you're restricted by their repository requirements. Certain files and folders _have_ to exist in certain places, and there's no clear way to configure them to live elsewhere. Many of our repositories could be refactored to match these requirements, but many of them (like https://github.com/datamade/lisc-cnda) would require major overhauls. Some required patterns that were dealbreakers for LISC included:
+    - Must have a `requirements.in` file at the root of the repo
+    - Must have the Django project directory at the root of the repo
+    - Requires the Django Dockerfile live at the root of the repo
+2. **Gaps in documentation.** This might be because the service is changing rapidly, but there were some basic features that I couldn't find documentation for. For example, I tried to set up a "No platform" project (no Django stack, just a minimal Docker setup) but couldn't find anything on how to structure my project -- pretty important, because without a Django scaffold, I need to somehow be able to tell the service how to serve my app.
+3. **Unintuitive GitHub integration.** Divio [does integrate with GitHub](http://docs.divio.com/en/latest/how-to/resources-configure-git.html), but in practice, the integration is cumbersome to use. Divio can't actually integrate with an external Git remote unless the `master` branch on the remote _only contains a README_ (a limitation which is lightly documented [here](http://docs.divio.com/en/latest/how-to/resources-configure-git.html#the-master-branch-must-exist-and-only-include-a-single-readme-file-in-order-to-create-a-new-project)). This limitation exists because Divio needs to commit a specific repo structure to your remote (see point 1 above). Because of this limitation, the only way to get my project to sync with the GitHub repo was to remove all the files from `master`, push it up, sync with Divio, and then revert the previous commit. This is pretty strenuous for what should be a simple task, and it's not really documented to my satisfaction.
+4. **Unclear deployment logs.** In trying (and failing) to get my app with a slightly non-standard structure to deploy, the only deploy logs I saw were empty except for the output `starting docker build`. Most likely this is because my project had the wrong structure, but I need the build logs to be able to know if this is true.
+5. **Not much of a community online.** I couldn't find any support to help debug except for official Divio docs (which, as I mentioned earlier, were sometimes outdated). This is a bad sign for a deployment provider.
+
+Overall, I still think there's a lot of promise for a service like Divio. However, I wouldn't recommend we start using them just yet. I would be interested in revisiting Divio in a year or two, or if someone in our network starts using them extensively.

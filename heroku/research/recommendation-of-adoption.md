@@ -28,11 +28,21 @@ for containerizing our applications in production. We evaluated:
 
 - ECS (see [Hannah's notes](./hec-log.md))
 - Heroku (see [Hannah's notes](./hec-log.md) and [Jean's notes](./jfc-log.md))
-- Divio (see [Jean's notes](https://github.com/datamade/how-to/issues/23))
+- Divio (see [Jean's notes](./jfc-log.md#divio-notes))
+
+For each of these platforms, we attempted to stand up an app as a pilot project.
+A quick overview of our results shows that Heroku was the only service we were
+able to use successfully.
+
+| Service | Proof of concept | Successful? | Notes |
+| - | - | - | - |
+| Divio | Stand up LISC CNDA backend | No | Could not get undocumented services to work |
+| ECS | Stand up Dedupe.io | No | Abandoned after two R&D days without success |
+| Heroku | Stand up Dedupe.io | Yes | Replicated everything but static files storage, which would require app refactor |
 
 In addition, we proposed the possibility of building our own, more incremental
 solution, using [Docker Machine and EC2](https://github.com/datamade/how-to/issues/32).
-We did not evaluate this solution in detail, but it remains a possibility.
+We did not evaluate this solution in detail.
 
 Ultimately, we recommend **moving forward with Heroku as our deployment platform for dynamic client apps**.
 According to our research, Heroku does the best job of meeting as many of our
