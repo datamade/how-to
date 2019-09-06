@@ -17,6 +17,8 @@
     - [Pricing](#pricing)
     - [Maintenance outlook](#maintenance-outlook)
     - [Secrets management](#secrets-management)
+    - [CI/CD](#cicd)
+    - [Static file management](#static-file-management)
 - [Transition plan](#transition-plan)
 
 ## Introduction
@@ -315,6 +317,63 @@ into the development containers to provide secret environment variables. (In
 projects where the development variables are not secret, we can even keep
 this file unencrypted.) In staging and production, secret values will be configured
 in Heroku as config vars for the application.
+
+### CI/CD
+
+In switching away from EC2 as our compute platform, we will no longer be
+able to make use of CodeDeploy for continuous deployment.
+
+Heroku has its own CI offering, [Heroku CI](https://devcenter.heroku.com/articles/heroku-ci),
+that offers concurrent test runners and integration with Heroku Pipelines for
+continuous deployment. Heroku also offers a [GitHub
+integration](https://devcenter.heroku.com/articles/github-integration#automatic-deploys)
+that can build Pipeline stages based on specific branches and that can wait to build until
+external CI (such as Travis) is green.
+
+We recommend moving forward with the GitHub integration for Heroku. This will allow
+us to maintain our current Travis practices for CI, while permitting Heroku to take
+over CD and eliminate the need for deployment scripts.
+
+### Static file management
+
+Containerizing deployments with any deploy provider poses two challenges to
+static file management:
+
+1. Static files cannot be persisted on disk
+2. Nginx cannot serve static files
+
+We offer guidance on these two problems below.
+
+#### 1. Static files cannot be persisted on disk
+
+Since containers have ephemeral filesystems by default, all of the containerization
+providers we considered will require our applications to no longer assume that
+persistent storage is available on disk.
+
+Our deployment practices already assume that an application directory will be fully
+recreated during every deployment, so a change to ephemeral storage should not
+represent a major shift in paradigm. However, the two exceptions to this pattern are
+user-uploaded media and translation files, both of which we [persist on disk
+indefinitely](https://github.com/datamade/deploy-a-site/blob/master/File-uploads.md).
+
+In order to persist user-uploaded media and translation files, we will need to
+make use of an external static file host. Heroku recommends persisting these
+types of files to AWS S3, and [offers documentation on doing
+so](https://devcenter.heroku.com/articles/s3-upload-python). In Django, we will
+also need to use an app like [`django-storages`](https://django-storages.readthedocs.io/en/latest/backends/amazon-S3.html)
+in order to serve these files back to the user. This represents a pattern that we
+have not tested thoroughly, and that could use further research.
+
+#### 2. Nginx cannot serve static files
+
+On all the platforms we evaluated, container traffic is managed behind a load
+balancer. Because of this, use of Nginx to serve files is redundant, and is not
+considered a best practice.
+
+The most important consequence of removing Nginx from our stack is that we will
+need an alternative way of serving static files in production Django apps. In our pilot
+projects, we used the Django app [WhiteNoise](http://whitenoise.evans.io/en/stable/)
+with good results.
 
 ## Transition plan
 
