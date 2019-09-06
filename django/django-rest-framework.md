@@ -1,3 +1,3 @@
 # django-rest-framework
 
-Pilot: _tk._
+_tk._
