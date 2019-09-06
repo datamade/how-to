@@ -20,7 +20,7 @@ If you’re directly searching just a few fields in your data and want to get up
 
 To get started, follow DataTables’ [installation guide](https://datatables.net/manual/installation).
 
-ADD: Django Server-side Data Tables
+For larger datasets, or to make use of the DataTables interface with a more complex backend search strategy, configure DataTables to process queries [serverside](https://datatables.net/manual/server-side). If you're working on a Django project, you're in luck: There's an easy-to-use plugin for a serverside DataTables view, aptly named [`django-datatables-view`](https://pypi.org/project/django-datatables-view/). Otherwise, you simply need to compose a view returning results, however you'd like to generate them, in [the format DataTables expects](https://datatables.net/manual/server-side#Example-data).
 
 DataTables is simple to set up and gets your search off the ground fast. However, it limits your options in both functionality and design and doesn’t always work well with mobile.
 
@@ -54,20 +54,22 @@ On the other hand, there are multiple moving parts to getting django-autocomplet
 
 ### Examples
 
-**[SSCE Dashboard](https://github.com/datamade/cps-ssce-dashboard) (Django)**
-
-Users can search by school name on the landing page, a simple table made [searchable](https://github.com/datamade/cps-ssce-dashboard/blob/master/cps_app/templates/cps_app/search.html#L123) with DataTables. The [filters](https://github.com/datamade/cps-ssce-dashboard/blob/master/cps_app/filters.py) use django-filter.
-
 **[Councilmatic](https://github.com/datamade/la-metro-councilmatic/blob/master/lametro/templates/lametro/board_members.html#L165)** **(Django)**
 
 The council members view page includes a basic data table.
 
-**DePaul IHS Website ([1](https://github.com/datamade/ihs-website-v2/blob/34966e62612b96c18235e46adf6d11d0d465548e/templates/dataportal/datatables_index.html#L383), [2](https://github.com/datamade/ihs-website-v2/blob/34966e62612b96c18235e46adf6d11d0d465548e/templates/dataportal/datatables_index.html#L383)) (Django)**
+**DePaul IHS Website (Django)**
 
-The data portal includes multiple, toggle-able data tables on the same page, with fixed headers and footers, and responsive data display.
+The data portal includes [multiple, toggle-able data tables](https://github.com/datamade/ihs-website-v2/blob/34966e62612b96c18235e46adf6d11d0d465548e/templates/dataportal/datatables_index.html) on the same page, with fixed headers and footers, and responsive data display. The data portal index [uses `django-autocomplete-light`](https://github.com/datamade/ihs-website-v2/pull/276) to suggest geographies for exploration.
+
+**Lugar Committee Oversight (Django, serverside DataTables)**
+
+Levarages `django-datatables-view` to [populate a DataTables instance](https://github.com/datamade/committee-oversight/blob/02a8c9b35ff4f7022a6e133d8c0ddef81a716427/committeeoversightapp/templates/list.html) with [results generated serverside](https://github.com/datamade/committee-oversight/blob/082e64351282c0645117dc44dd46d615ca1f9523/committeeoversightapp/views.py#L73-L105).
+
+**[SSCE Dashboard](https://github.com/datamade/cps-ssce-dashboard) (Django)**
+
+Users can search by school name on the landing page, a simple table made [searchable](https://github.com/datamade/cps-ssce-dashboard/blob/master/cps_app/templates/cps_app/search.html#L123) with DataTables. The [filters](https://github.com/datamade/cps-ssce-dashboard/blob/master/cps_app/filters.py) use django-filter.
 
 **[BGA Payroll Database](https://github.com/datamade/bga-payroll/blob/9de0f4c02fde86038ee109288ab663d64c7fdf7b/data_import/admin.py) (Django)**
 
 Add a responding agency autocomplete field to the admin interface for uploading source files. Customize the options displayed in the autocomplete by overriding the `get_search_results` method of the responding agency ModelAdmin.
-
-ADD: Link to Lugar (server-side data tables)
