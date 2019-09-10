@@ -48,7 +48,7 @@ LABEL maintainer "DataMade <info@datamade.us>"
 # add additional layers to your image, increasing its final size. Keep your
 # image small by combining related commands into one RUN statement, e.g.,
 #
-# RUN apt-get update &&
+# RUN apt-get update && \
 #     apt-get install -y python-pip
 #
 # Read more on Dockerfile best practices at the source:
