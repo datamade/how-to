@@ -44,11 +44,15 @@ FROM python:3.7
 # Give ourselves some credit
 LABEL maintainer "DataMade <info@datamade.us>"
 
-# Install and upgrade pip
-# This may not be necessary, depending on your base Python image
-RUN apt-get update
-RUN apt-get install -y python-pip
-RUN pip install --upgrade pip setuptools
+# Install any additional OS-level packages you need via apt-get. RUN statements
+# add additional layers to your image, increasing its final size. Keep your
+# image small by combining related commands into one RUN statement, e.g.,
+#
+# RUN apt-get update && \
+#     apt-get install -y python-pip
+#
+# Read more on Dockerfile best practices at the source:
+# https://docs.docker.com/develop/develop-images/dockerfile_best-practices
 
 # Inside the container, create an app directory and switch into it
 RUN mkdir /app
