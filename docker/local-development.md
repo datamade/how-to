@@ -9,6 +9,10 @@ the pattern to other projects. Some examples in the wild:
 
 ## Overview
 
+N.b., this documentation was written for containerized web applications
+written in a Python web framework (e.g., Django) and leveraging a Postgres
+database. YMMV!
+
 A containerized local development environment has four components, and one
 optional service:
 
