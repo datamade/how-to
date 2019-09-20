@@ -28,51 +28,19 @@ With this setup, you can:
 - [Access the `pdb` shell](#docker-and-pdb)
 - [Run custom commands on your container](#run-custom-commands-on-containers)
 
+The three primary components of a containerized setup for local development are
+templated for reuse in the `templates/` directory. See [the README](templates/README.md)
+for instructions for use.
+
 ## Components
 
 ### 1. `Dockerfile`
 
-```Dockerfile
-# Extend the base Python image
-# See https://hub.docker.com/_/python for version options
-# N.b., there are many options for Python images. We used the plain
-# version number in the pilot. YMMV. See this post for a discussion of
-# some options and their pros and cons:
-# https://pythonspeed.com/articles/base-image-python-docker-images/
-FROM python:3.7
-
-# Give ourselves some credit
-LABEL maintainer "DataMade <info@datamade.us>"
-
-# Install any additional OS-level packages you need via apt-get. RUN statements
-# add additional layers to your image, increasing its final size. Keep your
-# image small by combining related commands into one RUN statement, e.g.,
-#
-# RUN apt-get update && \
-#     apt-get install -y python-pip
-#
-# Read more on Dockerfile best practices at the source:
-# https://docs.docker.com/develop/develop-images/dockerfile_best-practices
-
-# Inside the container, create an app directory and switch into it
-RUN mkdir /app
-WORKDIR /app
-
-# Copy the requirements file into the app directory, and install them. Copy
-# only the requirements file, so Docker can cache this build step. Otherwise,
-# the requirements must be reinstalled every time you build the image after
-# the app code changes. See this post for further discussion of strategies
-# for building lean and efficient containers:
-# https://blog.realkinetic.com/building-minimal-docker-containers-for-python-applications-37d0272c52f3
-COPY ./requirements.txt /app/requirements.txt
-RUN pip install --no-cache-dir -r requirements.txt
-
-# Copy the contents of the current host directory (i.e., our app code) into
-# the container.
-COPY . /app
-```
+📄 [`Dockerfile`](templates/python/{{cookiecutter.directory_name}}/Dockerfile)
 
 ### 2. `docker-compose.yml`
+
+📄 [`docker-compose.yml`](templates/python/{{cookiecutter.directory_name}}/docker-compose.yml)
 
 There are [several versions](https://docs.docker.com/compose/compose-file/compose-versioning/)
 of `docker-compose` syntax. We prefer v2, in order to take advantage of health
@@ -81,99 +49,9 @@ start of an application until the services it needs have finished building.
 
 v3 no longer supports this syntax. More on that [in this issue](https://github.com/peter-evans/docker-compose-healthcheck/issues/3#issuecomment-329037485).
 
-```yaml
-version: '2.4'
-
-services:
-  app:
-    image: <YOUR_APP>
-    container_name: <YOUR_APP>
-    restart: always
-    build: .
-    # Allow container to be attached to, e.g., to access the pdb shell
-    stdin_open: true
-    tty: true
-    ports:
-      # Map ports on your computer to ports on your container. This allows you,
-      # e.g., to visit your containerized application in a browser on your
-      # computer.
-      - <HOST_PORT>:<CONTAINER_PORT>  # e.g., 8000:8000
-    depends_on:
-      postgres:
-        condition: service_healthy
-    volumes:
-      # Mount the development directory as a volume into the container, so
-      # Docker automatically recognizes your changes.
-      - .:/app
-      # Mount example configs as live configs in the container.
-      - ${PWD}/<YOUR_PROJECT>/settings_deployment.py.example:/app/<YOUR_PROJECT>/settings_deployment.py
-    command: <RUNSERVER_COMMAND>  # e.g., python manage.py runserver 0.0.0.0:8000
-
-  migration:
-    container_name: <YOUR_APP>-migration
-    image: <YOUR_APP>:latest
-    depends_on:
-      # Declaring this dependency ensures that your application image is built
-      # before migrations are run, and that your application and migrations can
-      # be run from the same image, rather than creating purpose-specific
-      # copies.
-      - app
-    volumes:
-      # These should generally be the same as your application volumes.
-      - .:/app
-      - ${PWD}/<YOUR_PROJECT>/settings_deployment.py.example:/app/<YOUR_PROJECT>/settings_deployment.py
-    command: <MIGRATION_COMMAND>  # e.g., python manage.py migrate
-
-  postgres:
-    container_name: <YOUR_APP>-postgres
-    restart: always
-    image: postgres:11
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
-    environment:
-      # The default Postgres image exposes a number of environmental variables
-      # that allow you to configure the container's behavior, without writing
-      # any additional code. Specify the name of your database, and any other
-      # variables, here. https://hub.docker.com/_/postgres/#environment-variables
-      POSTGRES_DB: <YOUR_DB>
-    volumes:
-      # By default, Postgres instantiates an anonymous volume. Use a named
-      # one, so your data persists beyond the life of the container. See this
-      # post for a discussion of the pitfalls of Postgres and anonymous
-      # volumes: https://linuxhint.com/run_postgresql_docker_compose/
-      - <YOUR_APP>-db-data:/var/lib/postgresql/data
-      # Mount our initialization script.
-      - ${PWD}/scripts/init-db.sh:/docker-entrypoint-initdb.d/10-init.sh
-    ports:
-      - 32001:5432
-
-volumes:
-  # Declare your named volume for Postgres.
-  <YOUR_APP>-db-data:
-```
-
 ### 3. `tests/docker-compose.yml`
 
-```yaml
-version: '2.4'
-
-services:
-  app:
-    # Don't restart the service when the command exits
-    restart: "no"
-    environment:
-      # Define any relevant environmental variables here
-      - ...
-    volumes:
-      # Multi-value fields are concatenated, i.e., this file will be mounted
-      # in addition to the files and directories specified in the root
-      # docker-compose.yml, so we don't need to specify those volumes again
-      - ...
-    command: pytest -sxv
-```
+📄 [`tests/docker-compose.yml`](templates/python/{{cookiecutter.directory_name}}/tests/docker-compose.yml)
 
 ### 4. `scripts/init-db.sh` (Optional)
 
