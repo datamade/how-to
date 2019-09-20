@@ -20,9 +20,8 @@ services:
     volumes:
       # Mount the development directory as a volume into the container, so
       # Docker automatically recognizes your changes.
-      - .:/app{% if cookiecutter.example_settings != 'None' %}
-      # Mount example configs as live configs in the container.
-      - ${PWD}/{{cookiecutter.example_settings}}:/app/{{cookiecutter.example_settings|replace(".example", "")}}{% endif %}
+      - .:/app{% if cookiecutter.local_settings != 'None' %}
+      - ${PWD}/{{cookiecutter.local_settings}}:/app/{{cookiecutter.local_settings|replace(".example", "")}}{% endif %}
     command: {{cookiecutter.run_command}}{% if cookiecutter.auto_migrate == 'True' %}
 
   migration:
@@ -36,8 +35,8 @@ services:
       - app
     volumes:
       # These should generally be the same as your application volumes.
-      - .:/app{% if cookiecutter.example_settings != 'None' %}
-      - ${PWD}/{{cookiecutter.example_settings}}:/app/{{cookiecutter.example_settings|replace(".example", "")}}{% endif %}
+      - .:/app{% if cookiecutter.local_settings != 'None' %}
+      - ${PWD}/{{cookiecutter.local_settings}}:/app/{{cookiecutter.local_settings|replace(".example", "")}}{% endif %}
     command: {{cookiecutter.migrate_command}}
 {% endif %}
   postgres:
