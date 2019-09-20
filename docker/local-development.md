@@ -65,6 +65,16 @@ If you need more advanced functionality, e.g., installing a custom Postgres
 extension, the Postgres image provides a harness for executing arbitrary SQL
 and Bash scripts when a container is initialized. [Read more. &raquo;](https://docs.docker.com/samples/library/postgres/#initialization-scripts)
 
+If you define a custom database initialization script, be sure to mount it
+as a volume in your Postgres container in `docker-compose.yml`.
+
+```yml
+    volumes:
+      - ...
+      # Assuming script lives in scripts/init-db.sh
+      - ${PWD}/scripts/init-db.sh:/docker-entrypoint-initdb.d/10-init.sh
+```
+
 ***If you would like to use the Postgis extension,*** we recommend using a
 Postgis image, rather than configuring it in an initialization script. Rec tk.
 

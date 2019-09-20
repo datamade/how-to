@@ -1,0 +1,11 @@
+{
+    "directory_name": "python-template",
+    "app_name": "app",
+    "example_settings": "/path/to/settings.py.example",
+    "run_command": "python manage.py runserver 0.0.0.0:8000",
+    "migrate_command": "python manage.py migrate",
+    "auto_migrate": true,
+    "postgis": false,
+    "pg_version": "latest",
+    "pg_db": "database",
+}

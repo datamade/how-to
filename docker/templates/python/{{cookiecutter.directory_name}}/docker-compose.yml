@@ -2,8 +2,8 @@ version: '2.4'
 
 services:
   app:
-    image: <YOUR_APP>
-    container_name: <YOUR_APP>
+    image: {{cookiecutter.app_name}}
+    container_name: {{cookiecutter.app_name}}
     restart: always
     build: .
     # Allow container to be attached to, e.g., to access the pdb shell
@@ -22,12 +22,13 @@ services:
       # Docker automatically recognizes your changes.
       - .:/app
       # Mount example configs as live configs in the container.
-      - ${PWD}/<YOUR_PROJECT>/settings_deployment.py.example:/app/<YOUR_PROJECT>/settings_deployment.py
-    command: <RUNSERVER_COMMAND>  # e.g., python manage.py runserver 0.0.0.0:8000
+      - ${PWD}/{{cookiecutter.example_settings}}:/app/{{cookiecutter.example_settings|replace(".example", "")}}
+    command: {{cookiecutter.run_command}}
 
+{% if auto_migrate == 'true' %}
   migration:
-    container_name: <YOUR_APP>-migration
-    image: <YOUR_APP>:latest
+    container_name: {{cookiecutter.app_name}}-migration
+    image: {{cookiecutter.app_name}}:latest
     depends_on:
       # Declaring this dependency ensures that your application image is built
       # before migrations are run, and that your application and migrations can
@@ -37,13 +38,13 @@ services:
     volumes:
       # These should generally be the same as your application volumes.
       - .:/app
-      - ${PWD}/<YOUR_PROJECT>/settings_deployment.py.example:/app/<YOUR_PROJECT>/settings_deployment.py
-    command: <MIGRATION_COMMAND>  # e.g., python manage.py migrate
+      - ${PWD}/{{cookiecutter.example_settings}}:/app/{{cookiecutter.example_settings|replace(".example", "")}}
+    command: {{cookiecutter.migrate_command}}
 
+{% endif %}
   postgres:
-    container_name: <YOUR_APP>-postgres
-    restart: always
-    image: postgres:11
+    container_name: {{cookiecutter.app_name}}-postgres
+    image: {% if postgis == 'true' %}mdillon/postgis{% else %}postgres{% endif %}:{{cookiecutter.pg_version}}
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U postgres"]
       interval: 10s
@@ -54,18 +55,19 @@ services:
       # that allow you to configure the container's behavior, without writing
       # any additional code. Specify the name of your database, and any other
       # variables, here. https://hub.docker.com/_/postgres/#environment-variables
-      POSTGRES_DB: <YOUR_DB>
+      - POSTGRES_DB={{cookiecutter.pg_db}}
+      {% if postgis == 'true' %}
+      - POSTGRESS_PASSWORD='postgres'
+      {% endif %}
     volumes:
       # By default, Postgres instantiates an anonymous volume. Use a named
       # one, so your data persists beyond the life of the container. See this
       # post for a discussion of the pitfalls of Postgres and anonymous
       # volumes: https://linuxhint.com/run_postgresql_docker_compose/
-      - <YOUR_APP>-db-data:/var/lib/postgresql/data
-      # Mount our initialization script.
-      - ${PWD}/scripts/init-db.sh:/docker-entrypoint-initdb.d/10-init.sh
+      - {{cookiecutter.app_name}}-db-data:/var/lib/postgresql/data
     ports:
       - 32001:5432
 
 volumes:
   # Declare your named volume for Postgres.
-  <YOUR_APP>-db-data:
+  {{cookiecutter.app_name}}-db-data:
