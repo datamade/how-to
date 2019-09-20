@@ -80,7 +80,7 @@ as a volume in your Postgres container in `docker-compose.yml`.
 ```
 
 ***If you would like to use the Postgis extension,*** we recommend using a
-Postgis image, rather than configuring it in an initialization script. Rec tk.
+Postgis image, rather than configuring it in an initialization script.
 
 ```bash
 #!/bin/bash
