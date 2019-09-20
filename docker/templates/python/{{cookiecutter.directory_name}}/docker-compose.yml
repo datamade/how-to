@@ -13,19 +13,18 @@ services:
       # Map ports on your computer to ports on your container. This allows you,
       # e.g., to visit your containerized application in a browser on your
       # computer.
-      - <HOST_PORT>:<CONTAINER_PORT>  # e.g., 8000:8000
+      - 8000:8000
     depends_on:
       postgres:
         condition: service_healthy
     volumes:
       # Mount the development directory as a volume into the container, so
       # Docker automatically recognizes your changes.
-      - .:/app
+      - .:/app{% if cookiecutter.example_settings != 'None' %}
       # Mount example configs as live configs in the container.
-      - ${PWD}/{{cookiecutter.example_settings}}:/app/{{cookiecutter.example_settings|replace(".example", "")}}
-    command: {{cookiecutter.run_command}}
+      - ${PWD}/{{cookiecutter.example_settings}}:/app/{{cookiecutter.example_settings|replace(".example", "")}}{% endif %}
+    command: {{cookiecutter.run_command}}{% if cookiecutter.auto_migrate == 'True' %}
 
-{% if auto_migrate == 'true' %}
   migration:
     container_name: {{cookiecutter.app_name}}-migration
     image: {{cookiecutter.app_name}}:latest
@@ -37,14 +36,13 @@ services:
       - app
     volumes:
       # These should generally be the same as your application volumes.
-      - .:/app
-      - ${PWD}/{{cookiecutter.example_settings}}:/app/{{cookiecutter.example_settings|replace(".example", "")}}
+      - .:/app{% if cookiecutter.example_settings != 'None' %}
+      - ${PWD}/{{cookiecutter.example_settings}}:/app/{{cookiecutter.example_settings|replace(".example", "")}}{% endif %}
     command: {{cookiecutter.migrate_command}}
-
 {% endif %}
   postgres:
     container_name: {{cookiecutter.app_name}}-postgres
-    image: {% if postgis == 'true' %}mdillon/postgis{% else %}postgres{% endif %}:{{cookiecutter.pg_version}}
+    image: {% if cookiecutter.postgis == 'True' %}mdillon/postgis{% else %}postgres{% endif %}:{{cookiecutter.pg_version}}
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U postgres"]
       interval: 10s
@@ -55,10 +53,8 @@ services:
       # that allow you to configure the container's behavior, without writing
       # any additional code. Specify the name of your database, and any other
       # variables, here. https://hub.docker.com/_/postgres/#environment-variables
-      - POSTGRES_DB={{cookiecutter.pg_db}}
-      {% if postgis == 'true' %}
-      - POSTGRESS_PASSWORD='postgres'
-      {% endif %}
+      - POSTGRES_DB={{cookiecutter.pg_db}}{% if cookiecutter.postgis == 'True' %}
+      - POSTGRESS_PASSWORD='postgres'{% endif %}
     volumes:
       # By default, Postgres instantiates an anonymous volume. Use a named
       # one, so your data persists beyond the life of the container. See this
