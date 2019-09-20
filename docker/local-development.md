@@ -13,13 +13,13 @@ A containerized local development environment has four components, and one
 optional service:
 
 1. [A Dockerfile](#1-dockerfile), containing building instructions for the application itself.
-2. [A database initialization script](#2-scriptsinit-dbsh)
-that creates your database and installs any extensions
-3. [A root `docker-compose.yml` file](#3-docker-composeyml)
+2. [A root `docker-compose.yml` file](#3-docker-composeyml)
 that declares the application and its dependent services
-4. [A `tests/docker-compose.yml` file](#4-testsdocker-composeyml)
+3. [A `tests/docker-compose.yml` file](#4-testsdocker-composeyml)
 that overrides the application service in the root file, in order to run the tests
-4. [A `docker-compose.db-ops.yml` file](#5-docker-composedb-opsyml-optional)
+4. [A database initialization script](#2-scriptsinit-dbsh-optional)
+that creates your database and installs any extensions (Optional)
+5. [A `docker-compose.db-ops.yml` file](#5-docker-composedb-opsyml-optional)
 that automates a multi-step data loading routine (Optional)
 
 With this setup, you can:
@@ -72,21 +72,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY . /app
 ```
 
-### 2. `scripts/init-db.sh`
-
-The Postgres image provides a harness for executing arbitrary SQL and Bash
-scripts when containers are initialized. [Read more. &raquo;](https://docs.docker.com/samples/library/postgres/#initialization-scripts)
-
-```bash
-#!/bin/bash
-set -e
-
-psql -U postgres -c "CREATE DATABASE <YOUR_DATABASE>"
-psql -U postgres -d <YOUR_DATABASE> -c "CREATE EXTENSION IF NOT EXISTS <YOUR_EXTENSION>"
-# Add any more database initialization commands you may need here
-```
-
-### 3. `docker-compose.yml`
+### 2. `docker-compose.yml`
 
 There are [several versions](https://docs.docker.com/compose/compose-file/compose-versioning/)
 of `docker-compose` syntax. We prefer v2, in order to take advantage of health
@@ -139,7 +125,7 @@ services:
     command: <MIGRATION_COMMAND>  # e.g., python manage.py migrate
 
   postgres:
-    container_name: dedupe-postgres
+    container_name: <YOUR_APP>-postgres
     restart: always
     image: postgres:11
     healthcheck:
@@ -147,6 +133,12 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+    environment:
+      # The default Postgres image exposes a number of environmental variables
+      # that allow you to configure the container's behavior, without writing
+      # any additional code. Specify the name of your database, and any other
+      # variables, here. https://hub.docker.com/_/postgres/#environment-variables
+      POSTGRES_DB: <YOUR_DB>
     volumes:
       # By default, Postgres instantiates an anonymous volume. Use a named
       # one, so your data persists beyond the life of the container. See this
@@ -163,7 +155,7 @@ volumes:
   <YOUR_APP>-db-data:
 ```
 
-### 4. `tests/docker-compose.yml`
+### 3. `tests/docker-compose.yml`
 
 ```yaml
 version: '2.4'
@@ -181,6 +173,30 @@ services:
       # docker-compose.yml, so we don't need to specify those volumes again
       - ...
     command: pytest -sxv
+```
+
+### 4. `scripts/init-db.sh` (Optional)
+
+The default Postgres image exposes [a number of environmental variables](https://hub.docker.com/_/postgres/#environment-variables)
+that allow you to define custom behavior for your container without writing
+additional code. Things you can achieve via environmental variables include
+creating your default database, specifying a default user and password, and
+customizing the location of the database files.
+
+If you need more advanced functionality, e.g., installing a custom Postgres
+extension, the Postgres image provides a harness for executing arbitrary SQL
+and Bash scripts when a container is initialized. [Read more. &raquo;](https://docs.docker.com/samples/library/postgres/#initialization-scripts)
+
+***If you would like to use the Postgis extension,*** we recommend using a
+Postgis image, rather than configuring it in an initialization script. Rec tk.
+
+```bash
+#!/bin/bash
+set -e
+
+psql -U postgres -c "CREATE DATABASE <YOUR_DATABASE>"
+psql -U postgres -d <YOUR_DATABASE> -c "CREATE EXTENSION IF NOT EXISTS <YOUR_EXTENSION>"
+# Add any more database initialization commands you may need here
 ```
 
 ### 5. `docker-compose.db-ops.yml` (Optional)
