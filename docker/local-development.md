@@ -44,6 +44,8 @@ With this setup, you can:
 - [Access the `pdb` shell](#docker-and-pdb)
 - [Run custom commands on your container](#run-custom-commands-on-containers)
 
+If you run into trouble, see [Debugging your containerized setup](#debugging-your-containerized-setup).
+
 ## Components
 
 ### 1. `Dockerfile`
