@@ -7,6 +7,22 @@ the pattern to other projects. Some examples in the wild:
 - [🏡 `ihs-website-v2`](https://github.com/datamade/ihs-website-v2)
 - [🏆 `lisc-cdna`](https://github.com/datamade/lisc-cnda)
 
+## Core concepts
+
+If you're new to Docker, the glut of blog posts, articles, and third-party
+documentation can be a lot to parse through. We recommend starting with
+Docker's own explanations of the fundamental building blocks of containers.
+
+- [Image](https://docs.docker.com/glossary/?term=image)
+- [Container](https://docs.docker.com/glossary/?term=container)
+- [Volume](https://docs.docker.com/glossary/?term=volume)
+- [Service](https://docs.docker.com/glossary/?term=service)
+- [Compose](https://docs.docker.com/glossary/?term=Compose)
+
+The Docker documentation also includes an [Get started](https://docs.docker.com/get-started/)
+tutorial that can help connect the dots between these concepts. Give it a whirl
+(or at least a scan)!
+
 ## Overview
 
 A containerized local development environment has four components, and one
@@ -280,6 +296,58 @@ docker-compose -f docker-compose.yml -f tests/docker-compose.yml run --rm app <Y
 ```
 
 – where `<YOUR_COMMAND>` is something like `pytest tests/test_admin.py -sxv --pdb`.
+
+## Debugging your containerized setup
+
+As you extend this pattern, or use new images, you will occasionally find that
+things don't quite work as expected. A good base knowledge of the life cycle
+of your development environment, plus a few reset strategies, will be good
+debugging tools.
+
+### Container life cycle
+
+#### Images
+
+[By definition](https://docs.docker.com/compose/reference/up/), `docker-compose up`
+"builds, (re)creates, starts, and attaches to containers for a service." More
+precisely, it builds any images _that it can't find on the host_, then proceeds
+with the rest.
+
+Your application image is built the first time you run `docker-compose up`. **If
+you make subsequent changes to your Dockerfile or development environment, e.g.,
+by adding an additional application dependency to `requirements.txt`, you must
+rebuild your image using `docker-compose up --build` for the changes to be
+reflected in your image.**
+
+#### Containers
+
+`docker-compose up` creates and starts containers for each of the services
+defined in `docker-compose.yml`. **In contrast to images, if you change your
+service definition, Compose will automatically recreate your application
+container.**
+
+If you are attached to a `docker-compose up` command, `Ctrl-C` will stop, but
+not remove, your containers.
+
+`docker-compose down` will stop and remove your service containers, as well as
+the network that Compose created for them to communicate across.
+
+### Troubleshooting tips
+
+#### Turn it off, then on again
+
+When working with Docker, it's usually best to change one thing at a time, then
+test the effects. If you've toggled a lot of switches, or if you want to be
+sure you're starting from scratch, you can reset your development environment
+like so:
+
+```bash
+# Remove your containers and any associated volumes, e.g., your database data
+docker-compose down --volumes
+
+# Rebuild and restart your services
+docker-compose up --build
+```
 
 ## A few helpful notes
 
