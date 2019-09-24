@@ -22,6 +22,8 @@ _In alphabetical order and including links to external repository-based document
 - [Mapping](mapping/)
     - [Google APIs (Maps, Geocoding)](mapping/google-apis.md)
 - [Environment setup](environment-setup.md)
+- [Heroku](/heroku/)
+    - [Deploy a Django app to Heroku](/heroku/deploy-a-django-app.md)
 - [PostgreSQL](postgres/)
     - [A quick and dirty introduction to `sqlalchemy`](postgres/quick-n-dirty-sqlalchemy.md)
     - [Interacting with a remote database](postgres/Interacting-with-a-remote-database.md)
