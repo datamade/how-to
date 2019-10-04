@@ -186,7 +186,7 @@ docker-compose -f docker-compose.yml -f tests/docker-compose.yml run --rm app <Y
 – where `<YOUR_COMMAND>` is something like `pytest tests/test_admin.py -sxv --pdb`.
 
 Commands that write to STDOUT, e.g., `python manage.py dumpdata`, can be piped (`|`)
-redirected (`>`) to files on your computer in the normal way.
+or redirected (`>`) to files on your computer in the normal way.
 
 If you need to run a command that writes to files, e.g., `python manage.py makemigrations`,
 and you'd like those files to be written to your host machine, you can use this trick:
