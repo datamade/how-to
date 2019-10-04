@@ -7,24 +7,16 @@ for the containerization of web applications.
 
 ### 1. Set up.
 
-Install `cookiecutter` in your virtual environment of choice. (It's a [great
-candidate for `gus`](https://github.com/datamade/ops/wiki/How-to-DataMade-(Resources-for-new-hires)#python)!)
+Clone this repository to your favorite working directory –
 
 ```bash
-pip install cookiecutter
+git clone https://github.com/datamade/how-to.git && cd how-to/docker/templates
 ```
 
-Then, clone this repository to your favorite working directory –
+– and build or update your template image.
 
 ```bash
-git clone https://github.com/datamade/how-to.git
-```
-
-– or update your local version.
-
-```bash
-cd /path/to/how-to
-git pull
+docker build . -t python-cookiecutter:latest
 ```
 
 ### 2. Run `cookiecutter`.
@@ -35,7 +27,7 @@ to generate deployment scripts for your app or server.
 From your project directory, run `cookiecutter`:
 
 ```bash
-cookiecutter how-to/docker/templates/python
+docker run -it --name cookiecutter python-cookiecutter:latest
 ```
 
 #### Template variables
@@ -46,7 +38,7 @@ in your terminal:
 | Variable | Definition |
 | - | - |
 | `directory_name` | The directory that will contain your generated files. We'll move the files out and remove this directory after running `cookiecutter` so it's fine to use the default here. |
-| `app_name` | The name of your application. |
+| `app_name` | The slug you use to refer to your application (typically the same as the GitHub repo). |
 | `local_settings` | If your project includes a local settings file, set this equal to the relative path to your local settings file (or your example settings file, if it includes working values), and it will be automatically mounted into your application container. Set this to None if your application does not use a local settings file. |
 | `run_command` | The command to run your application. |
 | `migrate_command` | The command to migrate your database. |
@@ -57,17 +49,15 @@ in your terminal:
 
 ### 3. Relocate the generated files.
 
-Unless you specified another value for `directory_name` when you ran
-`cookiecutter`, the generated files will land in a directory called
+The generated files will land in a directory inside your container called
 `python-template`.
 
 Copy the generated files to your top-level project directory, then remove the
-generated directory. (Note that this will preserve `configs/` and `scripts/`
-directories and their contents, if your project already contains them.)
+container.
 
 ```bash
-# Replace <directory_name> with the appropriate value!
-rsync -av <directory_name>/* . && rm -rf <directory_name>/
+docker cp cookiecutter:/python-template/. .
+docker rm cookiecutter
 ```
 
 ### 4. Customize your configs and scripts.

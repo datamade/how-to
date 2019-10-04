@@ -9,10 +9,6 @@ the pattern to other projects. Some examples in the wild:
 
 ## Overview
 
-N.b., this documentation was written for containerized web applications
-written in a Python web framework (e.g., Django) and leveraging a Postgres
-database. YMMV!
-
 A containerized local development environment has four components, and one
 optional service:
 
@@ -69,6 +65,15 @@ If you need more advanced functionality, e.g., installing a custom Postgres
 extension, the Postgres image provides a harness for executing arbitrary SQL
 and Bash scripts when a container is initialized. [Read more. &raquo;](https://docs.docker.com/samples/library/postgres/#initialization-scripts)
 
+```bash
+#!/bin/bash
+set -e
+
+psql -U postgres -c "CREATE DATABASE <YOUR_DATABASE>"
+psql -U postgres -d <YOUR_DATABASE> -c "CREATE EXTENSION IF NOT EXISTS <YOUR_EXTENSION>"
+# Add any more database initialization commands you may need here
+```
+
 If you define a custom database initialization script, be sure to mount it
 as a volume in your Postgres container in `docker-compose.yml`.
 
@@ -81,15 +86,6 @@ as a volume in your Postgres container in `docker-compose.yml`.
 
 ***If you would like to use the Postgis extension,*** we recommend using a
 Postgis image, rather than configuring it in an initialization script.
-
-```bash
-#!/bin/bash
-set -e
-
-psql -U postgres -c "CREATE DATABASE <YOUR_DATABASE>"
-psql -U postgres -d <YOUR_DATABASE> -c "CREATE EXTENSION IF NOT EXISTS <YOUR_EXTENSION>"
-# Add any more database initialization commands you may need here
-```
 
 ### 5. `docker-compose.db-ops.yml` (Optional)
 
