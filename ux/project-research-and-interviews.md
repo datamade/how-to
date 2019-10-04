@@ -76,6 +76,7 @@ We typically interview 3-5 individuals with a variety of perspectives and intere
 User testing is not always formally included in scopes. Informally, it is a part of the Agile iterative feedback loop.
 
 ### 6. Reports
+*[User Research Report template](https://docs.google.com/document/d/1NX83QAKjkJHE-J2q2CjCORpfGqhPk-XgO2HDW6iScGo/edit) (visible to DataMade employees only)*
 
 Upon completion of a round of interviews DataMade prepares a report to share back with the client summarizing the high level points that we have taken away from the interviews. The goal of this report is not to reiterate their project and vision back to them, but to surface ideas, concerns and points of contention from the interviewees.
 
