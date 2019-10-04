@@ -1,5 +1,5 @@
 {
-    "directory_name": "python-template",
+    "directory_name": ".",
     "app_name": "my-new-app",
     "local_settings": "path/to/local_settings.py.example",
     "run_command": "python manage.py runserver 0.0.0.0:8000",
