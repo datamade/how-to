@@ -39,7 +39,7 @@ in your terminal:
 | - | - |
 | `directory_name` | The directory that will contain your generated files. We'll move the files out and remove this directory after running `cookiecutter` so it's fine to use the default here. |
 | `app_name` | The slug you use to refer to your application (typically the same as the GitHub repo). |
-| `local_settings` | If your project includes a local settings file, set this equal to the relative path to your local settings file (or your example settings file, if it includes working values), and it will be automatically mounted into your application container. Set this to None if your application does not use a local settings file. |
+| `local_settings` | If your project includes a local settings file, set this equal to the relative path to your local settings file (or your example settings file, if it includes working values), and it will be automatically mounted into your application container. Set this to the string `None` if your application does not use a local settings file. |
 | `run_command` | The command to run your application. |
 | `migrate_command` | The command to migrate your database. |
 | `auto_migrate` | Whether your database migration should be run every time you start your application. Set this to False if you have a workflow that involves loading in a database dump. Note that you will need to run migrations manually thereafter, e.g., `docker-compose exec app python manage.py migrate`. |
