@@ -53,7 +53,7 @@ services:
       # any additional code. Specify the name of your database, and any other
       # variables, here. https://hub.docker.com/_/postgres/#environment-variables
       - POSTGRES_DB={{cookiecutter.pg_db}}{% if cookiecutter.postgis == 'True' %}
-      - POSTGRES_PASSWORD='postgres'{% endif %}
+      - POSTGRES_PASSWORD=postgres{% endif %}
     volumes:
       # By default, Postgres instantiates an anonymous volume. Use a named
       # one, so your data persists beyond the life of the container. See this

@@ -6,6 +6,6 @@
     "migrate_command": "python manage.py migrate",
     "auto_migrate": true,
     "postgis": false,
-    "pg_version": "latest",
+    "pg_version": "11",
     "pg_db": "database"
 }
