@@ -75,7 +75,7 @@ If you're using Django, you can then use your container to generate your project
 skeleton.
 
 ```bash
-docker-compose run --no-deps --rm -v `pwd`:`pwd` -w `pwd` app django-admin startproject my_project
+docker-compose run --no-deps --rm app django-admin startproject my_project
 ```
 
 See [the Django docs](https://docs.djangoproject.com/en/2.2/intro/tutorial01/) for more on project setup.
