@@ -131,6 +131,16 @@ python manage.py collectstatic --noinput
 python manage.py migrate --noinput
 ```
 
+If your app uses a `dbload` script to load initial data into the database, you can use `release.sh`
+to check if the initial data exists and run the data loading scripts if not. For example:
+
+```bash
+# Set ${TABLE} to the name of a table that you expect to have data in it.
+if [ `psql ${DATABASE_URL} -tAX -c "SELECT COUNT(*) FROM ${TABLE}"` -eq "0" ]; then
+    make all
+fi
+```
+
 #### `app.json`
 
 In order to enable [review apps](https://devcenter.heroku.com/articles/github-integration-review-apps)
@@ -188,7 +198,7 @@ Next, configure the GitHub integration to set up [automatic
 deploys](https://devcenter.heroku.com/articles/github-integration#automatic-deploys)
 for both Heroku apps (staging and production). Choose "Wait for CI to pass before deploy" for each app.
 
-Finally, configure environment variables for both Heroku apps. These can be set
+Finally, configure environment variables for staging, production, and review apps. These can be set
 using either the dashboard or the CLI. [Follow the Heroku
 documentation](https://devcenter.heroku.com/articles/config-vars#managing-config-vars)
 to set up your config vars.
