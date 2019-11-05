@@ -9,6 +9,7 @@ preferred platform for hosting dynamic applications.
     - [Containerize your app](#containerize-your-app)
     - [Serve static files with WhiteNoise](#serve-static-files-with-whitenoise)
     - [Read settings and secret variables from the environment](#read-settings-and-secret-variables-from-the-environment)
+    - [Configure Django loggine](#configure-django-logging)
 - [Provision Heroku resources](#provision-heroku-resources)
     - [Ensure that the Heroku CLI is installed](#ensure-that-the-heroku-cli-is-installed)
     - [Create Heroku config files](#create-heroku-config-files)
@@ -42,6 +43,14 @@ Follow the [setup instructions for WhiteNoise in
 Django](http://whitenoise.evans.io/en/stable/django.html) to ensure that your
 Django apps can serve static files.
 
+In order to be able to serve static files when `DEBUG` is `False`, you'll also want
+to make sure that `RUN python manage.py collectstatic` is included as a step in your
+Dockerfile. This will ensure that the static files are baked into the container.
+Since we typically mount application code into the container during local development,
+you'll also need to make sure that your static files are stored outside of the root
+project folder so that the mounted files don't overwrite them. One easy way to do this
+is to set `STATIC_ROOT = '/static'` in your `settings.py` file.
+
 ### Read settings and secret variables from the environment
 
 Heroku doesn't allow us to decrypt content with GPG, so we can't use Blackbox
@@ -69,6 +78,39 @@ services:
     environment:
       - DJANGO_SECRET_KEY=really-super-secret
 ```
+
+### Configure Django logging
+
+When Gunicorn is running our app on Heroku, we generally want it to log to stdout
+and stderr instead of logging to files, so that we can let Heroku capture the logs
+and see view them with the `heroku logs` CLI command (or in the web console).
+
+By default, Django will not log errors to the console when `DEBUG` is `False`
+([as documented here](https://docs.djangoproject.com/en/2.2/topics/logging/#django-s-default-logging-configuration)).
+To make sure that errors get logged appropriately in Heroku, set the following
+baseline logging settings in your `settings.py` file:
+
+```python
+import os
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,  # Preserve default loggers
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['console'],
+            'level': os.getenv('DJANGO_LOG_LEVEL', 'INFO'),
+        },
+    },
+}
+```
+
+For more detail on Django's logging framework, [see the documentation](https://docs.djangoproject.com/en/2.2/topics/logging/).
 
 ## Provision Heroku resources
 
@@ -197,6 +239,13 @@ heroku reviewapps:enable -a ${APP_NAME}-staging -p ${APP_NAME}
 Next, configure the GitHub integration to set up [automatic
 deploys](https://devcenter.heroku.com/articles/github-integration#automatic-deploys)
 for both Heroku apps (staging and production). Choose "Wait for CI to pass before deploy" for each app.
+
+Heroku needs to deploy from specific branches in order to deploy to different environments
+(e.g. staging vs. production). In order to properly enable automatic deployments, then,
+you'll need to deploy to production from a branch instead of tagged commits (a practice
+which we've used in the past for deploying to production). We recommend creating a long-lived
+`deploy` branch off of `master` immediately after setting up your repo so that you can
+use `master` to deploy to staging and `deploy` to deploy to production.
 
 Finally, configure environment variables for staging, production, and review apps. These can be set
 using either the dashboard or the CLI. [Follow the Heroku
