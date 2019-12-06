@@ -8,6 +8,12 @@ This document collects best practices for working with [the Django Forms API](ht
 
 ## HTML5 form validation
 
+### Guidance
+
+When using custom Django validators that contradict client-side HTML5 validation, set `use_required_attribute` to `False` on your `Form`.
+
+### Background
+
 [Most modern browsers](https://caniuse.com/#feat=form-validation) now support [client-side form validation](https://developer.mozilla.org/en-US/docs/Learn/HTML/Forms/Form_validation). They do this by reading the [attributes](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#Attributes) of input elements and providing corresponding feedback to the user when the form is submitted, before a request is sent to the server. For example, if you have a `first_name` input with the attribute `required`, most browsers will prevent the form from being submitted to the server until `first_name` has a value.
 
 The instantaneous feedback provided by client-side validation can be nice for users, but it has the potential to interfere with [Django's server-side form validation](https://docs.djangoproject.com/en/2.2/ref/forms/validation/) because it means the automatic client-side validation will happen before any custom server-side validation has a chance to run. To extend the `required` example, if you have a [custom validator](https://docs.djangoproject.com/en/3.0/ref/validators/) that allows `first_name` to be empty if another field (like `last_name`) has a value instead, your validator may never run because most browsers will prevent the form from ever being submitted with an empty value for `first_name`.
