@@ -96,7 +96,7 @@ To enable hard drive encryption on a Macbook, go to System Preferences > Securit
 
 We try to maintain a consistent and standardized toolkit for all of our data work. We know that there are many good options for working with data, and we are always open to hearing arguments for new additions to this toolkit. But these tools have stood the test of time, and you'll see them crop up over and over in DataMade's work.
 
-‼ Note: If you're working on a new DataMade application, most of these dependencies (e.g., Postgres) should be containerized, i.e., you don't need to install them directly on your computer, and you can skip this section. If you're working on a legacy application that does not include containerization artifacts, read on for our installation tips.
+🚨  Note: If you're working on a new DataMade application, most of these dependencies (e.g., Postgres) should be containerized, i.e., you don't need to install them directly on your computer, and you can skip this section. If you're working on a legacy application that does not include containerization artifacts, read on for our installation tips.
 
 #### Packages
 
@@ -123,7 +123,7 @@ We try to maintain a consistent and standardized toolkit for all of our data wor
 
 #### Packages
 
-‼ Note: If you're working on a new DataMade application, most of these dependencies (e.g., PostGIS) should be containerized, i.e., you don't need to install them directly on your computer, and you can skip this section. If you're working on a legacy application that does not include containerization artifacts, read on for our installation tips.
+🚨  Note: If you're working on a new DataMade application, most of these dependencies (e.g., PostGIS) should be containerized, i.e., you don't need to install them directly on your computer, and you can skip this section. If you're working on a legacy application that does not include containerization artifacts, read on for our installation tips.
 
 * [PostGIS](http://www.postgis.net/)
      * A geospatial plugin for Postgres. We do lots of geographic work, so it's worth installing this as soon as you have Postgres up and running. Ignore the installers and install with your [favorite package manager](http://postgis.net/install/); make sure to install the version that corresponds to your version of Postgres, and remember that PostGIS must be activated in any database that needs to use it by running the SQL command `CREATE EXTENSION postgis`.
