@@ -1,6 +1,6 @@
 # 💻 Setting up your development environment
 
-There are many guides to setting up your computer for development. Each has their own merits. At DataMade, we perform a mix of maintaining legacy projects and developing new projects, often in parallel. Our toolkit is therefore optimized for managing many, isolated versions of packages and getting up and running on new projects quickly.
+There are many guides to setting up your computer for development. Each has its own merits. At DataMade, we perform a mix of maintaining legacy projects and developing new projects, often in parallel. Our toolkit is therefore optimized for managing many, isolated versions of packages and getting up and running on new projects quickly.
 
 #### Contents
 
