@@ -121,9 +121,9 @@ We try to maintain a consistent and standardized toolkit for all of our data wor
 
 ## Geospatial data
 
-#### Packages
-
 🚨  Note: If you're working on a new DataMade application, most of these dependencies (e.g., PostGIS) should be containerized, i.e., you don't need to install them directly on your computer, and you can skip this section. If you're working on a legacy application that does not include containerization artifacts, read on for our installation tips.
+
+#### Packages
 
 * [PostGIS](http://www.postgis.net/)
      * A geospatial plugin for Postgres. We do lots of geographic work, so it's worth installing this as soon as you have Postgres up and running. Ignore the installers and install with your [favorite package manager](http://postgis.net/install/); make sure to install the version that corresponds to your version of Postgres, and remember that PostGIS must be activated in any database that needs to use it by running the SQL command `CREATE EXTENSION postgis`.
