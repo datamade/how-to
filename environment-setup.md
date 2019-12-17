@@ -34,7 +34,7 @@ In the nav, under "Sublime Text," you will find a "Preferences" fly open, where 
     "tab_size": 4,
 ```
 
-‼ Note: You are welcome to explore other text editor options, e.g., Atom, Vim, etc.
+‼ **Note:** You are welcome to explore other text editor options, e.g., Atom, Vim, etc.
 
 #### Packages
 
@@ -96,7 +96,7 @@ To enable hard drive encryption on a Macbook, go to System Preferences > Securit
 
 We try to maintain a consistent and standardized toolkit for all of our data work. We know that there are many good options for working with data, and we are always open to hearing arguments for new additions to this toolkit. But these tools have stood the test of time, and you'll see them crop up over and over in DataMade's work.
 
-🚨  Note: If you're working on a new DataMade application, most of these dependencies (e.g., Postgres) should be containerized, i.e., you don't need to install them directly on your computer, and you can skip this section. If you're working on a legacy application that does not include containerization artifacts, read on for our installation tips.
+🚨  **Note:** If you're working on a new DataMade application, most of these dependencies (e.g., Postgres) should be containerized, i.e., you don't need to install them directly on your computer, and you can skip this section. If you're working on a legacy application that does not include containerization artifacts, read on for our installation tips.
 
 #### Packages
 
@@ -121,7 +121,7 @@ We try to maintain a consistent and standardized toolkit for all of our data wor
 
 ## Geospatial data
 
-🚨  Note: If you're working on a new DataMade application, most of these dependencies (e.g., PostGIS) should be containerized, i.e., you don't need to install them directly on your computer, and you can skip this section. If you're working on a legacy application that does not include containerization artifacts, read on for our installation tips.
+🚨  **Note:** If you're working on a new DataMade application, most of these dependencies (e.g., PostGIS) should be containerized, i.e., you don't need to install them directly on your computer, and you can skip this section. If you're working on a legacy application that does not include containerization artifacts, read on for our installation tips.
 
 #### Packages
 
@@ -136,7 +136,7 @@ We try to maintain a consistent and standardized toolkit for all of our data wor
 
 Most of our sites are dynamic and built on Django, but sometimes we deploy small static sites (like [datamade.us](https://datamade.us)) using Jekyll, a site generator built on Ruby, or more recently, [GatsbyJS](https://www.gatsbyjs.org/tutorial/).
 
-🚨 Note: If you're working on a new DataMade application, all of these dependencies should be containerized, i.e., you don't need to install them directly on your computer, and you can skip this section. If you're working on a legacy application that does not include containerization artifacts, read on for our installation tips.
+🚨 **Note:** If you're working on a new DataMade application, all of these dependencies should be containerized, i.e., you don't need to install them directly on your computer, and you can skip this section. If you're working on a legacy application that does not include containerization artifacts, read on for our installation tips.
 
 #### Packages
 
