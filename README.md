@@ -18,6 +18,7 @@ _In alphabetical order and including links to external repository-based document
     - [Docker for local development](docker/local-development.md)
     - [Templates for containerizing your application](docker/templates/)
 - [GatsbyJS](gatsby/)
+- [Environment setup](environment-setup.md)
 - [PostgreSQL](postgres/)
     - [A quick and dirty introduction to `sqlalchemy`](postgres/quick-n-dirty-sqlalchemy.md)
     - [Interacting with a remote database](postgres/Interacting-with-a-remote-database.md)
