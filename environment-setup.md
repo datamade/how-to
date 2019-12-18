@@ -13,11 +13,11 @@ There are many guides to setting up your computer for development. Each has its 
 - [Geospatial data](#geospatial-data)
 - [Static sites](#static-sites)
 
-For Linux users, most of these tools are available as aptitude packages. When possible, prefer binary packages to building from source. For Mac users, most of these tools are available as [Homebrew](http://brew.sh/) packages. Homebrew is by far the easiest way to manage packages on OS X.
+When possible, we prefer installing binaries from a package manager to building packages from source. For Mac users, most of these tools are available as [Homebrew](http://brew.sh/) packages. Homebrew is by far the easiest way to manage packages on MacOS.
 
 ## Version control
 
-We use GitHub and Git to keep our work under version control. Note that we prefer the `git` CLI to the GitHub desktop GUI.
+We use GitHub and Git to keep our work under version control. Note that we prefer the `git` CLI to the GitHub desktop GUI. The Git CLI is built-in on MacOS and most Linux distributions, usually with an acceptably recent version; to check whether you already have Git installed, run `which git`.
 
 #### Packages
 
@@ -25,7 +25,12 @@ We use GitHub and Git to keep our work under version control. Note that we prefe
 
 ## Text editor
 
-Most of us use Sublime as our text editor of choice. If you do, too, then you will need to make some modifications to your settings.
+DataMade developers use a variety of different text editors, and we leave it up to you to decide which one you prefer to use. However, there are two configurations that we encourage you to make no matter which editor you use:
+
+ 1. Automatically trim trailing whitespace
+ 2. Set default tab size for Python files to 4, and set default HTML/JavaScript tab size to 2
+ 
+Historically, Sublime Text has been the most widely-used editor at DataMade, so the following instructions will demonstrate how to set these settings for Sublime Text.
 
 In the nav, under "Sublime Text," you will find a "Preferences" fly open, where you will see "Settings - User." Here, you can override the default settings (i.e., do not make changes to the "Settings - Default" file). In the User file, add two things:
 
@@ -44,7 +49,7 @@ In the nav, under "Sublime Text," you will find a "Preferences" fly open, where 
 
 At DataMade, you'll run most Python processes in containers. However, it's still useful to have a fresh install of Python on your machine to keep your system Python isolated (it's important!) and to use a later version of Python (if you're on a Mac, your system Python is probably version 2.7).
 
-When you aren't using containers, DataMade recommends you conduct Python work in virtual environments (virtualenvs). Virtualenvs help enforce dependency separation between your projects and make it a lot easier for other users to replicate your work on their computers. The Python ecosystem contains a lot of options for managing your environments, from the built-in `virtualenv` package to bundled package and environment management with `conda`. As traditionalists, we like `virtualenvwrapper`, which provides a few convenience functions you can use from your terminal to create, activate, deactivate, and remove virtual environments.
+When you aren't using containers, DataMade recommends you conduct Python work in virtual environments (virtualenvs). Virtualenvs help enforce dependency separation between your projects and make it a lot easier for other users to replicate your work on their computers. The Python ecosystem contains a lot of options for managing your environments, from the built-in `virtualenv` package to bundled package and environment management with `conda`. We like `virtualenvwrapper`, which provides a few convenience functions you can use from your terminal to create, activate, deactivate, and remove virtual environments.
 
 Finally, to install packages in your environment, you'll need `pip`, _the_ Python package installer.
 
@@ -75,7 +80,7 @@ Containers are a popular, modern approach to packaging and running software. We 
 #### Packages
 
 * [Docker Community Edition](https://www.docker.com/products/container-runtime)
-     * A popular and feature-rich container engine. [Mac users, look no further for installation instructions](https://docs.docker.com/v17.09/docker-for-mac/install/). Unix users, open the Mac instructions and find your distribution in the sidebar.
+     * A popular and feature-rich container engine. [Mac users, look no further for installation instructions](https://docs.docker.com/v17.09/docker-for-mac/install/). Linux users, open the Mac instructions and find your distribution in the sidebar.
 
 ## Security
 
@@ -88,7 +93,7 @@ To enable hard drive encryption on a Macbook, go to System Preferences > Securit
 * [SSH](http://linuxcommand.org/man_pages/ssh1.html)
      * Secure Shell, a protocol for communicating securely over unsecured networks. We use it to push and pull from Git remotes and to access our servers. It comes pre-installed as a command line tool on all Mac and Linux distributions; [generate an SSH key](https://help.github.com/articles/generating-an-ssh-key/) if you haven't already and follow the instructions for adding it to your GitHub account.
 * [GPG](https://www.gnupg.org/)
-     * GNU Privacy Guard, a command line tool for encrypting and decrypting files. Mac users can `brew install gnupg2`, while enthusiasts of the "subtler arts of computing" can [compile it](https://www.gnupg.org/download/index.en.html). Then, [configure your key](https://keyring.debian.org/creating-key.html) by hand.
+     * GNU Privacy Guard, a command line tool for encrypting and decrypting files. Mac users can `brew install gnupg2`. Then, [configure your key](https://keyring.debian.org/creating-key.html) by hand.
 * [Blackbox](https://github.com/StackExchange/blackbox)
      * StackExchange's open-source CLI for keeping secrets secure under public version control. Follow [our excellent guide](https://github.com/datamade/deploy-a-site/blob/master/Setup-blackbox.md) (internal link) to use it.
 
@@ -100,7 +105,7 @@ We try to maintain a consistent and standardized toolkit for all of our data wor
 
 #### Packages
 
-* Bash/Unix
+* Bash and basic Unix tools
      * Comes installed with OS X, macOS, Windows 10, and all Linux distributions.
 * [PostgreSQL](https://www.postgresql.org/)
      * A powerful open-source database engine (also known as Postgres). There are a million ways to download and manage Postgres. If you're writing a new application, this dependency should be containerized, i.e., you don't need to install it directly on your machine. but you'll be best off installing it with your package manager and following their [Getting Started guide](https://www.postgresql.org/docs/9.6/static/tutorial-arch.html) to configure it.
