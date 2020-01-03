@@ -17,6 +17,9 @@ preferred platform for hosting dynamic applications.
         - [`release.sh`](#release.sh)
         - [`app.json`](#app.json)
     - [Create apps and pipelines for your project](#create-apps-and-pipelines-for-your-project)
+    - [Enable additional services](#enable-additional-services)
+      - [Solr](#solr)
+      - [PostGIS](#postgis)
 - [Troubleshooting](#troubleshooting)
 
 ## Set up application code for Heroku
@@ -78,6 +81,12 @@ services:
     environment:
       - DJANGO_SECRET_KEY=really-super-secret
 ```
+
+For a full example of this pattern in a production app, see the [Docker Compose
+file](https://github.com/datamade/mn-election-archive/blob/master/docker-compose.yml)
+and [Django settings
+file](https://github.com/datamade/mn-election-archive/blob/master/elections/settings.py)
+in the [UofM Election Archive project](https://github.com/datamade/mn-election-archive).
 
 ### Configure Django logging
 
@@ -165,7 +174,8 @@ run:
 #### `release.sh`
 
 In your app's `scripts` folder, define a script `release.sh` to run every time the app deploys.
-Use the following baseline script:
+Use the following baseline script and make sure to run `chmod u+x scripts/release.sh`
+to make it executable:
 
 ```bash
 #!/bin/bash
@@ -182,6 +192,10 @@ if [ `psql ${DATABASE_URL} -tAX -c "SELECT COUNT(*) FROM ${TABLE}"` -eq "0" ]; t
     make all
 fi
 ```
+
+Note that logs for the release phase won't be viewable in the Heroku console unless `curl`
+is installed in your application container. Make sure your Dockerfile installs
+`curl` to see logs as `scripts/release.sh` runs.
 
 #### `app.json`
 
@@ -225,15 +239,21 @@ To create these resources, start by defining the name of your app:
 export APP_NAME=<your-app-name-here>
 ```
 
-Then, run the following Heroku CLI commands:
+Then, run the following Heroku CLI commands to create a staging app and a pipeline:
+
+```bash
+heroku create ${APP_NAME}-staging -t datamade --manifest
+heroku pipelines:create -t datamade ${APP_NAME} -a ${APP_NAME}-staging -s staging
+heroku pipelines:connect ${APP_NAME} -r datamade/${APP_NAME}
+heroku reviewapps:enable -a ${APP_NAME}-staging -p ${APP_NAME}
+```
+
+If you would like to set up a production app as well, run the following commands
+to create one and add it to your pipeline:
 
 ```bash
 heroku create ${APP_NAME} -t datamade --manifest
-heroku pipelines:create -t datamade ${APP_NAME} -a ${APP_NAME} -s production
-heroku create ${APP_NAME}-staging -t datamade --manifest
-heroku pipelines:add ${APP_NAME}-staging -a ${APP_NAME}-staging -s staging
-heroku pipelines:connect ${APP_NAME} -r datamade/${APP_NAME}
-heroku reviewapps:enable -a ${APP_NAME}-staging -p ${APP_NAME}
+heroku pipelines:add ${APP_NAME} -a ${APP_NAME} -s production
 ```
 
 Next, configure the GitHub integration to set up [automatic
@@ -252,6 +272,54 @@ using either the dashboard or the CLI. [Follow the Heroku
 documentation](https://devcenter.heroku.com/articles/config-vars#managing-config-vars)
 to set up your config vars.
 
+## Enable additional services
+
+If your app requires additional services, like Solr or PostGIS, you'll need
+to perform some extra steps to set them up for your pipeline.
+
+### Solr
+
+Solr can be configured as a separate service using the [Websolr
+add-on for Heroku](https://devcenter.heroku.com/articles/websolr). We recommend
+following the instructions for configuring [Websolr with
+Haystack](https://devcenter.heroku.com/articles/websolr#haystack-for-django).
+In addition to following these instructions, complete the following two steps:
+
+1. Update your `heroku.yml` and `app.json` config files to add `websolr` to your
+   add-ons configuration attributes, so Websolr will be enabled for review apps
+2. Define `WEBSOLR_URL` as an environment variable for your `app`
+   service in your `docker-compose.yml` file in order to point your app to your
+   Solr service in local development
+
+For help setting up Haystack for local development, see [our guide to
+Haystack](https://github.com/datamade/how-to/blob/master/search/03-heavyweight.md#getting-started).
+For an example of a working Solr installation in a Heroku app, see the [`2.5_deploy`
+branch of LA Metro Councilmatic](https://github.com/datamade/la-metro-councilmatic/tree/2.5_deploy).
+
+Note that the Websolr add-on [can be expensive](https://elements.heroku.com/addons/websolr#pricing),
+with staging instances costing a minimum of $20/mo and the smallest production
+instance costing $60/mo. Refer to our [guide to searching
+data](https://github.com/datamade/how-to/blob/master/search/03-heavyweight.md#heavyweight)
+to make sure you really need Solr before going forward with installing it on your project.
+
+### PostGIS
+
+If your app requires PostGIS, you'll need to [manually enable it in your
+database](https://devcenter.heroku.com/articles/postgis). Once your database
+has been provisioned, run the following command to connect to your database and
+enable PostGIS:
+
+```
+heroku psql -a <YOUR_APP> -c "CREATE EXTENSION postgis"
+```
+
+To automate this process, you can include a step like this in `scripts/release.sh`
+to make sure PostGIS is always enabled in your databases:
+
+```bash
+psql ${DATABASE_URL} -c "CREATE EXTENSION IF NOT EXISTS postgis"
+```
+
 ## Troubleshooting
 
 ### I see `Application error` or a `Welcome to Heroku` page on my site
@@ -261,7 +329,7 @@ recent build and release cycle passed. If the build and release both passed,
 check the `Dyno formation` widget on the app `Overview` page to make sure that
 dynos are enabled for your `web` process.
 
-### Debugging Heroku CLI errors
+### Heroku CLI commands are failing without useful error messages
 
 Sometimes a Heroku CLI command will fail without showing much output (e.g. `Build failed`).
 In these cases, you can set the following debug flag to show the raw HTTP responses
@@ -270,3 +338,24 @@ from the Heroku API:
 ```bash
 export HEROKU_DEBUG=1
 ```
+
+### The release phase of my build is failing but the logs are empty
+
+Heroku can't stream release logs unless `curl` is installed in the application
+container. Double-check to make sure your Dockerfile installs `curl`.
+
+If `curl` is installed and you still see no release logs, try viewing all of your app's logs by
+running `heroku logs -a <YOUR_APP>`. Typically this stream represents the most
+complete archive of logs for an app.
+
+### I need to connect to an app database from the command line
+
+The Heroku CLI provides a command, `heroku psql`, that you can use to connect
+to your database in a `psql` shell. See the [docs for using this
+command](https://devcenter.heroku.com/articles/connecting-to-heroku-postgres-databases-from-outside-of-heroku).
+
+### I need to share a database between multiple apps
+
+You can use the Heroku CLI to accomplish this task. See the Heroku docs on
+[sharing databases between
+applications](https://devcenter.heroku.com/articles/heroku-postgresql#sharing-heroku-postgres-between-applications).
