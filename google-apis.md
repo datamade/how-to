@@ -8,10 +8,9 @@ DataMade staff have access to these keys here: https://console.developers.google
 
 ### Creating a new Google API key
 
-1. Navigate to the [Google API Console credentials page](https://console.developers.google.com/apis/credentials?folder=&organizationId=&project=adroit-hall-205721) and click 'Create credentials' 
+1. Navigate to the [Google API Console credentials page](https://console.developers.google.com/apis/credentials?folder=&organizationId=&project=adroit-hall-205721) and click 'Create credentials'.
 
 2. Edit the API key and restrict access to HTTP Referrers. Add the list of allowed domains to the list. For local development, make sure to inclued `localhost` and `127.0.0.1`. 
-
 
 3. In your app, add the API key any place the `maps.google.com/maps/api/js` script tag is called.
 
