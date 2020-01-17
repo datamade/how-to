@@ -17,7 +17,7 @@ _In alphabetical order and including links to external repository-based document
 - [Docker](docker/)
     - [Docker for local development](docker/local-development.md)
     - [Templates for containerizing your application](docker/templates/)
-- [GatsbyJS](google-apis.md)
+- [GatsbyJS](gatsby/)
 - [Google APIs (Maps, Geocoding)](gatsby/)
 - [Environment setup](environment-setup.md)
 - [PostgreSQL](postgres/)
