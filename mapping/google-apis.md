@@ -15,7 +15,7 @@ DataMade staff have access to these keys here: https://console.developers.google
 3. In your app, add the API key any place the `maps.google.com/maps/api/js` script tag is called.
 
 ```html
-<script type="text/javascript" src="https://maps.google.com/maps/api/js?sensor=false&libraries=places&key=AIzaSyC27D830us8TFcVY9xcESPXSs_fNAi6oc8"></script>
+<script type="text/javascript" src="https://maps.google.com/maps/api/js?sensor=false&libraries=places&key=YOUR_KEY_HERE"></script>
 ```
 
 4. Deploy the changes and test that they work.
