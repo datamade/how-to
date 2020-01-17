@@ -18,7 +18,7 @@ _In alphabetical order and including links to external repository-based document
     - [Docker for local development](docker/local-development.md)
     - [Templates for containerizing your application](docker/templates/)
 - [GatsbyJS](gatsby/)
-- [Google APIs (Maps, Geocoding)](gatsby/)
+- [Google APIs (Maps, Geocoding)](google-apis.md)
 - [Environment setup](environment-setup.md)
 - [PostgreSQL](postgres/)
     - [A quick and dirty introduction to `sqlalchemy`](postgres/quick-n-dirty-sqlalchemy.md)
