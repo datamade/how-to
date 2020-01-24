@@ -258,7 +258,11 @@ heroku pipelines:add ${APP_NAME} -a ${APP_NAME} -s production
 
 Next, configure the GitHub integration to set up [automatic
 deploys](https://devcenter.heroku.com/articles/github-integration#automatic-deploys)
-for both Heroku apps (staging and production). Choose "Wait for CI to pass before deploy" for each app.
+for both Heroku apps (staging and production). Ideally we would choose
+"Wait for CI to pass before deploy" for each app, but in our experience so far it will
+prevent Heroku from automatically creating new review apps for each new PR, so for now
+we recommend leaving it off. We have an open ticket with Heroku support and will update
+this recommendation in the future if the situation changes.
 
 Heroku needs to deploy from specific branches in order to deploy to different environments
 (e.g. staging vs. production). In order to properly enable automatic deployments, then,
