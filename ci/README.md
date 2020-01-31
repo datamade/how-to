@@ -1,6 +1,6 @@
 # Continuous Integration (CI)
 
-This directory records best practices for working with continuous integration (CI), external services that run builds and tests for us. 
+This directory records best practices for working with continuous integration (CI), external services that run builds and tests for us.
 
 ## Guides
 
