@@ -35,6 +35,8 @@ jobs:
       run: docker-compose -f docker-compose.yml -f tests/docker-compose.yml run --rm app
 ```
 
+Due to the `on` block, this workflow will run the `test` job on all commits to `master` and all commits to pull requests that have been opened against `master`.
+
 Commit this file to your feature branch and open up a pull request. You should be able to confirm that your workflow runs the tests for your pull request.
 
 ### Examples
@@ -70,7 +72,7 @@ jobs:
     - name: Publish to PyPI
       env:
         TWINE_USERNAME: '__token__'
-        TWINE_PASSWORD: ${{ secrets.pypi_password }}
+        TWINE_PASSWORD: ${{ secrets.pypi_token }}
       run: |
         pip install twine wheel
         pip wheel -w dist --no-deps .
@@ -101,7 +103,7 @@ jobs:
     - name: Publish to Test PyPI
       env:
         TWINE_USERNAME: '__token__'
-        TWINE_PASSWORD: ${{ secrets.test_pypi_password }}
+        TWINE_PASSWORD: ${{ secrets.test_pypi_token }}
       run: |
         pip install twine wheel
         pip wheel -w dist --no-deps .
@@ -109,7 +111,9 @@ jobs:
       continue-on-error: true
 ```
 
-Next, follow the instructions for [creating encrypted secrets](https://help.github.com/en/actions/automating-your-workflow-with-github-actions/creating-and-using-encrypted-secrets#creating-encrypted-secrets) and save values for `pypi_password` and `test_pypi_password`.
+Taken together, these two workflows will publish any branch merged into `master` to [test PyPI](https://test.pypi.org/) and publish tagged commits to [PyPI](https://pypi.org/). This structure parallels our practice of keeping a staging site consistent with `master` and pushing tagged commits to production. If the active package version has already been deployed to either instance, the workflows will skip the upload to that instance; this means that only commits that bump the package version in `setup.py` will result in a newly deployed package.
+
+Next, follow the instructions for [creating encrypted secrets](https://help.github.com/en/actions/automating-your-workflow-with-github-actions/creating-and-using-encrypted-secrets#creating-encrypted-secrets) and save values for `pypi_token` and `test_pypi_token`.
 
 To test that this configuration works, you can alter the `on.push.branches` array of `publish-to-test-pypi.yml` to include the name of your feature branch, and you can push a test tag to your feature branch. Make sure to undo these two changes once you've confirmed that your configuration can properly deploy to PyPI and the test PyPI instance.
 
@@ -121,5 +125,7 @@ Versions of this workflow are in use in the following packages:
 - [`pytest-flask-sqlalchemy`](https://github.com/jeancochrane/pytest-flask-sqlalchemy) (no deployment to test PyPI, tests different versions of Python)
 
 ## Resources
+
+Our workflows for deploying Python packages to PyPI were adapted from the Python guide to [publishing package distribution releases using GitHub Actions](https://packaging.python.org/guides/publishing-package-distribution-releases-using-github-actions-ci-cd-workflows).
 
 For more detailed information on using GitHub Actions, refer to the [documentation](https://help.github.com/en/actions).
