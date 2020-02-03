@@ -4,7 +4,7 @@ Based on our research, we recommend adopting GitHub Actions as our CI service of
 
 For apps deployed on our legacy AWS EC2 infrastructure, we recommend sticking with Travis CI until a well-supported Action for working with CodeDeploy becomes available.
 
-The following document records our recommended path forward for adopting Gatsby.
+The following document records our recommended path forward for adopting GitHub Actions.
 
 ## Proof of concept
 
