@@ -12,6 +12,7 @@ _In alphabetical order and including links to external repository-based document
 
 - [Amazon Web Services](aws/)
     - [AWS Relational Database Service (RDS)](aws/rds.md)
+- [Continuous Integration (CI)](ci/)
 - [Data processing and ETL](https://github.com/datamade/data-making-guidelines)
 - [Django](django/)
 - [Docker](docker/)
