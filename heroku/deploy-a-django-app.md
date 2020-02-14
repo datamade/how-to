@@ -225,6 +225,9 @@ Use the following baseline to get started:
   "env": {
     "DJANGO_SECRET_KEY": {
       "required": true
+    },
+    "DJANGO_ALLOWED_HOSTS": {
+      "required": true
     }
   },
   "formation": {
@@ -236,6 +239,11 @@ Use the following baseline to get started:
   "addons": [
     "heroku-postgresql"
   ],
+  "environments": {
+    "review": {
+      "addons": ["heroku-postgresql:hobby-basic"]
+    }
+  },
   "buildpacks": [],
   "stack": "container"
 }
