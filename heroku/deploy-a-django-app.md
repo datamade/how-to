@@ -36,6 +36,18 @@ your app must be containerized in order to use Heroku properly. If your app
 is not yet containerized, [follow our instructions for containerizing Django
 apps](/docker/local-development.md) before moving on.
 
+There are two commands you should make sure to add to your Dockerfile in order to
+properly deploy with Heroku:
+
+1. In the section of your Dockerfile where you install OS-level dependencies with `apt-get`,
+   make sure to install `curl` so that Heroku can stream logs during releases (if you're
+   inheriting from the official `python` images, `curl` will already be installed by default)
+2. Toward the end of your Dockerfile, run `python manage.py collecstatic --noinput` so that
+   static files will be baked into your container on deployment
+
+For an example of a Django Dockerfile that is properly set up for Heroku, see
+the [Minnesota Election Archive project](https://github.com/datamade/mn-election-archive/blob/master/Dockerfile).
+
 ### Serve static files with WhiteNoise
 
 Apps deployed on Heroku don't typically use Nginx to serve content, so they need some
