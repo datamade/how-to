@@ -6,20 +6,21 @@ preferred platform for hosting dynamic applications.
 ## Contents
 
 - [Set up application code for Heroku](#set-up-application-code-for-heroku)
-    - [Containerize your app](#containerize-your-app)
-    - [Serve static files with WhiteNoise](#serve-static-files-with-whitenoise)
-    - [Read settings and secret variables from the environment](#read-settings-and-secret-variables-from-the-environment)
-    - [Configure Django logging](#configure-django-logging)
+  - [Containerize your app](#containerize-your-app)
+  - [Serve static files with WhiteNoise](#serve-static-files-with-whitenoise)
+  - [Read settings and secret variables from the environment](#read-settings-and-secret-variables-from-the-environment)
+  - [Configure Django logging](#configure-django-logging)
 - [Provision Heroku resources](#provision-heroku-resources)
-    - [Ensure that the Heroku CLI is installed](#ensure-that-the-heroku-cli-is-installed)
-    - [Create Heroku config files](#create-heroku-config-files)
-        - [`heroku.yml`](#herokuyml)
-        - [`release.sh`](#releasesh)
-        - [`app.json`](#appjson)
-    - [Create apps and pipelines for your project](#create-apps-and-pipelines-for-your-project)
-    - [Enable additional services](#enable-additional-services)
-      - [Solr](#solr)
-      - [PostGIS](#postgis)
+  - [Ensure that the Heroku CLI is installed](#ensure-that-the-heroku-cli-is-installed)
+  - [Create Heroku config files](#create-heroku-config-files)
+    - [`heroku.yml`](#herokuyml)
+    - [`release.sh`](#releasesh)
+    - [`app.json`](#appjson)
+  - [Create apps and pipelines for your project](#create-apps-and-pipelines-for-your-project)
+- [Set up Slack notifications](#set-up-slack-notifications)
+- [Enable additional services](#enable-additional-services)
+  - [Solr](#solr)
+  - [PostGIS](#postgis)
 - [Troubleshooting](#troubleshooting)
 
 ## Set up application code for Heroku
@@ -256,7 +257,44 @@ heroku create ${APP_NAME} -t datamade --manifest
 heroku pipelines:add ${APP_NAME} -a ${APP_NAME} -s production
 ```
 
-Next, configure the GitHub integration to set up [automatic
+Once you have the environments you need, enable [review
+apps](https://devcenter.heroku.com/articles/github-integration-review-apps)
+for your pipeline:
+
+```bash
+# If you only have a staging app, change the value of the -a flag to ${APP_NAME}-staging
+# to set the staging app as the parent app for all review apps.
+heroku reviewapps:enable -p ${APP_NAME} -a ${APP_NAME}
+```
+
+Next, configure environment variables for staging, production, and review apps. These can be set
+using either the dashboard or the CLI. [Follow the Heroku
+documentation](https://devcenter.heroku.com/articles/config-vars#managing-config-vars)
+to set up your config vars. Note that you need to define config vars for each environment
+in your application: for staging and production environments, you can define these
+variables under `Settings > Config Vars` on the application page, but since review apps
+don't have an application page until they're created, you can define config vars
+that will be inherited by each review app by navigating to the pipeline home page
+and visiting `Settings > Review Apps > Review app config vars` in the nav.
+
+If you followed the setup instructions in "[Read settings and secret variables from the
+environment](#read-settings-and-secret-variables-from-the-environment)" above,
+you should need to set at least the following variables:
+
+- `DJANGO_SECRET_KEY`: This needs to be a random string, unique to each environment.
+  We often use the [XKCD password generator](https://preshing.com/20110811/xkcd-password-generator/)
+  to generate random strings.
+- `DJANGO_ALLOWED_HOSTS`: This variable should be a comma-separated list of hostnames
+  that are valid for your application. For review apps and the staging environment,
+  you can set this to `.herokuapp.com` to automatically safelist any subdomains
+  of the `herokuapp.com` root domain.
+
+Note that while `DATABASE_URL` is probably required by your application, you don't actually
+need to set it yourself. The Heroku Postgres add-on will [automatically define this
+variable](https://devcenter.heroku.com/articles/heroku-postgresql#designating-a-primary-database)
+when it provisions a database for your application.
+
+After your config vars are set up, configure the GitHub integration to set up [automatic
 deploys](https://devcenter.heroku.com/articles/github-integration#automatic-deploys)
 for both Heroku apps (staging and production). Ideally we would choose
 "Wait for CI to pass before deploy" for each app, but in our experience so far it will
@@ -271,10 +309,21 @@ which we've used in the past for deploying to production). We recommend creating
 `deploy` branch off of `master` immediately after setting up your repo so that you can
 use `master` to deploy to staging and `deploy` to deploy to production.
 
-Finally, configure environment variables for staging, production, and review apps. These can be set
-using either the dashboard or the CLI. [Follow the Heroku
-documentation](https://devcenter.heroku.com/articles/config-vars#managing-config-vars)
-to set up your config vars.
+## Set up Slack notifications
+
+Heroku can send build notifications to Slack via the Heroku ChatOps integration.
+This integration should already be set up in our Slack channel, but if you need
+to install it again, see the [official documentation](https://devcenter.heroku.com/articles/chatops).
+
+To enable notifications for an app, run the following Slack command in the
+corresponding channel:
+
+```bash
+/h route ${PIPELINE_NAME} to ${CHANNEL_NAME}
+```
+
+For example, to enable notifications for the `parserator` pipeline in the `#parserator`
+channel, we would run `/h route parserator to #parserator`.
 
 ## Enable additional services
 
