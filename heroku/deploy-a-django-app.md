@@ -21,6 +21,10 @@ preferred platform for hosting dynamic applications.
 - [Enable additional services](#enable-additional-services)
   - [Solr](#solr)
   - [PostGIS](#postgis)
+- [Set up a custom domain](#set-up-a-custom-domain)
+  - [Step 1: Configure a custom domain on Heroku](#step-1-configure-a-custom-domain-on-heroku)
+  - [Step 2: Configure a custom domain on a DNS provider](#step-2-configure-a-custom-domain-on-a-dns-provider)
+  - [General guidelines for custom domains](#general-guidelines-for-custom-domains)
 - [Troubleshooting](#troubleshooting)
 
 ## Set up application code for Heroku
@@ -392,6 +396,73 @@ to make sure PostGIS is always enabled in your databases:
 ```bash
 psql ${DATABASE_URL} -c "CREATE EXTENSION IF NOT EXISTS postgis"
 ```
+
+## Set up a custom domain
+
+All Heroku apps are automatically delegated a subdomain under the `heroku.com`
+root domain, like `example.heroku.com`. This automatic Heroku subdomain
+is usually fine for review apps and staging apps, but production apps almost
+always require a dedicated custom domain like `example.com`.
+
+When you're ready to deploy to production and publish your app publicly, you'll
+need to set up a custom domain. In order to do this, you need to register the custom
+domain in two places: in the Heroku dashboard, and in your (or your client's) DNS provider.
+
+For detailed documentation on setting up custom domains, see the [Heroku
+docs](https://devcenter.heroku.com/articles/custom-domains).
+
+### Step 1: Configure a custom domain on Heroku
+
+The first step to setting up a custom domain is to instruct Heroku to use the
+domain for your app. Navigate to `Settings > Domains` in your app dashboard, choose
+`Add domain`, and enter the name of the custom domain you would like to use.
+
+When you save the domain, Heroku should display the DNS target for your domain.
+Copy this string and use it in the next step to delegate the domain with your
+DNS provider.
+
+### Step 2: Configure a custom domain on a DNS provider
+
+_Note: If you're not comfortable with basic DNS terminology and you're finding this
+section to be confusing, refer to the CloudFlare docs on [how DNS
+works](https://www.cloudflare.com/learning/dns/what-is-dns/)._
+
+Once you have a DNS target for Heroku, you need to instruct your DNS provider to
+direct traffic for your custom domain to Heroku.
+
+If you're setting up a custom **subdomain**, like `www.example.com` or `app.example.com`,
+you'll need to create a `CNAME` record pointing to your DNS target with your DNS
+provider. For more details, see the Heroku docs on [configuring DNS for
+subdomains](https://devcenter.heroku.com/articles/custom-domains#configuring-dns-for-subdomains).
+
+If you're setting up a custom **root domain**, like `example.com`, you'll need
+to create the equivalent of an `ALIAS` record with your DNS provider. Not all
+DNS providers offer the same type of `ALIAS` record, so to provision this record
+you should visit the Heroku docs on [configuring DNS for root
+domains](https://devcenter.heroku.com/articles/custom-domains#configuring-dns-for-root-domains)
+and follow the instruction for your provider. At DataMade we typically use Namecheap,
+which allows you to [create `ALIAS`
+records](https://www.namecheap.com/support/knowledgebase/article.aspx/10128/2237/how-to-create-an-alias-record).
+
+After creating the appropriate DNS record with your DNS provider, wait a few
+minutes for DNS to propagate and confirm that you can load your app by visiting
+your custom domain. Remember that Django will only serve domains that are listed
+in its `ALLOWED_HOSTS` settings variable, so you may have to update your `DJANGO_ALLOWED_HOSTS`
+config var on Heroku to accomodate your custom domain.
+
+### General guidelines for custom domains
+
+When setting up custom domains, follow these general guidelines:
+
+- Where possible, let the client register the domain name so we don't have to manage it.
+- Shorter domains are always better, but we usually defer to our clients' preferences
+  when choosing a custom domain name.
+- If the client has a pre-existing root domain, always advise deploying on a subdomain
+  like `app.example.com` instead of a path like `example.com/app`. Clients often
+  ask for paths off of root domains, but they are typically quite hard to deploy.
+- If using a root domain, make sure to set up a `www` subdomain to redirect to the root.
+- Don't allow `.herokuapp.com` in `DJANGO_ALLOWED_HOSTS` in production, since we want
+  the custom domain to be canonical for search engine optimization.
 
 ## Troubleshooting
 
