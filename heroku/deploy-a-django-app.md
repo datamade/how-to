@@ -24,6 +24,7 @@ preferred platform for hosting dynamic applications.
 - [Set up a custom domain](#set-up-a-custom-domain)
   - [Step 1: Configure a custom domain on Heroku](#step-1-configure-a-custom-domain-on-heroku)
   - [Step 2: Configure a custom domain on a DNS provider](#step-2-configure-a-custom-domain-on-a-dns-provider)
+  - [Step 3: Enable SSL](#step-3-enable-ssl)
   - [General guidelines for custom domains](#general-guidelines-for-custom-domains)
 - [Troubleshooting](#troubleshooting)
 
@@ -407,6 +408,7 @@ always require a dedicated custom domain like `example.com`.
 When you're ready to deploy to production and publish your app publicly, you'll
 need to set up a custom domain. In order to do this, you need to register the custom
 domain in two places: in the Heroku dashboard, and in your (or your client's) DNS provider.
+Then, you'll need to instruct Heroku to enable SSL for your domain.
 
 For detailed documentation on setting up custom domains, see the [Heroku
 docs](https://devcenter.heroku.com/articles/custom-domains).
@@ -449,6 +451,27 @@ minutes for DNS to propagate and confirm that you can load your app by visiting
 your custom domain. Remember that Django will only serve domains that are listed
 in its `ALLOWED_HOSTS` settings variable, so you may have to update your `DJANGO_ALLOWED_HOSTS`
 config var on Heroku to accomodate your custom domain.
+
+### Step 3: Enable SSL
+
+Once your custom domain is properly resolving to your app, navigate to
+`Settings > SSL Certificates` in your app dashboard, select `Configure SSL`,
+and Choose `Automatic Certificate Management (ACM)`. Your app should now load
+properly when you visit it with the `https://` protocol.
+
+As a final step, we want to make sure that the app always redirects HTTP traffic
+to HTTPS. Heroku [can't do this for us](https://help.heroku.com/J2R1S4T8/can-heroku-force-an-application-to-use-ssl-tls),
+so we need to configure the app code to do it. Add the following settings to your
+`settings.py` file:
+
+```python
+if DEBUG is False:
+    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+    SECURE_SSL_REDIRECT = True
+```
+
+When you deploy this change and try to load your app with the `http://` protocol,
+it should now automatically redirect you to `https://` and display a valid certificate.
 
 ### General guidelines for custom domains
 
