@@ -1,0 +1,13 @@
+# Pin these requirements to the latest versions when you create a new project,
+# e.g. Django==3.0.2.
+Django
+psycopg2
+gunicorn
+dj-database-url
+whitenoise
+sentry-sdk
+
+# Testing requirements
+pytest
+pytest-django
+pytest-mock
