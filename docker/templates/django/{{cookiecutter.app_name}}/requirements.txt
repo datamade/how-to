@@ -5,6 +5,7 @@ psycopg2
 gunicorn
 dj-database-url
 whitenoise
+django-compressor
 sentry-sdk
 
 # Testing requirements

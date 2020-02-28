@@ -102,3 +102,7 @@ venv.bak/
 
 # mypy
 .mypy_cache/
+
+# Compiled JavaScript
+node_modules/
+{{cookiecutter.module_name}}/static/compressor/*
