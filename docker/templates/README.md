@@ -16,29 +16,37 @@ git clone https://github.com/datamade/how-to.git && cd how-to/docker/templates
 – and build or update your template image.
 
 ```bash
-docker build . -t python-cookiecutter:latest
+docker-compose build
 ```
 
 ### 2. Run `cookiecutter`.
 
-`cd` into your project directory. From here, we'll use `cookiecutter` templates
-to generate deployment scripts for your app or server.
-
-From your project directory, run `cookiecutter`:
+To run cookiecutter on a specific template, you can run `cookiecutter -f path/to/template/dir`.
+So, to **generate a new Django project**, use Docker to run cookiecutter with the `django/` directory
+as a target:
 
 ```bash
-docker run -it -v `pwd`:`pwd` -w `pwd` --name cookiecutter python-cookiecutter:latest
+docker-compose run --rm cookiecutter -f django
+```
+
+To generate a Docker environment and deployment artifacts for an **existing Django project**,
+use the `python/` directory as a target:
+
+```bash
+docker-compose run --rm cookiecutter -f python
 ```
 
 #### Template variables
 
-When you run `cookiecutter`, it will ask you to define the following variables
+When you run `cookiecutter`, it will ask you to define some or all of the following variables
 in your terminal:
 
 | Variable | Definition |
 | - | - |
 | `directory_name` | The directory that will contain your generated files. The default, `.`, will put the generated files in your current directory. |
 | `app_name` | The slug you use to refer to your application (typically the same as the GitHub repo). |
+| `app_verbose_name` | A verbose name for your application, written in plain English and typically title-case (e.g. "BGA Pensions Database"). |
+| `module_name` | The slug you use to refer to the Python module that contains your app. In contrast to `app_name`, this variable must be a valid Python module name, e.g. underscores are permitted while spaces/hyphens are not. |
 | `local_settings` | If your project includes a local settings file, set this equal to the relative path to your local settings file (or your example settings file, if it includes working values), and it will be automatically mounted into your application container. Set this to the string `None` if your application does not use a local settings file. |
 | `run_command` | The command to run your application. |
 | `migrate_command` | The command to migrate your database. |
@@ -47,45 +55,42 @@ in your terminal:
 | `pg_version` | The version of the Postgres or Postgis image you'd like to use. |
 | `pg_db` | The name of your database. |
 
+### 3. Move generated files to the right location.
 
-### 3. Customize your configs and scripts.
+Once you've generated your files, you'll need to move them out of the `how-to/docker/templates`
+directory and into whatever repo needs to use them.
+
+If you're generating a Django app using the `django` template, typically you'll
+just need to move the new directory you generated to be a sibling of the `how-to`
+directory (i.e. move it to wherever you store your DataMade projects). Then, change
+into the new directory and initialize it as a Git repo with `git init`.
+
+If you're generating a Docker environment and deployment artifacts for an existing
+app using the `python` template, you'll need to move the files you generated to
+the repo that stores the existing project. For example, run `mv my-new-app/* /path/to/existing/project`.
+
+### 4. Customize your configs and scripts.
 
 The templated configs were written to serve our most common use cases.
 Sometimes, though, your deployment may require changes or additions to the
-boilerplate files.
+boilerplate files. Perhaps you need to mount additional volumes in your Docker
+config, or define an extra service, e.g., Redis for queueing or Solr for search.
 
-Perhaps you need to mount additional volumes, or define an extra service, e.g.,
-Redis, for queueing.
+For Django apps produced with the `django` template, you'll always want to at least
+pin the requirements in `requirements.txt` to the latest available versions.
+You may need to make other adjustments; refer to [the Django
+docs](https://docs.djangoproject.com/en/2.2/intro/tutorial01/) for more
+on project setup.
 
-The world is your oyster! Customize, if/as needed.
-
-### 4. If necessary, initialize your project.
-
-If you're starting a project from scratch, you'll need to define your project
-requirements before you start your containerized setup. From your root project
-directory, create a requirements file:
-
-```bash
-touch requirements.txt
-```
-
-At minimum, add Django or Flask to your requirements.
-
-If you're using Django, you can then use your container to generate your project
-skeleton.
-
-```bash
-docker-compose run --no-deps --rm app django-admin startproject my_project
-```
-
-See [the Django docs](https://docs.djangoproject.com/en/2.2/intro/tutorial01/) for more on project setup.
-
+If you need to make a customization and aren't sure how to start, check in with
+a Lead Developer. Chances are we've made that customization before and can
+refer you to an example project.
 
 ### 5. Run your application!
 
-Run `docker-compose up -d` to build your application and its services, then
-go to localhost:8000 (or whatever port you defined in the run command) to view
-your containerized app.
+Change to your applicaiton directory, run `docker-compose up -d` to build your
+application and its services, then go to localhost:8000 (or whatever port you defined
+in the run command) to view your containerized app.
 
 See [Using your `docker-compose` setup](../local-development.md#using-your-docker-compose-setup)
 for more on local development with Docker.
