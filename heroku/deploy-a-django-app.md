@@ -211,8 +211,11 @@ to make it executable:
 
 ```bash
 #!/bin/bash
+set -euo pipefail
+
 python manage.py collectstatic --noinput
 python manage.py migrate --noinput
+python manage.py createcachetable && python manage.py clear_cache
 ```
 
 If your app uses a `dbload` script to load initial data into the database, you can use `release.sh`
@@ -239,7 +242,6 @@ Use the following baseline to get started:
 ```json
 {
   "name": "your-app",
-  "description": "Short description of your app.",
   "scripts": {},
   "env": {
     "DJANGO_SECRET_KEY": {
@@ -255,9 +257,6 @@ Use the following baseline to get started:
       "size": "hobby"
     }
   },
-  "addons": [
-    "heroku-postgresql"
-  ],
   "environments": {
     "review": {
       "addons": ["heroku-postgresql:hobby-basic"]
