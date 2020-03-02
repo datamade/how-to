@@ -38,6 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'compressor',
+    'compressor_toolkit',
     '{{cookiecutter.module_name}}'
 ]
 
@@ -57,7 +59,7 @@ ROOT_URLCONF = '{{cookiecutter.module_name}}.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': ['templates/'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -134,6 +136,24 @@ STATICFILES_STORAGE = os.getenv(
     'DJANGO_STATICFILES_STORAGE',
     'whitenoise.storage.CompressedManifestStaticFilesStorage'
 )
+STATICFILES_FINDERS = (
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    'compressor.finders.CompressorFinder',
+)
+
+# Django Compressor configs
+COMPRESS_PRECOMPILERS = (
+    ('module', 'compressor_toolkit.precompilers.ES6Compiler'),
+)
+
+COMPRESS_ES6_COMPILER_CMD = (
+    'export NODE_PATH="{paths}" && '
+    '{browserify_bin} "{infile}" -o "{outfile}" '
+    '-t [ "{node_modules}/babelify" --presets="{node_modules}/babel-preset-env" ]'
+)
+
+COMPRESS_OUTPUT_DIR =  'compressor'
 
 # Enforce SSL in production
 if DEBUG is False:

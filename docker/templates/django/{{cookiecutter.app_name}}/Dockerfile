@@ -9,6 +9,10 @@ FROM python:3.8
 # Give ourselves some credit
 LABEL maintainer "DataMade <info@datamade.us>"
 
+# Add the NodeSource PPA
+# (see: https://github.com/nodesource/distributions/blob/master/README.md)
+RUN curl -sL https://deb.nodesource.com/setup_12.x | bash -
+
 # Install any additional OS-level packages you need via apt-get. RUN statements
 # add additional layers to your image, increasing its final size. Keep your
 # image small by combining related commands into one RUN statement, e.g.,
@@ -18,8 +22,7 @@ LABEL maintainer "DataMade <info@datamade.us>"
 #
 # Read more on Dockerfile best practices at the source:
 # https://docs.docker.com/develop/develop-images/dockerfile_best-practices
-RUN apt-get update && \
-    apt-get install -y --no-install-recommends postgresql-client
+RUN apt-get install -y --no-install-recommends postgresql-client nodejs
 
 # Inside the container, create an app directory and switch into it
 RUN mkdir /app
@@ -33,6 +36,10 @@ WORKDIR /app
 # https://blog.realkinetic.com/building-minimal-docker-containers-for-python-applications-37d0272c52f3
 COPY ./requirements.txt /app/requirements.txt
 RUN pip install --no-cache-dir -r requirements.txt
+
+# Install Node requirements
+COPY ./package.json /app/package.json
+RUN npm install
 
 # Copy the contents of the current host directory (i.e., our app code) into
 # the container.

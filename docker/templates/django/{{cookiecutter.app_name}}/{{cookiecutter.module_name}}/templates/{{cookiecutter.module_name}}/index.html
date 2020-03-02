@@ -4,7 +4,7 @@
 {% block title %}Home{% endblock %}
 
 {% block body %}
-<div class="container-fluid mb-1 text-light jumbotron-image bg-dark">
+<div class="container-fluid mb-1 jumbotron">
   <div class="row">
     <div class="col-sm-10 offset-sm-1">
       <h1 class="mb-3">{% endraw %}{{cookiecutter.app_verbose_name}}{% raw %}</h1>
@@ -16,4 +16,15 @@
     <p>Welcome to your app!</p>
   </div>
 </div>
+{% endblock %}
+
+{% block extra_js %}
+{% load compress %}
+<!-- Example of how to use Django Compressor -->
+{% compress js %}
+  <script type="module" src="{% static 'js/base.js' %}"></script>
+  <script type="module">
+    console.log('Hello, inline world!')
+  </script>
+{% endcompress %}
 {% endblock %}{% endraw %}

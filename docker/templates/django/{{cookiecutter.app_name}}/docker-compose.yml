@@ -21,6 +21,9 @@ services:
       # Mount the development directory as a volume into the container, so
       # Docker automatically recognizes your changes.
       - .:/app
+      # Mount the node_modules directory so that our local mount doesn't
+      # clobber it.
+      - {{cookiecutter.app_name}}-node-modules:/app/node_modules
     environment:
       DJANGO_SECRET_KEY: reallysupersecret{% if cookiecutter.auto_migrate == 'True' %}
       DJANGO_MANAGEPY_MIGRATE: "on"{% endif %}
@@ -54,3 +57,6 @@ services:
 volumes:
   # Declare your named volume for Postgres.
   {{cookiecutter.app_name}}-db-data:
+  # Making node_modules a named volume prevents the ./app volume mount from
+  # clobbering the directory in the container.
+  {{cookiecutter.app_name}}-node-modules:
