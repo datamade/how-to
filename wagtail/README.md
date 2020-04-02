@@ -4,16 +4,18 @@ This directory contains best practices for working with [Wagtail](https://wagtai
 DataMade's preferred content management system.
 
 ## Contents
+- [When to use Wagtail](#when-to-use-wagtail)
+- [How to use Wagtail](#how-to-use-wagtail)
 - [Research](research/)
     - [Comparisons to existing tools](research/comparisons-to-existing-tools.md)
     - [Recommendation of Adoption](research/recommendation-of-adoption.md)
 - [Resources for Learning](#resources-for-learning)
 
 ## When to use Wagtail
-A content management system such as Wagtail allows users of a site to add, edit, and delete certain content through a friendly interface separate from the project's code. Wagtail should be used for projects where a client would like the ability to modify content directly without DataMade as an intermediary. 
+A content management system such as Wagtail allows users of a site to add, edit, and delete certain content through a friendly interface separate from the project's code. Wagtail should be used for projects where a client would like the ability to modify content directly without DataMade as an intermediary.
 
 ## How to use Wagtail
-When at all possible, Wagtail setup should happen at the beginning of a project concurrent with Django setup. Development with CMS in mind is easier and faster than retrofitting a project with a CMS.
+When at all possible, Wagtail setup should happen at the beginning of a project concurrent with Django setup. Development with a CMS in mind is easier and faster than retrofitting a project with a CMS.
 
 Instead of initializing a Django project with `django-admin startproject`, a Wagtail project should be initialized with:
 

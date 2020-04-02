@@ -3,14 +3,14 @@
 Over the past year DataMade has employed two CMS platforms:
 
 - [Django CMS](https://www.django-cms.org/en/) for [Neighborhood Opportunity Fund](https://github.com/datamade/neighborhood-fund)
-- [Wagtail](https://wagtail.io/) for [LISC CDNA](https://github.com/datamade/lisc-cnda) and the [Lugar Center Oversight Index](datamade/committee-oversight: ⚖️ Committee oversight map coding project for the Lugar Center)
+- [Wagtail](https://wagtail.io/) for [LISC CDNA](https://github.com/datamade/lisc-cnda) and the [Lugar Center Oversight Index](https://github.com/datamade/committee-oversight)
 
 
 ## Wagtail vs. Django CMS
 
 Both Wagtail and Django CMS are built for use with Django, but we were surprised to learn that they ask developers to employ substantially different abstractions—the way the two CMSs structure their data across views and models is quite different.
 
-To facilitate deeper and more equal knowledge of DataMade CMSs, and thus speed up development time and improve maintainability, we should pick a single CMS platform and systematize its use.
+To facilitate deeper and more equal knowledge of CMS practices at DataMade, and thus speed up development time and improve maintainability, we should pick a single CMS tool and systematize its use.
 
 In our experience, Wagtail is both easier to set up for developers and easier to use for content managers.
 
