@@ -43,7 +43,7 @@ _In alphabetical order and including links to external repository-based document
     - [How to move a gpg key between servers](shell/moving-keys-between-servers.md)
 - [User Experience (UX)](ux/)
     - [Project research and interviews](ux/project-research-and-interviews.md)
-- [Wagtail](wagtail/)
+- [Wagtail CMS](wagtail/)
 
 ## Contributing
 

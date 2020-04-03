@@ -1,4 +1,4 @@
-# Wagtail
+# Wagtail CMS
 
 This directory contains best practices for working with [Wagtail](https://wagtail.io/),
 DataMade's preferred content management system.
