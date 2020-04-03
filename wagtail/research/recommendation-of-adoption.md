@@ -13,6 +13,14 @@ To date we have completed two pilot projects using Wagtail:
 
 Wagtail is a CMS built for Django, which is already an integral part of the DataMade stack.
 
+Before beginning a first Wagtail implementation, all developers should read [The Zen of Wagtail](https://docs.wagtail.io/en/v2.8/getting_started/the_zen_of_wagtail.html) to familiarize themselves with the guiding concepts.
+
+## Maintenance outlook
+
+Wagtail an open source tool created by [Torchbox](https://torchbox.com/), an agency based in the UK. It has an active global contributor community ("currently #1 on the list of open source Python CMSs measured by Github activity," according to their website) and a strict release cycle. It's used by Google, NASA, MIT, Mozilla and more. Exactly predicting the future of a product is impossible, but all signs indicate that Wagtail is a reliable choice.
+
+In terms of DataMade maintenance of projects made with Wagtail, it will be important to choose a standard CMS toolkit and build expertise across the team to ensure that all Wagtail projects can be maintained without high onboarding costs. We believe that there will continue to be CMS needs in new projects that can be met with Wagtail, which will provide opportunity for widespread team investment.
+
 ## For further exploration
 
 Though we've already had success with Wagtail in client work, the following areas warrant further exploration and documentation:

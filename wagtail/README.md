@@ -6,6 +6,7 @@ DataMade's preferred content management system.
 ## Contents
 - [When to use Wagtail](#when-to-use-wagtail)
 - [How to use Wagtail](#how-to-use-wagtail)
+- [Supporting editors](#supporting-editors)
 - [Research](research/)
     - [Comparisons to existing tools](research/comparisons-to-existing-tools.md)
     - [Recommendation of Adoption](research/recommendation-of-adoption.md)
@@ -22,6 +23,14 @@ Instead of initializing a Django project with `django-admin startproject`, a Wag
 `wagtail start <YOUR PROJECT NAME>`
 
 See more on getting started with Wagtail [here](https://docs.wagtail.io/en/stable/getting_started/index.html).
+
+## Supporting editors
+A CMS is only as powerful as it helps its editors to be. Wagtail offers an editor's guide [here](https://docs.wagtail.io/en/stable/editor_manual/index.html), which can be shared directly with clients.
+
+For any site where people outside DataMade will be using Wagtail, consider creating a non-technical version of the site documentation. For examples that can be used as templates, see:
+
+1. [LISC CDNA](https://docs.google.com/document/d/1H-DKZf71NrwfEoVdnyfvugTu2zGqeIo_fflr0SL3w2c)
+2. [Lugar Center Oversight Hearing Index](https://docs.google.com/document/d/1RmmLKMUw2OwjYNAR3Lqh_KfFVYcHDxo9gAJot6tSvKw)
 
 ## Resources for Learning
 - Before beginning a first Wagtail implementation, all developers should read [The Zen of Wagtail](https://docs.wagtail.io/en/v2.8/getting_started/the_zen_of_wagtail.html) to familiarize themselves with the guiding concepts.
