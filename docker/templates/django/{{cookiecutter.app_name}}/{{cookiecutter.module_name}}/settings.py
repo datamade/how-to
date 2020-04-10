@@ -10,10 +10,12 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 import os
-import socket
 
-from django.core.exceptions import ImproperlyConfigured
 import dj_database_url
+import sentry_sdk
+from sentry_sdk.integrations.django import DjangoIntegration
+
+from {{cookiecutter.module_name}}.logging import before_send
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -28,6 +30,15 @@ DEBUG = False if os.getenv('DJANGO_DEBUG', True) == 'False' else True
 # e.g. localhost,127.0.0.1,.herokuapp.com
 allowed_hosts = os.getenv('DJANGO_ALLOWED_HOSTS', [])
 ALLOWED_HOSTS = allowed_hosts.split(',') if allowed_hosts else []
+
+
+# Configure Sentry for error logging
+if os.getenv('SENTRY_DSN'):
+    sentry_sdk.init(
+        dsn=os.environ['SENTRY_DSN'],
+        before_send=before_send,
+        integrations=[DjangoIntegration()],
+    )
 
 # Application definition
 

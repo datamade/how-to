@@ -12,3 +12,6 @@ sentry-sdk
 pytest
 pytest-django
 pytest-mock
+
+# Project setup requirements
+pip-chill

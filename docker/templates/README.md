@@ -60,14 +60,25 @@ in your terminal:
 Once you've generated your files, you'll need to move them out of the `how-to/docker/templates`
 directory and into whatever repo needs to use them.
 
-If you're generating a Django app using the `django` template, typically you'll
-just need to move the new directory you generated to be a sibling of the `how-to`
+If you're generating a Django app using **the `django` template**, typically you'll
+need to move the new directory you generated to be a sibling of the `how-to`
 directory (i.e. move it to wherever you store your DataMade projects). Then, change
-into the new directory and initialize it as a Git repo with `git init`.
+into the new directory and initialize it as a Git repo with `git init`:
+
+```bash
+# Replace ${directory_name} with the name of the directory you just set
+mv ${directory_name} ../../..
+cd ../../../${directory_name} && git init
+```
 
 If you're generating a Docker environment and deployment artifacts for an existing
-app using the `python` template, you'll need to move the files you generated to
-the repo that stores the existing project. For example, run `mv my-new-app/* /path/to/existing/project`.
+app using **the `python` template**, you'll need to move the files you generated to
+the repo that stores the existing project. For example:
+
+```bash
+# Replace ${directory_name} with the name of the directory you just set
+mv ${directory_name}/* /path/to/existing/project
+```
 
 ### 4. Customize your configs and scripts.
 
@@ -77,7 +88,17 @@ boilerplate files. Perhaps you need to mount additional volumes in your Docker
 config, or define an extra service, e.g., Redis for queueing or Solr for search.
 
 For Django apps produced with the `django` template, you'll always want to at least
-pin the requirements in `requirements.txt` to the latest available versions.
+pin the requirements in `requirements.txt` to the latest available versions. We
+recommend [`pip chill`](https://github.com/rbanffy/pip-chill) for this task:
+
+```bash
+# Run this on your host machine to spawn a shell in an app container
+$ docker-compose run --rm app bash
+
+# Run this inside the spawned app container
+~ pip-chill | grep -v pip-chill > requirements.txt
+```
+
 You may need to make other adjustments; refer to [the Django
 docs](https://docs.djangoproject.com/en/2.2/intro/tutorial01/) for more
 on project setup.
