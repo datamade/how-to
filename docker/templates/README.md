@@ -22,18 +22,18 @@ docker-compose build
 ### 2. Run `cookiecutter`.
 
 To run cookiecutter on a specific template, you can run `cookiecutter -f path/to/template/dir`.
-So, to **generate a new Django project**, use Docker to run cookiecutter with the `django/` directory
+So, to **generate a new Django project**, use Docker to run cookiecutter with the `new-django-app/` directory
 as a target:
 
 ```bash
-docker-compose run --rm cookiecutter -f django
+docker-compose run --rm cookiecutter -f new-django-app
 ```
 
-To generate a Docker environment and deployment artifacts for an **existing Django project**,
-use the `python/` directory as a target:
+To generate a Docker environment for an **existing Python project**,
+use the `python-docker-env` directory as a target:
 
 ```bash
-docker-compose run --rm cookiecutter -f python
+docker-compose run --rm cookiecutter -f python-docker-env
 ```
 
 #### Template variables
@@ -60,7 +60,7 @@ in your terminal:
 Once you've generated your files, you'll need to move them out of the `how-to/docker/templates`
 directory and into whatever repo needs to use them.
 
-If you're generating a Django app using **the `django` template**, typically you'll
+If you're generating a Django app using **the `new-django-app` template**, typically you'll
 need to move the new directory you generated to be a sibling of the `how-to`
 directory (i.e. move it to wherever you store your DataMade projects). Then, change
 into the new directory and initialize it as a Git repo with `git init`:
@@ -71,8 +71,8 @@ mv ${directory_name} ../../..
 cd ../../../${directory_name} && git init
 ```
 
-If you're generating a Docker environment and deployment artifacts for an existing
-app using **the `python` template**, you'll need to move the files you generated to
+If you're generating a Docker environment for an existing
+app using **the `python-docker-env` template**, you'll need to move the files you generated to
 the repo that stores the existing project. For example:
 
 ```bash
@@ -87,7 +87,7 @@ Sometimes, though, your deployment may require changes or additions to the
 boilerplate files. Perhaps you need to mount additional volumes in your Docker
 config, or define an extra service, e.g., Redis for queueing or Solr for search.
 
-For Django apps produced with the `django` template, you'll always want to at least
+For Django apps produced with the `new-django-app` template, you'll always want to at least
 pin the requirements in `requirements.txt` to the latest available versions. We
 recommend [`pip chill`](https://github.com/rbanffy/pip-chill) for this task:
 

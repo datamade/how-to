@@ -3,7 +3,6 @@
     "app_verbose_name": "My New App",
     "module_name": "my_new_app",
     "run_command": "python manage.py runserver 0.0.0.0:8000",
-    "migrate_command": "python manage.py migrate",
     "auto_migrate": true,
     "postgis": false,
     "pg_version": "11",
