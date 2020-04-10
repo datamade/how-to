@@ -100,7 +100,7 @@ $ docker-compose run --rm app bash
 ```
 
 You may need to make other adjustments; refer to [the Django
-docs](https://docs.djangoproject.com/en/2.2/intro/tutorial01/) for more
+docs](https://docs.djangoproject.com/en/stable/intro/tutorial01/) for more
 on project setup.
 
 If you need to make a customization and aren't sure how to start, check in with
@@ -109,7 +109,7 @@ refer you to an example project.
 
 ### 5. Run your application!
 
-Change to your applicaiton directory, run `docker-compose up -d` to build your
+Change to your application directory, run `docker-compose up -d` to build your
 application and its services, then go to localhost:8000 (or whatever port you defined
 in the run command) to view your containerized app.
 
