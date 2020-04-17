@@ -1,0 +1,11 @@
+{
+  "name": "{{cookiecutter.app_name}}",
+  "version": "0.0.0",
+  "description": "JavaScript development setup for {{cookiecutter.app_name}}",
+  "dependencies": {
+    "babel-preset-env": "^1.7.0",
+    "babelify": "^7.3.0",
+    "browserify": "^16.5.0"
+  },
+  "devDependencies": {}
+}
