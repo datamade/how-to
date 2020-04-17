@@ -9,8 +9,8 @@ DataMade's preferred content management system.
 - [Supporting editors](#supporting-editors)
 - [Research](research/)
     - [Comparisons to existing tools](research/comparisons-to-existing-tools.md)
-    - [Recommendation of Adoption](research/recommendation-of-adoption.md)
-- [Resources for Learning](#resources-for-learning)
+    - [Recommendation of adoption](research/recommendation-of-adoption.md)
+- [Resources for learning](#resources-for-learning)
 
 ## When to use Wagtail
 A content management system such as Wagtail allows users of a site to add, edit, and delete certain content through a friendly interface separate from the project's code. Wagtail should be used for projects where a client would like the ability to modify content directly without DataMade as an intermediary.
@@ -32,6 +32,6 @@ For any site where people outside DataMade will be using Wagtail, consider creat
 1. [LISC CDNA](https://docs.google.com/document/d/1H-DKZf71NrwfEoVdnyfvugTu2zGqeIo_fflr0SL3w2c)
 2. [Lugar Center Oversight Hearing Index](https://docs.google.com/document/d/1RmmLKMUw2OwjYNAR3Lqh_KfFVYcHDxo9gAJot6tSvKw)
 
-## Resources for Learning
+## Resources for learning
 - Before beginning a first Wagtail implementation, all developers should read [The Zen of Wagtail](https://docs.wagtail.io/en/v2.8/getting_started/the_zen_of_wagtail.html) to familiarize themselves with the guiding concepts.
 - After that, the official [Wagtail documentation](https://docs.wagtail.io/en/stable/) is a good place to start.

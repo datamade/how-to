@@ -1,6 +1,6 @@
 # Recommendation of adoption: Wagtail
 
-Based on our research, we recommend adopting Wagtail as DataMade's content management system for Django projects.
+Based on our [research](comparisons-to-existing-tools.md), we recommend adopting Wagtail as DataMade's content management system for Django projects.
 
 ## Proof of concept and pilot
 
