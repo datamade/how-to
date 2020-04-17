@@ -1,6 +1,6 @@
 # Comparisons to existing tools
 
-Over the past year DataMade has employed four CMS platforms:
+Over the years, DataMade has employed several CMS platforms:
 
 - [The Django admin site](https://docs.djangoproject.com/en/stable/ref/contrib/admin/) for [BGA Payroll](https://github.com/datamade/bga-payroll) and [BGA Pensions](https://github.com/datamade/bga-pensions)
 - [`feincms3`](https://github.com/matthiask/feincms3) for the [IHS Website Redesign](https://github.com/datamade/ihs-website-v2)
