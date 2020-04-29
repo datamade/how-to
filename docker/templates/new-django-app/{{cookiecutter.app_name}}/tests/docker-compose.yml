@@ -1,0 +1,11 @@
+version: '2.4'
+
+services:
+  app:
+    # Don't restart the service when the command exits
+    restart: "no"
+    environment:
+      DJANGO_SECRET_KEY: reallysupersecret
+      # Disable manifest storage for testing
+      DJANGO_STATICFILES_STORAGE: django.contrib.staticfiles.storage.StaticFilesStorage
+    command: pytest -sxv

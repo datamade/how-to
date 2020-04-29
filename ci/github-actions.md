@@ -21,6 +21,7 @@ on:
   push:
     branches:
     - master
+    - deploy
   pull_request:
     branches:
     - master

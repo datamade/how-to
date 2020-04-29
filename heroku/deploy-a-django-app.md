@@ -31,8 +31,18 @@ preferred platform for hosting dynamic applications.
 ## Set up application code for Heroku
 
 In order to deploy a Django application to Heroku, a few specific configurations
-need to be enabled in your application code. We provide details on these
-configurations below.
+need to be enabled in your application code.
+
+The easiest way to properly set up your application code for Heroku is
+to use our [Django template](/docker/templates/) to create a fresh
+Heroku-enabled Django app. The template includes additional nice features like ES6
+support and GitHub Actions configuration, but it is only appropriate for brand new apps.
+Once you've created your app, you can skip to learning how to [Provision Heroku
+resources](#provision-heroku-resources).
+
+If you'd like to convert an existing app to Heroku, or if the template is unfeasible
+for some other reason, read on for details on how to configure your Django app
+to work on Heroku.
 
 ### Containerize your app
 
@@ -160,7 +170,11 @@ plugin](https://devcenter.heroku.com/changelog-items/1441).
 
 ### Create Heroku config files
 
-Define config files relative to the root of your repo.
+If you're converting an existing app to use Heroku, create the following config files
+relative to the root of your repo. If you're setting up a Heroku deployment for
+an app that you created with the Django template, you should have these config
+files already, and you can safely skip to [Create apps and pipelines for your
+project](#create-apps-and-pipelines-for-your-project).
 
 #### `heroku.yml`
 
@@ -197,8 +211,11 @@ to make it executable:
 
 ```bash
 #!/bin/bash
+set -euo pipefail
+
 python manage.py collectstatic --noinput
 python manage.py migrate --noinput
+python manage.py createcachetable && python manage.py clear_cache
 ```
 
 If your app uses a `dbload` script to load initial data into the database, you can use `release.sh`
@@ -225,7 +242,6 @@ Use the following baseline to get started:
 ```json
 {
   "name": "your-app",
-  "description": "Short description of your app.",
   "scripts": {},
   "env": {
     "DJANGO_SECRET_KEY": {
@@ -241,9 +257,6 @@ Use the following baseline to get started:
       "size": "hobby"
     }
   },
-  "addons": [
-    "heroku-postgresql"
-  ],
   "environments": {
     "review": {
       "addons": ["heroku-postgresql:hobby-basic"]
@@ -271,7 +284,6 @@ Then, run the following Heroku CLI commands to create a staging app and a pipeli
 heroku create ${APP_NAME}-staging -t datamade --manifest
 heroku pipelines:create -t datamade ${APP_NAME} -a ${APP_NAME}-staging -s staging
 heroku pipelines:connect ${APP_NAME} -r datamade/${APP_NAME}
-heroku reviewapps:enable -a ${APP_NAME}-staging -p ${APP_NAME}
 ```
 
 If you would like to set up a production app as well, run the following commands
@@ -461,8 +473,8 @@ properly when you visit it with the `https://` protocol.
 
 As a final step, we want to make sure that the app always redirects HTTP traffic
 to HTTPS. Heroku [can't do this for us](https://help.heroku.com/J2R1S4T8/can-heroku-force-an-application-to-use-ssl-tls),
-so we need to configure the app code to do it. Add the following settings to your
-`settings.py` file:
+so we need to configure the app code to do it. If you didn't use the Django template
+to create your app, add the following settings to your `settings.py` file:
 
 ```python
 if DEBUG is False:
