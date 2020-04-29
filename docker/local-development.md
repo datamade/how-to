@@ -26,16 +26,18 @@ tutorial that can help connect the dots between these concepts. Give it a whirl
 ## Overview
 
 A containerized local development environment has a few components, including
-some optional services:
+some optional configurations and services:
 
 1. [A Dockerfile](#1-dockerfile), containing building instructions for the application itself.
-2. [A root `docker-compose.yml` file](#3-docker-composeyml)
+2. [A root `docker-compose.yml` file](#2-docker-composeyml)
 that declares the application and its dependent services
-3. [A `tests/docker-compose.yml` file](#4-testsdocker-composeyml)
+3. [A `tests/docker-compose.yml` file](#3-testsdocker-composeyml)
 that overrides the application service in the root file, in order to run the tests
-4. [A database initialization script](#2-scriptsinit-dbsh-optional)
+4. [A `.env` file](#4-env-optional) that that sets secret values to be threaded
+into your app at runtime (Optional)
+5. [A database initialization script](#5-scriptsinit-dbsh-optional)
 that creates your database and installs any extensions (Optional)
-5. [A `docker-compose.db-ops.yml` file](#5-docker-composedb-opsyml-optional)
+6. [A `docker-compose.db-ops.yml` file](#6-docker-composedb-opsyml-optional)
 that automates a multi-step data loading routine (Optional)
 
 The required components of a containerized setup for local development are
@@ -71,11 +73,56 @@ v3 no longer supports this syntax. More on that [in this issue](https://github.c
 
 📄 [`tests/docker-compose.yml`](templates/python/{{cookiecutter.directory_name}}/tests/docker-compose.yml)
 
-### 4. `scripts/init-db.sh` (Optional)
+### 4. `.env` (Optional)
 
-The default Postgres image exposes [a number of environmental variables](https://hub.docker.com/_/postgres/#environment-variables)
+Docker Compose offers [many ways](https://docs.docker.com/compose/environment-variables/)
+to thread variables into your containers. We like to use the `environment` key
+to set non-sensitive config values, such as local database connections, for
+services in `docker-compose.yml`.
+
+If your application includes sensitive config values, it's good practice to
+define null fallbacks if your application doesn't require them for local
+development. 
+
+**Example `settings.py`**
+
+```python
+import os
+
+
+API_KEY = os.getenv('API_KEY', '')
+EMAIL_PASSWORD = os.getenv('EMAIL_PASSWORD', '')
+```
+
+If you do need to interact with a third-party service during local development,
+define a `.env` file in your project root containing those config values. Be
+sure to exclude it in your `.gitignore` file to avoid committing secrets! 
+
+**Example `.env`**
+
+```bash
+API_KEY="some key"
+EMAIL_PASSWORD="some password"
+```
+
+Docker Compose will [automatically thread variables defined in `.env` into your 
+containers](https://docs.docker.com/compose/environment-variables/#the-env-file).
+We like this approach because:
+
+- It's directly analogous to our [Heroku deployment environment](https://github.com/datamade/how-to/blob/master/heroku/deploy-a-django-app.md#read-settings-and-secret-variables-from-the-environment),
+so we can use our existing configuration files.
+- It's easy to exclude `.env` files from version control, so you don't have to
+remember to remove sensitive values from `docker-compose.yml` or your settings
+files before you save your changes.
+
+Need to share credentials with other members of the DataMade team? Store them
+in our shared LastPass folder.
+
+### 5. `scripts/init-db.sh` (Optional)
+
+The default Postgres image exposes [a number of environment variables](https://hub.docker.com/_/postgres/#environment-variables)
 that allow you to define custom behavior for your container without writing
-additional code. Things you can achieve via environmental variables include
+additional code. Things you can achieve via environment variables include
 creating your default database, specifying a default user and password, and
 customizing the location of the database files.
 
@@ -105,7 +152,7 @@ as a volume in your Postgres container in `docker-compose.yml`.
 ***If you would like to use the Postgis extension,*** we recommend using a
 Postgis image, rather than configuring it in an initialization script.
 
-### 5. `docker-compose.db-ops.yml` (Optional)
+### 6. `docker-compose.db-ops.yml` (Optional)
 
 Data-rich applications may come with a multi-step process for loading in data.
 In those instances, it can be helpful to define a service that automates each
