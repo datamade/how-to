@@ -33,8 +33,8 @@ some optional configurations and services:
 that declares the application and its dependent services
 3. [A `tests/docker-compose.yml` file](#3-testsdocker-composeyml)
 that overrides the application service in the root file, in order to run the tests
-4. [A `.env` file](#4-env-optional) that that sets secret values to be threaded
-into your app at runtime (Optional)
+4. [A `.env` file](#4-env-optional) that sets secret values to be threaded into
+your app at runtime (Optional)
 5. [A database initialization script](#5-scriptsinit-dbsh-optional)
 that creates your database and installs any extensions (Optional)
 6. [A `docker-compose.db-ops.yml` file](#6-docker-composedb-opsyml-optional)
