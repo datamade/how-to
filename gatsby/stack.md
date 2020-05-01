@@ -12,7 +12,7 @@
 
 - Basic static app: [`static-app-template`](https://github.com/datamade/static-app-template/) (to be iterated upon)
 - Static app with `recharts` charts: [`how-to-recharts`](https://github.com/datamade/how-to-recharts/)
-- Static app with `react-leaflet` map: [`lisc-cdna-map`](https://github.com/datamade/lisc-cnda-map/)
+- Static app with `react-leaflet` map: [`lisc-cnda-map`](https://github.com/datamade/lisc-cnda-map/)
 
 ## Managing packages and plugins
 
