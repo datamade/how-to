@@ -10,19 +10,30 @@
 
 ## Some example setups
 
+### Gatsby
+
 - Basic static app: [`static-app-template`](https://github.com/datamade/static-app-template/) (to be iterated upon)
 - Static app with `recharts` charts: [`how-to-recharts`](https://github.com/datamade/how-to-recharts/)
 - Static app with `react-leaflet` map: [`lisc-cnda-map`](https://github.com/datamade/lisc-cnda-map/)
 
+### React
+
+- https://github.com/fatima3558/service-building
+- https://github.com/fatima3558/litshare-react
+
 ## Managing packages and plugins
 
-`package.json` and `package-lock.json`
+`package.json` and `package-lock.json`:
 
 - https://medium.com/hackernoon/do-i-really-need-package-lock-json-file-321ce29e7d2c
 
 Yarn and npm are equivalent (?).
 
 > when you call yarn or npm with an argument that the CLI doesn't recognize (in this case, start), it will read the scripts section of the package.json and call the commands defined there.
+
+A comparison:
+
+- https://stackshare.io/stackups/npm-vs-yarn
 
 More on npm scripts:
 
