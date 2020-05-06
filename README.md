@@ -15,6 +15,7 @@ _In alphabetical order and including links to external repository-based document
 - [Continuous Integration (CI)](ci/)
 - [Data processing and ETL](https://github.com/datamade/data-making-guidelines)
 - [Django](django/)
+    - [Wagtail](django/wagtail/)
 - [Docker](docker/)
     - [Docker for local development](docker/local-development.md)
     - [Templates for containerizing your application](docker/templates/)
