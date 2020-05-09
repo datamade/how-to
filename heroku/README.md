@@ -6,5 +6,6 @@ DataMade's preferred platform for hosting dynamic (i.e. non-static) applications
 ## Contents
 
 - [Deploy a Django app to Heroku](./deploy-a-django-app.md)
+- [Scheduling tasks on Heroku](./scheduling-tasks.md)
 - [Research](./research/)
     - [Recommendation of adoption](./research/recommendation-of-adoption.md)
