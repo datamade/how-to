@@ -13,6 +13,10 @@ This directory records best practices for working with [GatsbyJS](https://github
         - [Gatsby vs. Jekyll](./research/comparisons-with-existing-tools.md#gatsby-vs-jekyll)
         - [Gatsby vs. Django](./research/comparisons-with-existing-tools.md#gatsby-vs-django)
     - [Recommendation of adoption](./research/recommendation-of-adoption.md)
+- [Stack](stack.md)
+    - [Tools in our Gatsby development stack](stack.md)
+    - [Some example setups](stack.md#some-example-setups)
+    - [Managing packages and plugins](stack.md#managing-packages-and-plugins)
 
 ## When to use Gatsby
 
@@ -37,3 +41,5 @@ The following is a list of good resources for learning how to use Gatsby.
 - [The React docs](https://reactjs.org/docs/hello-world.html) - A step-by-step guide through the basics of React. Useful for getting your bearings in JSX, components, and React state management, which are important prerequisites for Gatsby.
 - [The Fullstack Tutorial for GraphQL](https://www.howtographql.com/) - Gatsby's recommended tutorial for learning GraphQL. We recommend reading the "GraphQL fundamentals" section.
 - [@jeancochrane's lunch&learn on Gatsby](https://gist.github.com/jeancochrane/705dda18da74fafe4b8182d15284114d) - A set of brief notes giving a quick overview of Gatsby's features.
+
+See our documentation on [the Gatsby development stack](stack.md) for more on how we organize Gatsby applications and manage JavaScript dependencies at DataMade.
