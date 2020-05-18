@@ -23,6 +23,7 @@ _In alphabetical order and including links to external repository-based document
 - [GatsbyJS](gatsby/)
 - [Heroku](/heroku/)
     - [Deploy a Django app to Heroku](/heroku/deploy-a-django-app.md)
+    - [Scheduling tasks](/heroku/scheduling-tasks.md)
 - [Logging](logging/)
     - [Sentry](logging/sentry.md)
     - [Slack](logging/slack.md)
