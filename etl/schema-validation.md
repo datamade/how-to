@@ -18,9 +18,8 @@ At DataMade, our preferred framework for schema validation is [`marshmallow`](ht
 ## Examples
 
 - University of Minnesota Elections Archive: [Definition](https://github.com/datamade/mn-election-archive/blob/7d6142a6bfea48527afa214e4c713195511b0503/elections/schemas.py) | [Validation](https://github.com/datamade/mn-election-archive/blob/7d6142a6bfea48527afa214e4c713195511b0503/elections/management/commands/transform.py)
-- Dedupe.io API\*: [Definition](examples/dedupe_api_schemas.py)
-
-\* – Access to the Dedupe.io repository is limited to Dedupe.io developers. The most recent version of the API `schemas.py` file is hosted in this repo so it can be referenced by the full DataMade team.
+- Dedupe.io API
+  – Access to the Dedupe.io repository is limited to Dedupe.io developers. The schemas for API requests pre-process, authenticate, validate, and post-process data using `marshmallow`. If you wish to see an example of any or all of the above, request a gist of the relevant code [from a member of the `dedupeio` organization](https://github.com/orgs/dedupeio/people).
 
 ## Research
 

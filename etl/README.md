@@ -1,16 +1,10 @@
 # ETL
 
-<blockquote>
-<p>ETL refers to the general process of:</p>
+ETL refers to the general process of:
 
-<p>
-    <ol>
-        <li>taking raw <strong>source data</strong> (<em>"Extract"</em>)</li>
-        <li>doing some stuff to get the data in shape, possibly involving intermediate <strong>derived files</strong> (<em>"Transform"</em>)</li>
-        <li>producing <strong>final output</strong> in a more usable form (for <em>"Loading"</em> into something that consumes the data - be it an app, a system, a visualization, etc.)</li>
-    </ol>
-</p>
-</blockquote>
+1. taking raw **source data** (*"Extract"*)
+2. doing some stuff to get the data in shape, possibly involving intermediate **derived files** (*"Transform"*)
+3. producing **final output** in a more usable form (for *"Loading"* into something that consumes the data - be it an app, a system, a visualization, etc.)
 
 At DataMade, [GNU Make](https://www.gnu.org/software/make/) forms the cornerstone of our ETL pipeline. We maintain detailed documentation of our Make patterns and expanded Unix utility toolkit [here](https://github.com/datamade/data-making-guidelines).
 
