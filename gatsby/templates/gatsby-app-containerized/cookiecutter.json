@@ -2,5 +2,7 @@
     "app_name": "my-new-gatsby-app",
     "title": "My App",
     "description": "",
-    "author": "DataMade"
+    "author": "DataMade",
+    "url": "",
+    "socialcard": "/socialcard.png"
 }
