@@ -3,6 +3,8 @@ module.exports = {
     title: `{{cookiecutter.title}}`,
     description: `{{cookiecutter.description}}`,
     author: `{{cookiecutter.author}}`,
+    url: `{{cookiecutter.url}}`,
+    image: `{{cookiecutter.socialcard}}`
   },
   plugins: [
     `gatsby-plugin-react-helmet`,
