@@ -7,11 +7,28 @@ by using a context variable for props and bundling components with Babel, Browse
 in some templates, while still retaining the full expressive power of Django's
 templating system.
 
+At a high level, this is how the stack renders a React component for a given
+Django view:
+
+1. A user sends a request for a particular route to Django;
+2. The route's view passes props to a Django template using a dedicated `props` key in the
+   view's context dictionary, and also specifies a React component file to use for
+   that view using a `component` attribute;
+3. The Django template for the view reads the `props` key from the view's context
+   dictionary, santizes its data, and saves it on the global `window` object;
+4. `django-compressor` locates `compress` tags in the Django template and uses Babel and
+   Browserify to compile the scripts contained within the tags to vanilla JavaScript.
+   It also automatically compiles the file containing the React component for the
+   view as specified in the `view.component` attribute;
+5. The React component uses the `window.props` object to render once the page
+   loads in the user's browser.
+
+This guide provides detailed instructions on configuring and developing an
+application to use a hybrid Django-React integration.
+
 ## Contents
+
 - [Installation](#installation)
-    - [Install Node packages](#install-node-packages)
-    - [Install and configure `django-compressor`](#install-and-configure-django-compressor)
-    - [Set up caching](#set-up-caching)
 - [Usage](#usage)
     - [Create a static JSX file for your React component](#create-a-static-jsx-file-for-your-react-component)
     - [Define a view with a path to your component](#define-a-view-with-a-path-to-your-component)
@@ -20,7 +37,7 @@ templating system.
         - [Define a React root element](#define-a-react-root-element)
         - [Set React props and root element on the `window` object](#set-react-props-and-root-element-on-the-window-object)
         - [Bundle and load your component with `django-compressor`](#bundle-and-load-your-component-with-django-compressor)
-        - [Putting it all together](#putting-it-all-together)  
+        - [Putting it all together](#putting-it-all-together)
 - [Project fit considerations](#project-fit-considerations)
 - [Further reading](#further-reading)
 
@@ -29,55 +46,14 @@ templating system.
 Setting up a hybrid Django-React application requires installing a number of
 Node packages, including Babel, Babelify, and Browserify, and then installing
 and configuring `django-compressor` to use these packages to bundle your
-React components.
+React components. To set up your application for a Django-React integration,
+start by following our documentation for [installing
+`django-compressor`](django-compressor.md).
 
 **Note**: If you're using our [`new-django-app` Cookiecutter template](/docker/templates/)
 to create your app, these installation steps will already be taken care of for you
 and you can skip ahead to [Usage](#usage).
 
-### Install Node packages
-
-Using `yarn add` or `npm install`, Update your `package.json` file to include
-the following list of Node packages:
-
-- `@babel/cli`
-- `@babel/core`
-- `@babel/preset-env`
-- `@babel/preset-react`
-- `babel-preset-env`
-- `babelify`
-- `browserify`
-
-### Install and configure `django-compressor`
-
-Update your `requirements.txt` file to install `django-compressor`. Then, set the
-following settings in `settings.py` to instruct it to bundle your React components:
-
-```python
-STATICFILES_FINDERS = (
-    'django.contrib.staticfiles.finders.FileSystemFinder',
-    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-    'compressor.finders.CompressorFinder',
-)
-
-COMPRESS_PRECOMPILERS = (
-    ('module', 'npx browserify {infile} -t [ babelify --presets [ @babel/preset-env ] ] > {outfile}'),
-    ('text/jsx', 'npx browserify {infile} -t [ babelify --presets [ @babel/preset-env @babel/preset-react ] ] > {outfile}'),
-)
-
-COMPRESS_OUTPUT_DIR = 'compressor'
-```
-
-### Set up caching
-
-The commands that bundle React components can take 2-3 seconds to complete, so
-make sure to set up [database caching](https://docs.djangoproject.com/en/3.0/topics/cache/#database-caching)
-and [cache your views that use React](https://docs.djangoproject.com/en/3.0/topics/cache/#the-per-view-cache)
-to make sure your pages load as quickly as possible.
-
-For an additional level of caching, you might also consider setting up
-[offline compression](https://django-compressor.readthedocs.io/en/stable/scenarios/#offline-compression)
-in `django-compressor`.
 
 ## Usage
 
