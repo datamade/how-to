@@ -137,7 +137,7 @@ two attributes will allow us to render the component in the view's template.
 ```python
 class Home(TemplateView):
     title = 'Home'
-    template_name = 'example_app/index.html'
+    template_name = 'my_new_app/index.html'
     component = 'js/pages/index.js'  # Staticfile path to your component code
 ```
 
@@ -201,7 +201,7 @@ object.
 
 #### Bundle and load your component with `django-compressor`
 
-Finally, use the `compress` templatetag provided by `django-compressor` and the
+Finally, use the `compress` template tag provided by `django-compressor` and the
 `view.component` attribute to bundle and load your component as an external script.
 
 ```html
