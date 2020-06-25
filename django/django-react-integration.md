@@ -177,8 +177,12 @@ object.
 
 #### Bundle and load your component with `django-compressor`
 
-Finally, use the `compress` template tag provided by `django-compressor` and the
-`view.component` attribute to bundle and load your component as an external script.
+Finally, use the `compress` template tag provided by `django-compressor` to bundle
+and load your component as an external script. Since we set a `component` attribute on
+our `View` class in the section ["Define a view with a path to your
+component"](#define-a-view-with-a-path-to-your-component) above, we can make use of the
+fact that Django automatically exposes a `view` variable in template context to
+access the path to our component using the variable `view.component`.
 
 ```html
 {% load compress %}
