@@ -13,12 +13,17 @@ notifications to Slack, DataMade's preferred business chat service.
 ## Push Sentry notifications to Slack
 
 Once you've [added your project to Sentry](./sentry.md), optionally configure
-Sentry to forward exceptions to Slack. From the Sentry dashboard, click Settings,
-then Integrations. Find the Slack integration in the list, and click "Configure."
+Sentry to forward exceptions to Slack. Navigate to the Settings dashboard for
+your project, choose "Alerts" in the sidebar, and select "New alert rule".
 
-You'll be taken to a list of all DataMade projects in Sentry. Find yours, then
-click "Add Alert Rule" and configure the alert you'd like to send. Usually,
-we forward all messages in Sentry to the project Slack channel.
+On the "New Alert" page, choose to create an "Issue Alert", and configure
+rule conditions to send a notification whenever the condition `An event is seen`
+is met. Add an action to send a Slack message to the `DataMade` workspace with
+the slug of your channel, and optionally include `environment` or `user` in your tags.
+
+Hit `Save rule` and test to make sure your rule sends a Slack notification (the
+[Django integration docs](https://docs.sentry.io/platforms/python/django/) provide
+an example of how to perform this kind of test).
 
 ## Push Netlify notifications to Slack
 
