@@ -20,6 +20,7 @@ On the "New Alert" page, choose to create an "Issue Alert", and configure
 rule conditions to send a notification whenever the condition `An event is seen`
 is met. Add an action to send a Slack message to the `DataMade` workspace with
 the slug of your channel, and optionally include `environment` or `user` in your tags.
+
 Hit `Save rule` and test to make sure your rule sends a Slack notification (the
 [Django integration docs](https://docs.sentry.io/platforms/python/django/) provide
 an example of how to perform this kind of test).
