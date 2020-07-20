@@ -2,6 +2,8 @@
 
 This directory records best practices for working with [GatsbyJS](https://github.com/datamade/tutorials/projects/1), a static site generator built on top of React and GraphQL.
 
+**Our cookiecutter for creating a new Gatsby app lives in the [containerization templates](https://github.com/datamade/how-to/tree/master/docker/templates) directory.**
+
 ## Contents
 
 - README
