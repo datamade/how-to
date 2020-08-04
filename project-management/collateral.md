@@ -11,6 +11,7 @@ Project collateral generally includes the following artifacts:
 - [Scope of work](#scope-of-work)
 - [Repositories](#repositories)
 - [Project board](#project-board)
+- [FreshBooks projects](#freshbooks-projects)
 
 ## Project folder
 
@@ -80,3 +81,25 @@ All client projects should have open issues organized in a project board, prefer
 - **Done/closed**: Issues that have been merged and fixed
 
 Sometimes, project owners will keep a `Done` column in addition to a `Closed` column. In these cases, issues addressed by merged PRs should be moved into `Done` and remain open until sprint planning meetings, when we reflect on them and close them as a group. We typically follow this practice with larger projects like Dedupe.io that involve a substantial budget and time for reflection.
+
+
+## FreshBooks projects
+
+Time is tracked at DataMade using [FreshBooks](https://my.freshbooks.com). For each item in the scope of work, a new FreshBooks [project](https://my.freshbooks.com/#/projects) should be created.
+
+Project setup and formatting:
+
+* Name: Follows the convention of `Project title: Scope item title` (Example: `Payroll Phase 3: Meetings and Project Planning`)
+* Client: Organization, name and email of the client contact. If they are a new client, you may have to create them in Freshbooks first.
+* Type: Hourly project with an hourly staff rate. Using a flat rate type will set all tracked time to non-billable.
+* Project members: All staff assigned to the project. Note, if a staff member is not assigned to the project, it will not show up in their list of projects to track time against.
+* Project services:
+* Hourly budget: Number of hours estimated for this line item
+* Billing method: Team member rates. Team member rates are set based staff position.
+* End date: Optional. We don't track this in Freshbooks.
+
+Here's an example for the CalFWD project:
+
+![CalFWD project in FreshBooks](freshbooks-calfwd.png)
+
+FreshBooks has [documentation on how projects work here](https://www.freshbooks.com/support/which-billing-method-should-i-choose).
