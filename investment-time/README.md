@@ -31,7 +31,7 @@ start of each week.
 Developers may use investment time for self-directed work to improve their
 skills within the existing DataMade stack. Some example uses include:
 
-- Completing and online course or tutorial
+- Completing an online course or tutorial
 - Retrofitting an existing application to use a different stack, e.g.,
 implementing a Django site in Gatsby
 - Working on a new, non-client project that uses some part/s of the DataMade
