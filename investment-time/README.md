@@ -19,7 +19,7 @@ one of every 10 days worked, for investment time.
 Employees will be assigned to one of two cohorts with alternating two-week
 cycles, so that investment time is staggered across the team. Assignments will
 appear on the DataMade calendar as `${STAFF} investment time`, every other
-Friday.
+week.
 
 Staff may use investment time as their schedule allows during the week of their
 designated investment day, however it may not be used during their off week.
