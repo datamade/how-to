@@ -14,6 +14,7 @@ _In alphabetical order and including links to external repository-based document
     - [AWS Relational Database Service (RDS)](aws/rds.md)
 - [Continuous Integration (CI)](ci/)
 - [Django](django/)
+    - [Translation](django/translation.md)
     - [Wagtail](django/wagtail/)
 - [Docker](docker/)
     - [Docker for local development](docker/local-development.md)
