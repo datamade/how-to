@@ -22,7 +22,7 @@ RUN curl -sL https://deb.nodesource.com/setup_12.x | bash -
 #
 # Read more on Dockerfile best practices at the source:
 # https://docs.docker.com/develop/develop-images/dockerfile_best-practices
-RUN apt-get install -y --no-install-recommends postgresql-client nodejs
+RUN apt-get install -y --no-install-recommends postgresql-client nodejs{% if cookiecutter.postgis == 'True' %} gdal-bin{% endif %}
 
 # Inside the container, create an app directory and switch into it
 RUN mkdir /app
