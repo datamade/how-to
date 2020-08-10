@@ -29,7 +29,8 @@ by the developers of an app as a separate step from the translation itself.
 
 ### Configure Django settings for translations
 
-Configure the following settings:
+Configure the following settings to initialize translation support. Note that you can
+change these settings later if your translation needs change.
 
 - `LANGUAGES`: This variable should be set to a tuple of tuples representing all
   the languages you want to support in your app. For an example, see
