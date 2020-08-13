@@ -50,7 +50,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'compressor',
-    'compressor_toolkit',
     '{{cookiecutter.module_name}}'
 ]
 
@@ -93,7 +92,8 @@ DATABASES = {}
 DATABASES['default'] = dj_database_url.parse(
     os.getenv('DATABASE_URL', 'postgres://postgres:postgres@postgres:5432/{{cookiecutter.pg_db}}'),
     conn_max_age=600,
-    ssl_require=True if os.getenv('POSTGRES_REQUIRE_SSL') else False
+    ssl_require=True if os.getenv('POSTGRES_REQUIRE_SSL') else False{% if cookiecutter.postgis == 'True' %},
+    engine='django.contrib.gis.db.backends.postgis'{% endif %}
 )
 
 # Caching
@@ -155,16 +155,11 @@ STATICFILES_FINDERS = (
 
 # Django Compressor configs
 COMPRESS_PRECOMPILERS = (
-    ('module', 'compressor_toolkit.precompilers.ES6Compiler'),
+    ('module', 'npx browserify {infile} -t [ babelify --presets [ @babel/preset-env ] ] > {outfile}'),
+    ('text/jsx', 'npx browserify {infile} -t [ babelify --presets [ @babel/preset-env @babel/preset-react ] ] > {outfile}'),
 )
 
-COMPRESS_ES6_COMPILER_CMD = (
-    'export NODE_PATH="{paths}" && '
-    '{browserify_bin} "{infile}" -o "{outfile}" '
-    '-t [ "{node_modules}/babelify" --presets="{node_modules}/babel-preset-env" ]'
-)
-
-COMPRESS_OUTPUT_DIR =  'compressor'
+COMPRESS_OUTPUT_DIR = 'compressor'
 
 # Enforce SSL in production
 if DEBUG is False:
