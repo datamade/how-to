@@ -299,6 +299,9 @@ apps](https://devcenter.heroku.com/articles/github-integration-review-apps)
 for your pipeline:
 
 ```bash
+# Note that these need to be two separate commands due to an open Heroku bug,
+# since --autodeploy and --autodestroy require a PATCH request
+heroku reviewapps:enable -p ${APP_NAME}
 heroku reviewapps:enable -p ${APP_NAME} --autodeploy --autodestroy
 ```
 
