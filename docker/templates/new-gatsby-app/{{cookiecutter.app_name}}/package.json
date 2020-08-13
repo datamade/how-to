@@ -1,5 +1,5 @@
 {
-  "name": "gatsby-app-containerized",
+  "name": "new-gatsby-app",
   "private": true,
   "description": "A multipurpose containerized Gatsby starter app",
   "version": "0.1.0",
@@ -36,14 +36,13 @@
     "build": "gatsby build",
     "develop": "gatsby develop -H 0.0.0.0 -p 8000",
     "format": "prettier --write \"**/*.{js,jsx,json,md}\"",
-    "start": "npm run develop",
     "serve": "gatsby serve",
     "clean": "gatsby clean",
     "test": "eslint ."
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/gatsbyjs/gatsby-starter-default"
+    "url": "https://github.com/datamade/how-to"
   },
   "bugs": {
     "url": "https://github.com/gatsbyjs/gatsby/issues"

@@ -1,6 +1,6 @@
 module.exports = {
   siteMetadata: {
-    title: `{{cookiecutter.title}}`,
+    title: `{{cookiecutter.app_verbose_name}}`,
     description: `{{cookiecutter.description}}`,
     author: `{{cookiecutter.author}}`,
     url: `{{cookiecutter.url}}`,
@@ -33,11 +33,9 @@ module.exports = {
     {
       resolve: `gatsby-plugin-google-analytics`,
       options: {
-        trackingId: "{{cookiecutter.google_analytics_tracking_id}}",
+        // To enable Google analytics, just set up a property and input the tracking ID here
+        trackingId: "",
       },
     },
-    // this (optional) plugin enables Progressive Web App + Offline functionality
-    // To learn more, visit: https://gatsby.dev/offline
-    // `gatsby-plugin-offline`,
   ],
 }

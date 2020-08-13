@@ -26,7 +26,7 @@ This is the beginning of a Gatsby project. It's adapted by DataMade from the [de
 
 ## Testing
 
-When you run `docker-compose up` locally, ESLint makes sure you're following the right JS style conventions and not importing/exporting anything extraneously. If you are, the build will fail.
+When you run `docker-compose up` locally, ESLint makes sure you're following the right JS style conventions and not importing or exporting anything extraneously. If you are, the build will fail.
 
 If you want to check the linter on its own you can run:
 
