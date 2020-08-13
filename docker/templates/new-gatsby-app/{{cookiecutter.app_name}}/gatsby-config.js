@@ -2,9 +2,9 @@ module.exports = {
   siteMetadata: {
     title: `{{cookiecutter.app_verbose_name}}`,
     description: `{{cookiecutter.description}}`,
-    author: `{{cookiecutter.author}}`,
-    url: `{{cookiecutter.url}}`,
-    image: `{{cookiecutter.socialcard}}`
+    author: `DataMade`,
+    url: ``,
+    image: `/socialcard.png`
   },
   plugins: [
     `gatsby-plugin-react-helmet`,

@@ -24,6 +24,20 @@ This is the beginning of a Gatsby project. It's adapted by DataMade from the [de
 
     Your site should now be up and running at `http://localhost:8000`!
 
+## Dependencies
+
+This starter has a minimal number of dependencies in order to stay lean, but you'll likely want to add more to suit your needs. To add a dependency, run:
+
+    ```shell
+    yarn add <dependency name> --save
+    ```
+
+To remove a dependency:
+
+    ```shell
+    yarn remove <dependency name>
+    ```
+
 ## Testing
 
 When you run `docker-compose up` locally, ESLint makes sure you're following the right JS style conventions and not importing or exporting anything extraneously. If you are, the build will fail.

@@ -1,8 +1,5 @@
 {
   "app_name": "my-new-gatsby-app",
   "app_verbose_name": "My New Gatsby App's Title",
-  "description": "A longer description of my new app",
-  "author": "DataMade",
-  "url": "",
-  "socialcard": "/socialcard.png"
+  "description": "A longer description of my new app"
 }
