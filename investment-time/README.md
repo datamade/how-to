@@ -13,18 +13,32 @@ adoption of investment time.
 
 ### How much investment time do I have?
 
-DataMade employees may use 10% of hours worked in a given two-week cycle, or
-one of every 10 days worked, for investment time.
+DataMade employees earn investment time equal to 10% of hours worked in a given
+two-week cycle.
 
-Employees will be assigned to one of two cohorts with alternating two-week
-cycles, so that investment time is staggered across the team. Assignments will
-appear on the DataMade calendar as `${STAFF} investment time`, every other
-week.
+Earned investment time is calculated from hours worked in the week preceding
+investment day, as well as hours scheduled to be worked the week of investment
+day.
 
-Staff may use investment time as their schedule allows during the week of their
-designated investment day, however it may not be used during their off week.
-Investment time should be added to DataMade's weekly planning document at the
-start of each week.
+Say a full-time staffer takes a day off and works 28 hours the week before
+investment day, and plans to work 35 hours the week of investment day. They
+earn `(28 + 35) * 0.1 = 6.3 hours` of investment time.
+
+### When can I use investment time?
+
+Investment time may be spent on designated, companywide investment days, which
+take place every other Thursday. These days are marked on the DataMade calendar.
+Investment time may not be spent outside of designated investment days.
+
+Client work will be structured and staffed such that conflict with investment
+time is minimized, e.g., no late-week launches, managed urgency, and reasonable
+boundary setting. Partners and staff will (mutually) respect the use of
+investment time and limit expectations of staff on investment days. In the rare
+event that an urgent issue arises during investment day, staff should consult
+their manager to determine next steps.
+
+Planned investment time should be added to the weekly planning document so other
+responsibilities can be scheduled accordingly.
 
 ### How can investment time be used?
 
