@@ -76,7 +76,7 @@ As an example, here's a simple component `index.js` that displays the name of a 
 import React from 'react'
 import ReactDOM from 'react-dom'
 
-const Home = (props) => (
+const Home = (props) => {
   <>
     <div className="container-fluid mb-1 jumbotron">
       <div className="row">
@@ -91,7 +91,7 @@ const Home = (props) => (
       </div>
     </div>
   </>
-)
+}
 
 ReactDOM.render(
   React.createElement(Home, window.props),
