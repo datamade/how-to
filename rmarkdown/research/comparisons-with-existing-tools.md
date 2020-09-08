@@ -18,6 +18,14 @@ Like rMarkdown requires an additional runtime beyond standard Python. rMarkdown 
 Pweave is not actively maintained, and has not been updated
 in three years.
 
+rMarkdown has better editor support than Pweave. For the following editors, rMarkdown is as good and usually better
+than support for Pweave, if there any Pweave support exists.
+
+* [sublime](https://packagecontrol.io/packages/knitr)
+* [emacs](https://ess.r-project.org/)
+* [atom](http://www.goring.org/resources/atom_and_r.html)
+* [vscode](https://marketplace.visualstudio.com/items?itemName=Ikuyadeu.r)
+
 Pweave is missing many features compared to rMarkdown. Of greatest consequence are 1. chunk specific caching and support for 2. multiple languages, particularly SQL.
 
 Chunk specific caching can dramatically reduce build times which is critical in speed of development.
