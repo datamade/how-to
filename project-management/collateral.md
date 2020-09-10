@@ -95,7 +95,7 @@ Project setup and formatting:
 * Project members: All staff assigned to the project. Note, if a staff member is not assigned to the project, it will not show up in their list of projects to track time against.
 * Project services:
 * Hourly budget: Number of hours estimated for this line item
-* Billing method: Team member rates. Team member rates are set based staff position.
+Set hourly rates: Under "Select a billing method", select "Team Member Rates". Team member rates are set based on position. Default rates have been set for each team member in FreshBooks, but can be altered based on project in this screen.
 * End date: Optional. We don't track this in Freshbooks.
 
 Here's an example for the CalFWD project:
