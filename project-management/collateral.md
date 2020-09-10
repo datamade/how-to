@@ -85,9 +85,7 @@ Sometimes, project owners will keep a `Done` column in addition to a `Closed` co
 
 ## FreshBooks projects
 
-Time is tracked at DataMade using [FreshBooks](https://my.freshbooks.com). For each item in the scope of work, a new FreshBooks [project](https://my.freshbooks.com/#/projects) should be created.
-
-Project setup and formatting:
+Time is tracked at DataMade using [FreshBooks](https://my.freshbooks.com). For each item in the scope of work, a new FreshBooks [project](https://my.freshbooks.com/#/projects) should be created with the following configuration.
 
 * Name: Follows the convention of `Project title: Scope item title` (Example: `Payroll Phase 3: Meetings and Project Planning`)
 * Client: Organization, name and email of the client contact. If they are a new client, you may have to create them in Freshbooks first.
