@@ -91,7 +91,7 @@ Project setup and formatting:
 
 * Name: Follows the convention of `Project title: Scope item title` (Example: `Payroll Phase 3: Meetings and Project Planning`)
 * Client: Organization, name and email of the client contact. If they are a new client, you may have to create them in Freshbooks first.
-* Type: Hourly project with an hourly staff rate. Using a flat rate type will set all tracked time to non-billable.
+* Project type: Hourly project. **Do not use flat rate, as it will set all tracked time to non-billable.**
 * Project members: All staff assigned to the project. Note, if a staff member is not assigned to the project, it will not show up in their list of projects to track time against.
 * Project services:
 * Hourly budget: Number of hours estimated for this line item
