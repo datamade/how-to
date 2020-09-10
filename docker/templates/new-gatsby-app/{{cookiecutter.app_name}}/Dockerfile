@@ -7,10 +7,8 @@ COPY yarn.lock ./
 
 RUN yarn install
 
+# 'build' is a custom Node.js script defined in package.json
 ENTRYPOINT [ "yarn" ]
-CMD [ "start" ]
-
-ENTRYPOINT [ "gatsby" ]
 CMD [ "build" ]
 
 COPY . /app
