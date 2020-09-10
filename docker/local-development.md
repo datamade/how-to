@@ -49,6 +49,7 @@ With this setup, you can:
 - [Run your application or tests](#run-the-application)
 - [Access the `pdb` shell](#docker-and-pdb)
 - [Run custom commands on your container](#run-custom-commands-on-containers)
+- [Install a local installation of a Python package for development](#install-a-local-installation-of-a-python-package-for-development)
 
 If you run into trouble, see [Debugging your containerized setup](#debugging-your-containerized-setup).
 
@@ -82,7 +83,7 @@ services in `docker-compose.yml`.
 
 If your application includes sensitive config values, it's good practice to
 define null fallbacks if your application doesn't require them for local
-development. 
+development.
 
 **Example `settings.py`**
 
@@ -96,7 +97,7 @@ EMAIL_PASSWORD = os.getenv('EMAIL_PASSWORD', '')
 
 If you do need to interact with a third-party service during local development,
 define a `.env` file in your project root containing those config values. Be
-sure to exclude it in your `.gitignore` file to avoid committing secrets! 
+sure to exclude it in your `.gitignore` file to avoid committing secrets!
 
 **Example `.env`**
 
@@ -105,7 +106,7 @@ API_KEY="some key"
 EMAIL_PASSWORD="some password"
 ```
 
-Docker Compose will [automatically thread variables defined in `.env` into your 
+Docker Compose will [automatically thread variables defined in `.env` into your
 containers](https://docs.docker.com/compose/environment-variables/#the-env-file).
 We like this approach because:
 
@@ -134,8 +135,8 @@ and Bash scripts when a container is initialized. [Read more. &raquo;](https://d
 #!/bin/bash
 set -e
 
-psql -U postgres -c "CREATE DATABASE <YOUR_DATABASE>"
-psql -U postgres -d <YOUR_DATABASE> -c "CREATE EXTENSION IF NOT EXISTS <YOUR_EXTENSION>"
+psql -U postgres -c "CREATE DATABASE ${YOUR_DATABASE}"
+psql -U postgres -d ${YOUR_DATABASE} -c "CREATE EXTENSION IF NOT EXISTS ${YOUR_EXTENSION}"
 # Add any more database initialization commands you may need here
 ```
 
@@ -167,13 +168,13 @@ version: '2.4'
 
 services:
   dbload:
-    container_name: <APP_NAME>-dbload
-    image: <APP_NAME>:latest
+    container_name: ${APP_NAME}-dbload
+    image: ${APP_NAME}:latest
     depends_on:
       - app
     volumes:
       - .:/app
-      - ${PWD}/<YOUR_PROJECT>/settings_deployment.py.example:/app/<YOUR_PROJECT>/settings_deployment.py
+      - ${PWD}/${YOUR_PROJECT}/settings_deployment.py.example:/app/${YOUR_PROJECT}/settings_deployment.py
     # For some reason, Python logs are buffered if they don't come through
     # logging. For instant reporting of non-logging output, i.e., print state-
     # ments or writing to STDOUT directly, run python commands with the -u flag.
@@ -222,7 +223,7 @@ included the `stdin_open` and `tty` directives from the standard setup, you
 can shell into your container to access your debugger frame like this:
 
 ```bash
-docker attach <container_name>
+docker attach ${container_name}
 ```
 
 `Ctrl-c` to detach when you're finished.
@@ -238,20 +239,103 @@ this:
 
 ```bash
 # The --rm flag will remove the temporary container created to run your command after the command exits.
-docker-compose run --rm <CONTAINER_NAME> <COMMAND>
+docker-compose run --rm ${CONTAINER_NAME} ${COMMAND}
 ```
 
 E.g., to run a specific test module:
 
 
 ```bash
-docker-compose -f docker-compose.yml -f tests/docker-compose.yml run --rm app <YOUR_COMMAND>
+docker-compose -f docker-compose.yml -f tests/docker-compose.yml run --rm app ${YOUR_COMMAND}
 ```
 
-– where `<YOUR_COMMAND>` is something like `pytest tests/test_admin.py -sxv --pdb`.
+– where `${YOUR_COMMAND}` is something like `pytest tests/test_admin.py -sxv --pdb`.
 
 Commands that write to STDOUT, e.g., `python manage.py dumpdata`, can be piped (`|`)
 or redirected (`>`) to files on your computer in the normal way.
+
+### Install a local installation of a Python package for development
+
+You can use containers to hack on Python packages, too! At DataMade, this comes
+up frequently when working on Councilmatic instances that require upstream
+changes to [`django-councilmatic`](https://github.com/datamade/django-councilmatic/),
+as well as writing or extending [custom comparators](https://github.com/dedupeio/?q=variable)
+for Dedupe.io. It's also super helpful for debugging third-party packages.
+
+To install a local copy of a Python package, first mount the directory it lives
+in as a volume your application container.
+
+**`docker-compose.yml`**
+
+```yaml
+app:
+    container_name: ${CONTAINER}
+    image: ${IMAGE}:latest
+    volumes:
+      - /absolute/path/to/your/local/package:/path/to/package/in/container
+    command: ${COMMAND}
+```
+
+Next, start your services:
+
+
+```bash
+docker-compose up -d
+```
+
+With your container running, install the package you mounted into your container
+as an [editable depedency](https://pip.pypa.io/en/stable/reference/pip_install/#install-editable):
+
+```bash
+docker-compose exec app pip install -e /path/to/package/in/container
+```
+
+Finally, restart the service you installed the local dependency into so Python
+packages are reloaded:
+
+```bash
+docker-compose restart app
+```
+
+Now, when you make changes to your local installation of the package, they
+will automatically be reflected in your application!
+
+#### If installing the dependency directly breaks your application...
+
+If you install a local dependency directly with `pip`, and it breaks the app,
+the order of your application dependencies is probably meaningful, and
+installing your local depedency out of order interfered with a dependency of
+another one of your depndencies. (You begin to understand why the phrase
+"dependency hell" exists! 🤯)
+
+Luckily, it's negligible to fix in this instance. First, spin down your
+containers:
+
+```bash
+docker-compose down
+```
+
+Then, replace the relevant line in `requirements.txt` with `-e /path/to/package/in/container`.
+
+**`requirements.txt`**
+
+```
+# package==0.0.0
+-e /path/to/package/in/container
+```
+
+Start your services and install all of the dependencies:
+
+```bash
+docker-compose up -d
+docker-compose exec app pip install -r requirements.txt
+```
+
+Finally, restart the service you installed the local dependency into:
+
+```bash
+docker-compose restart app
+```
 
 ## Debugging your containerized setup
 
@@ -315,4 +399,4 @@ and you are using a containerized version of Postgres defined as a service
 called `postgres`, you can use `postgres` as the host name.
 - In the case of both the application and the tests, you can access your
 containerized database from your computer on the `32001` port, like
-`psql -h localhost -p 32001 -U postgres -d <YOUR_DATABASE>`.
+`psql -h localhost -p 32001 -U postgres -d ${YOUR_DATABASE}`.
