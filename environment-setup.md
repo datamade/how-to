@@ -19,7 +19,7 @@ When possible, we prefer installing binaries from a package manager to building 
 ## New Computer
 If you are replacing your computer, you should [install a fresh copy of macOS](https://support.apple.com/guide/mac-help/reinstall-macos-mchlp1599/mac), and then [use the Migration Assistant](https://support.apple.com/en-us/HT204350) to transfer all your data and settings to your new computer in one go. Make sure you take note of your DataMade Gmail account password to sign into Chrome if that's your browser of choice, and your LastPass master password to access your accounts.
 
-Once you do that and you have checked that your new computer is good to go, you can safely [wipe your old computer clean].(https://support.apple.com/en-us/HT201065)
+Once you do that and you have checked that your new computer is good to go, you can safely [wipe your old computer clean](https://support.apple.com/en-us/HT201065).
 
 ## Version control
 
