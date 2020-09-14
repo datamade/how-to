@@ -11,6 +11,7 @@ Project collateral generally includes the following artifacts:
 - [Scope of work](#scope-of-work)
 - [Repositories](#repositories)
 - [Project board](#project-board)
+- [FreshBooks projects](#freshbooks-projects)
 
 ## Project folder
 
@@ -80,3 +81,26 @@ All client projects should have open issues organized in a project board, prefer
 - **Done/closed**: Issues that have been merged and fixed
 
 Sometimes, project owners will keep a `Done` column in addition to a `Closed` column. In these cases, issues addressed by merged PRs should be moved into `Done` and remain open until sprint planning meetings, when we reflect on them and close them as a group. We typically follow this practice with larger projects like Dedupe.io that involve a substantial budget and time for reflection.
+
+## FreshBooks projects
+
+Time is tracked at DataMade using [FreshBooks](https://my.freshbooks.com). For each item in the scope of work, create [a new FreshBooks project](https://my.freshbooks.com/#/projects) with the following configuration:
+
+- **Name**: The name of the project and scope item. Follow the naming convention `Project title – Scope item title`, e.g., `Payroll Phase 3 – Meetings and Project Planning`.
+- **Client**: Add the name, organization, and email of the client contact.
+    - Repeat clients should already exist in FreshBooks. Type their name, organization, or email address into the corresponding field, and FreshBooks will autosuggest matching clients in the system.
+    - If your project is for a new client, you can add them to FreshBooks from the project creation screen. Simply fill in their information in the Client form, and they will be added to the system. If you aren't sure who the client contact is, consult a partner or lead developer.
+- **Project members**: Select all staff assigned to the project. Note, if a staff member is not assigned to the project, it will not show up in their list of projects to track time against.
+- **Project type**: Always select `Hourly Project`. **Do not use `Flat Rate Project`, as it will set all tracked time to non-billable.**
+- **Set hourly rates**: Under "Select a billing method", select "Team Member Rates". Team member rates are set based on position. Default rates have been set for each team member in FreshBooks, but can be altered based on project in this screen.
+- **Project services**: Select relevant services from the existing list. `Research`, `Development`, `Project Management`, and `Meetings` is a good starting point for most projects.
+- **Hourly budget**: Divide the cost of the scope item by $175 to estimate the number of hours budgeted for this scope item.
+    - FreshBooks does not allow you to input a budget in dollars for hourly projects, so we use this hours estimate to calculate cost [in our project budget script](https://github.com/datamade/project_budget/).
+    - The hours budget will provide a rough signal of progress in FreshBooks, but it may become noisy when project staff are working at different rates. Use [the project budget script](https://github.com/datamade/project_budget/) to monitor budget in terms of dollars.
+- **End date**: Optionally, add the project deadline. We usually don't track this in FreshBooks.
+
+Here's an example FreshBooks project for a scope item in the CalFWD project:
+
+![CalFWD project in FreshBooks](../images/freshbooks-calfwd.png)
+
+For further reference, FreshBooks maintains [its own documentation on how projects work](https://www.freshbooks.com/support/which-billing-method-should-i-choose).
