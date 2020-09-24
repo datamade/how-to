@@ -262,8 +262,8 @@ changes to [`django-councilmatic`](https://github.com/datamade/django-councilmat
 as well as writing or extending [custom comparators](https://github.com/dedupeio/?q=variable)
 for Dedupe.io. It's also super helpful for debugging third-party packages.
 
-To install a local copy of a Python package, first mount the directory it lives
-in as a volume your application container.
+To install a local copy of a Python package in your Django or Flask application
+container, first mount the directory it lives in as a volume.
 
 **`docker-compose.yml`**
 
@@ -306,7 +306,7 @@ If you install a local dependency directly with `pip`, and it breaks the app,
 the order of your application dependencies is probably meaningful, and
 installing your local depedency out of order interfered with a dependency of
 another one of your depndencies. (You begin to understand why the phrase
-"dependency hell" exists! 🤯)
+"dependency hell" exists!)
 
 Luckily, it's negligible to fix in this instance. First, spin down your
 containers:
