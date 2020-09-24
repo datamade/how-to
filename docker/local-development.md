@@ -280,7 +280,7 @@ Next, start your services:
 
 
 ```bash
-docker-compose up -d
+docker-compose up
 ```
 
 With your container running, install the package you mounted into your container
@@ -327,7 +327,7 @@ Then, replace the relevant line in `requirements.txt` with `-e /path/to/package/
 Start your services and install all of the dependencies:
 
 ```bash
-docker-compose up -d
+docker-compose up
 docker-compose exec app pip install -r requirements.txt
 ```
 
