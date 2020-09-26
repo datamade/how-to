@@ -26,7 +26,9 @@ than support for Pweave, if there any Pweave support exists.
 * [atom](http://www.goring.org/resources/atom_and_r.html)
 * [vscode](https://marketplace.visualstudio.com/items?itemName=Ikuyadeu.r)
 
-Pweave is missing many features compared to rMarkdown. Of greatest consequence are 1. chunk specific caching and support for 2. multiple languages, particularly SQL.
+rMarkdown also has its own IDE, [RStudio](https://rstudio.com/)
+
+Beyond active devlopment and editor support, Pweave is missing many features compared to rMarkdown. Of greatest consequence are 1. chunk specific caching and support for 2. multiple languages, particularly SQL.
 
 Chunk specific caching can dramatically reduce build times which is critical in speed of development.
 
