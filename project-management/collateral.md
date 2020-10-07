@@ -116,8 +116,10 @@ This mission is underpinned by more specific points of view in topic areas
 that underpin civil society, e.g., [policing](https://datamade.us/blog/accounting-for-our-part-in-supporting-systems-of-oppression/).
 
 DataMade staff are not expected to be policy experts in every project they take
-on. Instead, most projects include hours specifically earmarked for research, so
+on. Instead, some projects include hours specifically earmarked for research, so
 staff are able to acquire and/or deepen expertise prior to implementation.
+Consult the scope of work and/or project manager to clarify how much time you
+should spend researching for a given project.
 
 At DataMade, project research usually takes the following shape:
 
