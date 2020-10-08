@@ -6,7 +6,9 @@ This document describes how to configure your applications to log errors to
 ## Contents
 
 - [Background](#background)
-    - [A note on naming](#a-note-on-naming)
+    - [Naming Sentry projects](#naming-sentry-projects)
+    - [Working with legacy applications](#working-with-legacy-applications)
+    - [Bookkeeping](#bookkeeping)
 - [Logging errors in Django applications](#logging-errors-in-django-applications)
     - [Option 1: Use the Django app template](#option-1-use-the-django-app-template)
     - [Option 2: Enable Sentry manually](#option-2-enable-sentry-manually)
@@ -26,12 +28,36 @@ will be different. See the docs below for setting up specific application types,
 when in doubt, [refer to the Sentry documentation](https://docs.sentry.io/)
 to figure out what steps you'll need to take to configure your application.
 
-### A note on naming
+### Naming Sentry projects
 
 We prefer that Sentry applications share the same name as the GitHub
 repo for the project in question. For example, the project with the GitHub repo
 [`la-metro-dashboard`](https://github.com/datamade/la-metro-dashboard) should also
 have the Sentry application name `la-metro-dashboard`.
+
+### Working with legacy applications
+
+Some legacy applications use [the now-deprecated `raven` package](https://docs.sentry.io/clients/python/)
+to integrate with Sentry. This is usually fine, unless it is necessary to log
+messages in `except` blocks without interrupting code execution. See [this
+issue](https://github.com/getsentry/raven-python/issues/1297) for more context.
+
+[We worked to upgrade implicated projects](https://github.com/datamade/devops/issues/104)
+to the new `sentry-sdk` package in 2019-2020. If you are working on a legacy
+project and you now need to call `captureException`, etc., **upgrade from
+`raven` to `sentry-sdk`, or your messages may not be logged.**
+
+Upgrading is fairly straightforward. See [this PR](https://github.com/datamade/property-image-cache/pull/17/)
+for an example.
+
+### Bookkeeping
+
+Sentry issues have associated comment threads. While it's tempting to stash
+notes in these threads, Sentry removes issues that do not recur within 90 days,
+so the threads should be treated as ephemeral. Instead, triage bugs from Sentry
+by opening a corresponding issue in GitHub, including the full stack trace and
+a link to the Sentry issue. Add any debugging logs as comments in GitHub, so
+we can be sure they persist, even if the Sentry issue doesn't.
 
 ## Logging errors in Django applications
 
@@ -58,9 +84,10 @@ from the [official Sentry docs for Django](https://docs.sentry.io/platforms/pyth
 
 #### Install the Sentry SDK
 
-Update your app's `requirements.txt` file to install [`sentry-sdk`](https://pypi.org/project/sentry-sdk/).
-Remember to run `docker-compose build` after you update `requirements.txt` to make
-sure that your container image requirements are up to date.
+Update your app's `requirements.txt` file to install the latest version of the
+[`sentry-sdk`](https://pypi.org/project/sentry-sdk/) for your stack. Remember to
+run `docker-compose build` after you update `requirements.txt` to make sure that
+your container image requirements are up to date.
 
 #### Thread the DSN into the app environment
 
