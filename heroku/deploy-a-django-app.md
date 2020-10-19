@@ -11,7 +11,7 @@ preferred platform for hosting dynamic applications.
   - [Serve static files with WhiteNoise](#serve-static-files-with-whitenoise)
   - [Read settings and secret variables from the environment](#read-settings-and-secret-variables-from-the-environment)
   - [Configure Django logging](#configure-django-logging)
-- [Setup GitHub Actions for CI](#setup-github-actions-for-ci)
+- [Set up GitHub Actions for CI](#set-up-github-actions-for-ci)
 - [Provision Heroku resources](#provision-heroku-resources)
   - [Ensure that the Heroku CLI is installed](#ensure-that-the-heroku-cli-is-installed)
   - [Create Heroku config files](#create-heroku-config-files)
