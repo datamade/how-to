@@ -172,7 +172,7 @@ LOGGING = {
 
 For more detail on Django's logging framework, [see the documentation](https://docs.djangoproject.com/en/2.2/topics/logging/).
 
-## Setup GitHub Actions for CI
+## Set up GitHub Actions for CI
 
 For Heroku deployments, we use GitHub Actions instead of Travis for CI (continuous integration). Read the [how-to to set up GitHub Actions](https://github.com/datamade/how-to/blob/master/ci/github-actions.md).
 
