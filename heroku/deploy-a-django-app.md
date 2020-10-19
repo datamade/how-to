@@ -7,9 +7,11 @@ preferred platform for hosting dynamic applications.
 
 - [Set up application code for Heroku](#set-up-application-code-for-heroku)
   - [Containerize your app](#containerize-your-app)
+  - [Clean up old configurations](#clean-up-old-configurations)
   - [Serve static files with WhiteNoise](#serve-static-files-with-whitenoise)
   - [Read settings and secret variables from the environment](#read-settings-and-secret-variables-from-the-environment)
   - [Configure Django logging](#configure-django-logging)
+- [Set up GitHub Actions for CI](#set-up-github-actions-for-ci)
 - [Provision Heroku resources](#provision-heroku-resources)
   - [Ensure that the Heroku CLI is installed](#ensure-that-the-heroku-cli-is-installed)
   - [Create Heroku config files](#create-heroku-config-files)
@@ -63,6 +65,27 @@ properly deploy with Heroku:
 For an example of a Django Dockerfile that is properly set up for Heroku, see
 the [Minnesota Election Archive project](https://github.com/datamade/mn-election-archive/blob/master/Dockerfile).
 
+### Clean up old configurations
+
+For new projects, you can skip this step. For existing projects that are being convered from our older deployment practices, you'll want to consolodate everything into `settings.py` and eventually delete your `settings_local.py` and supporting files. In switching to Heroku, the `settings_local.py` pattern is no longer necessary to store secret values as we'll be using environment variables instead. 
+
+In addition, you will want to **delete** the following files, as we won't be using Travis, Blackbox or CodeDeploy:
+
+* `.travis.yml` (we will be using GitHub Actions instead of Travis for CI)
+* `appspec.yml`
+* `APP_NAME/settings_local.example.py` (secret values are now stored as environment variables)
+* `configs/nginx.xxx.conf.gpg` files
+* `configs/supervisor.xxx.conf.gpg` files
+* `configs/settings_local.xxx.py.gpg` files
+* `configs/settings_local.travis.py` files
+* `keyrings/live/pubring.kbx` (Blackbox is no longer needed as we're using environment variables)
+* `scripts/after_install.sh.gpg` (no longer using AWS CodeDeploy)
+* `scripts/before_install.sh.gpg`
+* `scripts/app_start.sh.gpg`
+* `scripts/app_stop.sh.gpg`
+
+For an example of a conversion, [see this PR for the Erikson EDI project](https://github.com/datamade/erikson-edi/pull/162/) (private repo)
+
 ### Serve static files with WhiteNoise
 
 Apps deployed on Heroku don't typically use Nginx to serve content, so they need some
@@ -72,7 +95,7 @@ to allow Django to serve static files in production.
 
 Follow the [setup instructions for WhiteNoise in
 Django](http://whitenoise.evans.io/en/stable/django.html) to ensure that your
-Django apps can serve static files.
+Django apps can serve static files. You will also need to include `whitenoise` in your `requirements.txt` as a dependency.
 
 In order to be able to serve static files when `DEBUG` is `False`, you'll also want
 to make sure that `RUN python manage.py collectstatic` is included as a step in your
@@ -148,6 +171,10 @@ LOGGING = {
 ```
 
 For more detail on Django's logging framework, [see the documentation](https://docs.djangoproject.com/en/2.2/topics/logging/).
+
+## Set up GitHub Actions for CI
+
+For Heroku deployments, we use GitHub Actions instead of Travis for CI (continuous integration). Read the [how-to to set up GitHub Actions](https://github.com/datamade/how-to/blob/master/ci/github-actions.md).
 
 ## Provision Heroku resources
 
@@ -227,6 +254,8 @@ if [ `psql ${DATABASE_URL} -tAX -c "SELECT COUNT(*) FROM ${TABLE}"` -eq "0" ]; t
     make all
 fi
 ```
+
+The `release.sh` file must be set to executable at the file system level. To do this, run `chmod +x scripts/release.sh` on your local machine and commit the change. Surprisingly, GitHub will recognize this change!
 
 Note that logs for the release phase won't be viewable in the Heroku console unless `curl`
 is installed in your application container. Make sure your Dockerfile installs
