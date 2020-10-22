@@ -48,11 +48,11 @@ follow along. We investigated three candidates:
 [Luigi](https://github.com/spotify/luigi), and
 [Rundeck](https://www.rundeck.com/open-source). Rundeck seemed optimized more
 for server administration than data workflows, so we mostly considered Airflow
-vs. Luigi.** **
+vs. Luigi.
 
 [This article](https://towardsdatascience.com/data-pipelines-luigi-airflow-everything-you-need-to-know-18dc741449b7)
 provides an excellent comparison of Airflow and Luigi. The important
-[distinctions for us were as follows:
+distinctions for us were as follows:
 
 1. Airflow supports scheduling tasks, while Luigi [purposefully omits this
 functionality](https://luigi.readthedocs.io/en/stable/central_scheduler.html).
@@ -96,9 +96,9 @@ A task is a single function or command to run. At the bare minimum,
 instantiating a task requires a `task_id`, `dag`, and the command argument for
 the particular operator being used.
 
-- For example, the `bash_operator` has a `command` argument, whereas the
-- `python_operator` has a `python_callable` argument. A task run is an instance
-- of a task.
+For example, the `bash_operator` has a `command` argument, whereas the
+`python_operator` has a `python_callable` argument. A task run is an instance
+of a task.
 
 ### Operator
 
@@ -239,7 +239,7 @@ However, our first production Airflow instance, the [LA Metro
 Dashboard](https://github.com/datamade/la-metro-dashboard/), is deployed on AWS
 EC2 via CodeDeploy using DataMade’s [legacy deployment
 framework](https://github.com/datamade/deploy-a-site/). The primary reason we
-had to fall back to our legacy framework is because **we** **needed a stable IP
+had to fall back to our legacy framework is because **we needed a stable IP
 address that we could safelist to access an external Solr instance**. Our
 original plan was to expose our Solr instance publicly and enable
 [SSL](https://lucene.apache.org/solr/guide/7_6/enabling-ssl.html) and [basic
@@ -266,7 +266,7 @@ shell](https://flask.palletsprojects.com/en/1.1.x/shell/) in the Airflow app:
 
 ``` bash
 # This command assumes your Airflow service in docker-compose.yml is
-named “airflow”
+# named “airflow”
 
 docker-compose run --rm -e FLASK_APP=airflow.www.app airflow flask shell
 ```
