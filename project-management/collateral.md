@@ -12,6 +12,7 @@ Project collateral generally includes the following artifacts:
 - [Repositories](#repositories)
 - [Project board](#project-board)
 - [FreshBooks projects](#freshbooks-projects)
+- [Research](#research)
 
 ## Project folder
 
@@ -104,3 +105,40 @@ Here's an example FreshBooks project for a scope item in the CalFWD project:
 ![CalFWD project in FreshBooks](../images/freshbooks-calfwd.png)
 
 For further reference, FreshBooks maintains [its own documentation on how projects work](https://www.freshbooks.com/support/which-billing-method-should-i-choose).
+
+## Research
+
+DataMade work is guided by a broad mission statement:
+
+> DataMade is a data and web consultancy for civil society. We support our partners in working toward democracy, justice, and equity.
+
+This mission is underpinned by more specific points of view in topic areas
+that underpin civil society, e.g., [policing](https://datamade.us/blog/accounting-for-our-part-in-supporting-systems-of-oppression/).
+
+DataMade staff are not expected to be policy experts in every project they take
+on. Instead, some projects include hours specifically earmarked for research, so
+staff are able to acquire and/or deepen expertise prior to implementation.
+Consult the scope of work and/or project manager to clarify how much time you
+should spend researching for a given project.
+
+At DataMade, project research usually takes the following shape:
+
+1. **Define the scope of your research.** Talk to the project manager and/or
+partners to acquire important context and concepts in your research area.
+Identify gaps in your understanding and/or key research questions.
+2. **Independently investigate.** Use your preferred search engine (scholarly
+search engines, such as [Google Scholar](https://scholar.google.com/), are great, too) to gather materials relevant to your blind spots and research questions.
+Share things that surprise or excite or enrage you with other staff – we love
+puzzling about the world together!
+3. **Tap an expert.** Soliciting help from an expert can be a useful tool to
+synthesize what you've learned and add clarity and nuance to your research.
+Be sure to follow [this high level advice](https://academia.stackexchange.com/a/63860)
+for strategies (and courtesies!) to use when asking for help.
+
+Deeper and more democratized topical expertise helps us identify and execute
+better and more sophisticated work, so it's ideal for project research to also
+support team learning. That can look like a polished notes document, research
+report, or even a slide deck to support a tea time conversation. This artifact
+can live in your project folder while it's in progress, but be sure to move it
+(or a copy) into the `Research > Topical research` folder in our team Drive
+once it's ready to share.
