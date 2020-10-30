@@ -7,6 +7,7 @@ style.
 
 - [Remote work](remote-work/)
 - [Project management](project-management/)
+- [User research](ux/)
 - [Investment time](investment-time/)
 
 DataMade employees can find even more documentation of our policies and

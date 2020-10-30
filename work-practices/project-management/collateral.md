@@ -102,7 +102,7 @@ Time is tracked at DataMade using [FreshBooks](https://my.freshbooks.com). For e
 
 Here's an example FreshBooks project for a scope item in the CalFWD project:
 
-![CalFWD project in FreshBooks](../images/freshbooks-calfwd.png)
+![CalFWD project in FreshBooks](../../images/freshbooks-calfwd.png)
 
 For further reference, FreshBooks maintains [its own documentation on how projects work](https://www.freshbooks.com/support/which-billing-method-should-i-choose).
 
