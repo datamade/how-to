@@ -39,9 +39,6 @@ _In alphabetical order and including links to external repository-based document
     - [Interacting with a remote database](postgres/Interacting-with-a-remote-database.md)
     - [Dumping and restoring a Postgres database](postgres/Dump-and-restore-Postgres.md)
     - [Dockerizing Postgres](postgres/Dockerizing-Postgres.md)
-- [Project management](project-management/)
-    - [Project collateral](project-management/project-collateral.md)
-    - [Best practices for working with source control](./source-control.md)
 - [Reproducible data analysis](https://github.com/datamade/data-analysis-guidelines)
 - [Scraping](scraping/)
     - [`lxml` for web scraping](scraping/lxml-for-web-scraping.md)
@@ -53,8 +50,13 @@ _In alphabetical order and including links to external repository-based document
 - [The shell and Ubuntu](shell/)
     - [tmux, best practices](shell/tmux-best-practices.md)
     - [How to move a gpg key between servers](shell/moving-keys-between-servers.md)
-- [User Experience (UX)](ux/)
-    - [Project research and interviews](ux/project-research-and-interviews.md)
+- [Work practices](work-practices/)
+    - [Remote work](work-practices/remote-work/)
+    - [Project management](work-practices/project-management/)
+        - [Project collateral](work-practices/project-management/collateral.md)
+        - [Best practices for working with source control](work-practices/project-management/source-control.md)
+    - [User research](work-practices/ux/project-research-and-interviews.md)
+    - [Investment time](work-practices/investment-time/)
 
 ## Contributing
 
