@@ -83,7 +83,7 @@ allow. Enter **Team tea time**, our optional twice weekly get-together. ☕️
 Every week, we schedule two 30-minute slots for available members of the team
 to gather via Google Hangout. Sometimes, these tea times have a set topic, e.g.,
 discussing an interesting article. (Ideas for tea time topics are generally
-shared in the #talks channel in Slack.) Sometimes, we use tea time to commune
+shared in the `#talks` channel in Slack.) Sometimes, we use tea time to commune
 with other teams based in Civic Exchange. Most of the time, tea time is just
 half an hour to shoot the breeze and consume your preferred beverage and/or
 snack in good company.
