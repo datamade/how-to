@@ -71,7 +71,7 @@ like to point and gesture 🙃) and [Google Hangouts](https://hangouts.google.co
 
 In the Zoom era, there are tons of ideas for remote team bonding. For our part,
 we prefer a minimal approach that folks can dip in and out of as their schedules
-allow. Enter **Team tea time**. ☕️
+allow. Enter **Team tea time**, our optional twice weekly get-together. ☕️
 
 Every week, we schedule two 30-minute slots for available members of the team
 to get together. Sometimes, these tea times have a set topic, e.g., discussing
