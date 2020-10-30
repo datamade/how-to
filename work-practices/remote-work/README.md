@@ -24,12 +24,19 @@ on and off the for the day, as well as at lunch.
 
 ### Google Calendar
 
-We increasingly rely on the DataMade calendar to keep track of meetings, out
-of office blocks, and time off. When you create calendar events, be sure to
-[invite attendees](https://support.google.com/calendar/answer/37161) and specify
-whether invitations are optional. If you receive a calendar invitation, try to
-[RSVP ahead of time](https://support.google.com/calendar/answer/37135) so we
-have a full picture of time commitments and availability.
+We increasingly rely on Google Calendar to keep track of meetings, out of office
+blocks, and time off – so much so that we begin each day with a ceremonial
+reading of events on the calendar.
+
+We individually manage our schedules using the Google Calendar associated with
+our `@datamade.us` email address. (Don't forget to [set your working hours](https://support.google.com/calendar/answer/7638168)!)
+In turn, these calendars are visible to everyone on the team to consult when
+setting meetings, planning work, etc.
+
+When you create calendar events, be sure to [invite attendees](https://support.google.com/calendar/answer/37161)
+and specify whether invitations are optional. If you receive a calendar invite,
+try to [RSVP ahead of time](https://support.google.com/calendar/answer/37135) so
+we have a full picture of time commitments and availability.
 
 Many of us like the handy dandy [Google Calendar Slack extension](https://slack.com/app-pages/google-calendar)
 to stay on top of our schedules.
