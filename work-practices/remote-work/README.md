@@ -34,11 +34,11 @@ In turn, these calendars are visible to everyone on the team to consult when
 setting meetings, planning work, etc.
 
 When you create calendar events, be sure to [invite attendees](https://support.google.com/calendar/answer/37161)
-and specify whether invitations are optional. If you receive a calendar invite,
-try to [RSVP ahead of time](https://support.google.com/calendar/answer/37135) so
-we have a full picture of time commitments and availability. Finally, be sure
-that video conferencing is enabled for your event – we use the Google Hangouts
-associated with calendar events as meeting rooms.
+and specify whether invitations are optional. Also confirm that video
+conferencing is enabled for your event – we use the Google Hangout associated
+with each event as a meeting room. If you receive a calendar invite, try to
+[RSVP ahead of time](https://support.google.com/calendar/answer/37135)
+so we have a full picture of time commitments and availability.
 
 Many of us like the handy dandy [Google Calendar Slack extension](https://slack.com/app-pages/google-calendar)
 to stay on top of our schedules.
