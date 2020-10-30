@@ -74,9 +74,7 @@ we prefer a minimal approach that folks can dip in and out of as their schedules
 allow. Enter **Team tea time**, our optional twice weekly get-together. ☕️
 
 Every week, we schedule two 30-minute slots for available members of the team
-to get together. Sometimes, these tea times have a set topic, e.g., discussing
-an interesting article. Sometimes, we use tea time to commune with other teams
-based in Civic Exchange. Most of the time, tea time is just half an hour to get
-together and shoot the breeze.
-
-N.b., you are free to consume your preferred food or drink during tea time!
+to gather via Google Hangout. Sometimes, these tea times have a set topic, e.g.,
+discussing an interesting article. Sometimes, we use tea time to commune with
+other teams based in Civic Exchange. Most of the time, tea time is just half
+an hour to shoot the breeze and consume your preferred beverage and/or snack.
