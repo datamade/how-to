@@ -3,6 +3,8 @@
 This directory catalogs our preferred Django extensions for common functionality.
 In some cases, it also provides extended documentation for setup and use.
 
+**Our cookiecutter for creating a new Django app lives in the [containerization templates](https://github.com/datamade/how-to/tree/master/docker/templates) directory.**
+
 ## Standard toolkit
 
 | Objective | Library | Internal documentation |

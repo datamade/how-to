@@ -1,0 +1,18 @@
+version: '2.4'
+services:
+  app:
+    build: .
+    volumes:
+      - .:/app
+      - app_node_modules:/app/node_modules
+    ports:
+      - 8000:8000
+    entrypoint: yarn
+    # 'develop' is a custom Node.js script defined in package.json
+    command: develop
+
+volumes:
+  # Making node_modules a named volume prevents the ./app volume mount from
+  # clobbering the node_modules directory in the container. Since the volume only
+  # has to be named, it doesn't require any configuration directives.
+  app_node_modules:
