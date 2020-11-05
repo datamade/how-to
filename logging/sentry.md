@@ -180,6 +180,12 @@ a Sentry hook:
 Now, all 400 errors should be grouped under the same issue in Sentry. Proceed to
 the Sentry dashboard and ignore these errors as needed.
 
-## Logging errors in Django applications
+## Logging errors in Gatsby applications
 
-We log errors in Gatsby applications using [`@sentry/gatsby`](https://www.gatsbyjs.com/plugins/@sentry/gatsby/), which is the official SDK and a wrapper around the `@sentry/react` package. Installation instructions and option documentation can be found [here](https://www.gatsbyjs.com/plugins/@sentry/gatsby/), and [this blog post about how it works](https://cra.mr/instrumenting-gatsbyjs-with-sentry/) is helpful for understanding what's going on under the hood.
+There are several Gatsby plugins for Sentry integrations, but we prefer [`@sentry/gatsby`](https://www.gatsbyjs.com/plugins/@sentry/gatsby/) because it is the official Sentry SDK for Gatsby and allows for a setup very similar to Django projects.
+
+First, create a new Sentry project following the steps above and generate a DSN. Once you have that value, add it to your local `.env ` file and Netlify environment as `SENTRY_DSN`.
+
+Then you just need to install the `@sentry/gatsby` package and point it toward that DSN value—those setup instructions and option documentation can be found [here](https://www.gatsbyjs.com/plugins/@sentry/gatsby/).
+
+For further reading about how `@sentry/gatsby` works under the hood, [this blog post is useful](https://cra.mr/instrumenting-gatsbyjs-with-sentry/).
