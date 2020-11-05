@@ -522,3 +522,22 @@ command](https://devcenter.heroku.com/articles/connecting-to-heroku-postgres-dat
 You can use the Heroku CLI to accomplish this task. See the Heroku docs on
 [sharing databases between
 applications](https://devcenter.heroku.com/articles/heroku-postgresql#sharing-heroku-postgres-between-applications).
+
+### I get emails saying "[warning] Database disruption imminent, row limit exceeded"
+
+If a review app requires loading in data with more than 10,000 rows, Heroku will
+send an angry email to whoever "deployed" that review app saying that disruption
+of the database is imminent because of exceeded row limits.
+
+If the email is indeed referring to a review app, you can safely ignore it because "database disruption"
+means that `INSERT` operations will be revoked in seven days and for most review
+apps this is beyond the amount of time the app will be active anyway. If the email is
+instead referring to a production app or a long-lived staging app, you should
+[upgrade your Heroku Postgres plan](https://devcenter.heroku.com/articles/updating-heroku-postgres-databases)
+for that instance to insure that database function continues.
+
+In an ideal world it would be nice to configure apps that require >10,000 rows
+of data to use a larger Heroku Postgres plan for review apps. Unfortunately, there
+is not currently a way to set this type of configuration (and hence prevent these
+kinds of emails being sent for review apps) because [Heroku defaults to the cheapest plan for
+review app addons](https://help.heroku.com/SY28FR6H/why-aren-t-i-seeing-the-add-on-plan-specified-in-my-app-json-in-my-review-or-ci-app).
