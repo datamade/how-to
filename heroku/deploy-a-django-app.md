@@ -323,6 +323,11 @@ Note that review app config vars cannot yet be set using the CLI, but you can se
 the Heroku dashboard by navigating to the pipeline home page and visiting
 `Settings > Review Apps > Review app config vars` in the nav.
 
+Also note that while `DATABASE_URL` is probably required by your application, you don't actually
+need to set it yourself. The Heroku Postgres add-on will [automatically define this
+variable](https://devcenter.heroku.com/articles/heroku-postgresql#designating-a-primary-database)
+when it provisions a database for your application.
+
 Heroku needs to deploy from specific branches in order to deploy to different environments
 (e.g. staging vs. production). In order to properly enable automatic deployments, then,
 you'll need to deploy to production from a branch instead of tagged commits (a practice
