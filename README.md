@@ -19,6 +19,7 @@ _In alphabetical order and including links to external repository-based document
 - [Docker](docker/)
     - [Docker for local development](docker/local-development.md)
     - [Templates for containerizing your application](docker/templates/)
+- [Domain Names](domain_names.md)
 - [Environment setup](environment-setup.md)
 - [ETL](etl/)
     - [GNU Make and preferred Unix utilities](https://github.com/datamade/data-making-guidelines)
