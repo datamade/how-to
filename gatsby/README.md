@@ -20,6 +20,13 @@ This directory records best practices for working with [GatsbyJS](https://github
     - [Some example setups](stack.md#some-example-setups)
     - [Managing packages and plugins](stack.md#managing-packages-and-plugins)
 
+## Standard toolkit
+
+| Objective | Library | Internal documentation |
+| :- | :- | :- |
+| Data Visualization | [`recharts`](http://recharts.org/) | |
+| Error Logging | [`@sentry/gatsby`](https://www.gatsbyjs.com/plugins/@sentry/gatsby/) | [Link](./../logging/sentry.md#logging-errors-in-gatsby-applications) |
+
 ## When to use Gatsby
 
 Gatsby is an excellent choice for two types of projects:

@@ -16,6 +16,7 @@ This document describes how to configure your applications to log errors to
         - [Thread the DSN into the app environment](#thread-the-dsn-into-the-app-environment)
         - [Initialize `sentry_sdk` in `settings.py`](#initialize-sentrysdk-in-settingspy)
         - [Group 400 errors](#group-400-errors)
+- [Logging errors in Gatsby applications](#logging-errors-in-gatsby-applications)
 
 ## Background
 
@@ -178,3 +179,7 @@ a Sentry hook:
 
 Now, all 400 errors should be grouped under the same issue in Sentry. Proceed to
 the Sentry dashboard and ignore these errors as needed.
+
+## Logging errors in Django applications
+
+We log errors in Gatsby applications using [`@sentry/gatsby`](https://www.gatsbyjs.com/plugins/@sentry/gatsby/), which is the official SDK and a wrapper around the `@sentry/react` package. Installation instructions and option documentation can be found [here](https://www.gatsbyjs.com/plugins/@sentry/gatsby/), and [this blog post about how it works](https://cra.mr/instrumenting-gatsbyjs-with-sentry/) is helpful for understanding what's going on under the hood.
