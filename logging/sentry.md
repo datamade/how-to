@@ -186,6 +186,6 @@ There are several Gatsby plugins for Sentry integrations, but we prefer [`@sentr
 
 First, create a new Sentry project following the steps above and generate a DSN. Once you have that value, add it to your local `.env ` file and Netlify environment as `SENTRY_DSN`.
 
-Then you just need to install the `@sentry/gatsby` package and point it toward that DSN value—those setup instructions and option documentation can be found [here](https://www.gatsbyjs.com/plugins/@sentry/gatsby/).
+Then you just need to install the `@sentry/gatsby` package (this is done by default in our [Gatsby cookiecutter template]((/docker/templates/))) and point it toward that DSN value—those setup instructions and option documentation can be found [here](https://www.gatsbyjs.com/plugins/@sentry/gatsby/).
 
 For further reading about how `@sentry/gatsby` works under the hood, [this blog post is useful](https://cra.mr/instrumenting-gatsbyjs-with-sentry/).
