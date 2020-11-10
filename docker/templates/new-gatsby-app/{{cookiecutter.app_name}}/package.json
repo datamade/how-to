@@ -5,6 +5,7 @@
   "version": "0.1.0",
   "author": "DataMade",
   "dependencies": {
+    "@sentry/gatsby": "^5.27.3",
     "bootstrap": "^4.4.1",
     "eslint-config-react-app": "^5.2.1",
     "gatsby": "^2.19.45",

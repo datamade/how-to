@@ -36,5 +36,11 @@ module.exports = {
         trackingId: "",
       },
     },
+    {
+      resolve: "@sentry/gatsby",
+      options: {
+        dsn: process.env.SENTRY_DSN ? process.env.SENTRY_DSN : "",
+      }
+    },
   ],
 }
