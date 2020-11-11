@@ -52,3 +52,21 @@ The following is a list of good resources for learning how to use Gatsby.
 - [@jeancochrane's lunch&learn on Gatsby](https://gist.github.com/jeancochrane/705dda18da74fafe4b8182d15284114d) - A set of brief notes giving a quick overview of Gatsby's features.
 
 See our documentation on [the Gatsby development stack](stack.md) for more on how we organize Gatsby applications and manage JavaScript dependencies at DataMade.
+
+## Debugging your Gatsby code
+
+- **Use [React Developer Tools](https://chrome.google.com/webstore/detail/react-developer-tools/fmkadmapgofadopljbjfkapdkoienihi) to follow the data**
+
+    > React Developer Tools is a Chrome DevTools extension for the open-source React JavaScript library. It allows you to inspect the React component hierarchies in the Chrome Developer Tools.
+
+    Using this browser extension, you can run your site locally and inspect components in the browser to see what's appearing where and what value each prop holds. To gain an advanced understanding of this extension, go through their [interactive tutorial](https://react-devtools-tutorial.now.sh/).
+
+- **Make sure you've wrapped your head around the Gatsby lifecycle**
+
+    Gatsby has a build lifecycle very conceptually distinct from Django projects. If you're running into errors while building your project—either locally or on Netlify— and you're not sure why, it's helpful to step back and make sure you can identify which step in the process is causing problems, which will better help you understand if you need to change something in `gatsby-node.js`, `gatsby-browser.js`, or `gatsby-ssr.js`. For a concise summary of these steps we recommend this [overview](https://www.narative.co/articles/understanding-the-gatsby-lifecycle).
+
+- **Remember the distinctions between `gatsby develop` and `gatsby build`**
+
+    Some of the peskiest bugs in Gatsby show up only in production. If your site is working locally but not once it's deployed, the culprit may be one of the differences between the `gatsby develop` and `gatsby build` commands. To understand the distinctions, read through [this documentation](https://www.gatsbyjs.com/docs/overview-of-the-gatsby-build-process) (this also contains a more detailed breakdown of Gatsby build steps). They've also helpfully broken down common missteps in HTML builds for us [here](https://www.gatsbyjs.com/docs/debugging-html-builds/).
+
+    
