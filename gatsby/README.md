@@ -61,12 +61,12 @@ See our documentation on [the Gatsby development stack](stack.md) for more on ho
 
     Using this browser extension, you can run your site locally and inspect components in the browser to see what's appearing where and what value each prop holds. To gain an advanced understanding of this extension, go through their [interactive tutorial](https://react-devtools-tutorial.now.sh/).
 
-- **Make sure you've wrapped your head around the Gatsby lifecycle**
+- **Make sure you've wrapped your head around the React and Gatsby lifecycles**
 
-    Gatsby has a build lifecycle very conceptually distinct from Django projects. If you're running into errors while building your project—either locally or on Netlify— and you're not sure why, it's helpful to step back and make sure you can identify which step in the process is causing problems, which will better help you understand if you need to change something in `gatsby-node.js`, `gatsby-browser.js`, or `gatsby-ssr.js`. For a concise summary of these steps we recommend this [overview](https://www.narative.co/articles/understanding-the-gatsby-lifecycle).
+    React and Gatsby have a component and build lifecycles, respectively, very conceptually distinct from Django projects. If you're running into issues with how a component is rendered, re-rendered, or updated, it might be useful to brush up on the [React component lifecycle](https://reactjs.org/docs/state-and-lifecycle.html). If you're running into errors while building your project—either locally or on Netlify—and you're not sure why, it's helpful to step back and make sure you can identify which step in the process is causing problems, which will better help you understand if you need to change something in `gatsby-node.js`, `gatsby-browser.js`, or `gatsby-ssr.js`. We recommend this summary of the [Gatsby build lifecycle](https://www.narative.co/articles/understanding-the-gatsby-lifecycle) as well as the [official docs](https://www.gatsbyjs.com/docs/overview-of-the-gatsby-build-process).
 
 - **Remember the distinctions between `gatsby develop` and `gatsby build`**
 
-    Some of the peskiest bugs in Gatsby show up only in production. If your site is working locally but not once it's deployed, the culprit may be one of the differences between the `gatsby develop` and `gatsby build` commands. To understand the distinctions, read through [this documentation](https://www.gatsbyjs.com/docs/overview-of-the-gatsby-build-process) (this also contains a more detailed breakdown of Gatsby build steps). They've also helpfully broken down common missteps in HTML builds for us [here](https://www.gatsbyjs.com/docs/debugging-html-builds/).
+    Some of the peskiest bugs in Gatsby show up only in production. If your site is working locally but not once it's deployed, the culprit may be one of the differences between the `gatsby develop` and `gatsby build` commands. To understand the distinctions, read through [this documentation](https://www.gatsbyjs.com/docs/overview-of-the-gatsby-build-process). They've also helpfully broken down common missteps in HTML builds for us [here](https://www.gatsbyjs.com/docs/debugging-html-builds/).
 
     
