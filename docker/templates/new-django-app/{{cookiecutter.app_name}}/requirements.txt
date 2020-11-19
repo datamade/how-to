@@ -12,6 +12,7 @@ sentry-sdk
 pytest
 pytest-django
 pytest-mock
+flake8
 
 # Project setup requirements
 pip-chill

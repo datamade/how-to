@@ -1,4 +1,4 @@
 export function helloWorld () {
-    console.log("Hello, world!");
-    return true;
+  console.log("Hello, world!")
+  return true
 }

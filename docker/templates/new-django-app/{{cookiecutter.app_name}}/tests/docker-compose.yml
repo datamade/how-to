@@ -8,4 +8,4 @@ services:
       DJANGO_SECRET_KEY: reallysupersecret
       # Disable manifest storage for testing
       DJANGO_STATICFILES_STORAGE: django.contrib.staticfiles.storage.StaticFilesStorage
-    command: pytest -sxv
+    command: /bin/bash scripts/run-tests.sh
