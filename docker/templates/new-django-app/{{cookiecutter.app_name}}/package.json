@@ -1,7 +1,7 @@
 {
   "name": "{{cookiecutter.app_name}}",
   "version": "0.0.0",
-  "description": "JavaScript development setup for {{cookiecutter.app_name}}",
+  "description": "JavaScript development setup for {{cookiecutter.app_verbose_name}}",
   "dependencies": {
     "@babel/cli": "^7.8.4",
     "@babel/core": "^7.9.6",
@@ -13,5 +13,16 @@
     "react": "^16.13.1",
     "react-dom": "^16.13.1"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^4.8.1",
+    "@typescript-eslint/parser": "^4.8.1",
+    "babel-eslint": "^10.1.0",
+    "eslint": "^7.13.0",
+    "eslint-config-react-app": "^6.0.0",
+    "eslint-plugin-flowtype": "^5.2.0",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-jsx-a11y": "^6.4.1",
+    "eslint-plugin-react": "^7.21.5",
+    "eslint-plugin-react-hooks": "^4.2.0"
+  }
 }
