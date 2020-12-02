@@ -328,45 +328,34 @@ apps](https://devcenter.heroku.com/articles/github-integration-review-apps)
 for your pipeline:
 
 ```bash
-# If you only have a staging app, change the value of the -a flag to ${APP_NAME}-staging
-# to set the staging app as the parent app for all review apps.
-heroku reviewapps:enable -p ${APP_NAME} -a ${APP_NAME}
+# Note that these need to be two separate commands due to an open Heroku bug,
+# since --autodeploy and --autodestroy require a PATCH request
+heroku reviewapps:enable -p ${APP_NAME}
+heroku reviewapps:enable -p ${APP_NAME} --autodeploy --autodestroy
 ```
 
-Next, configure environment variables for staging, production, and review apps. These can be set
-using either the dashboard or the CLI. [Follow the Heroku
-documentation](https://devcenter.heroku.com/articles/config-vars#managing-config-vars)
-to set up your config vars. Note that you need to define config vars for each environment
-in your application: for staging and production environments, you can define these
-variables under `Settings > Config Vars` on the application page, but since review apps
-don't have an application page until they're created, you can define config vars
-that will be inherited by each review app by navigating to the pipeline home page
-and visiting `Settings > Review Apps > Review app config vars` in the nav.
+Next, configure environment variables for staging and production apps. `DJANGO_SECRET_KEY`
+should be a string generated using the [XKCD password generator](https://preshing.com/20110811/xkcd-password-generator/),
+and `DJANGO_ALLOWED_HOSTS` should be a comma-separated string of valid hosts
+for your app.
 
-If you followed the setup instructions in "[Read settings and secret variables from the
-environment](#read-settings-and-secret-variables-from-the-environment)" above,
-you should need to set at least the following variables:
+```bash
+heroku config:set -a ${APP_NAME}-staging DJANGO_SECRET_KEY=<random-string-here>
+heroku config:set -a ${APP_NAME}-staging DJANGO_ALLOWED_HOSTS=.herokuapp.com
 
-- `DJANGO_SECRET_KEY`: This needs to be a random string, unique to each environment.
-  We often use the [XKCD password generator](https://preshing.com/20110811/xkcd-password-generator/)
-  to generate random strings.
-- `DJANGO_ALLOWED_HOSTS`: This variable should be a comma-separated list of hostnames
-  that are valid for your application. For review apps and the staging environment,
-  you can set this to `.herokuapp.com` to automatically safelist any subdomains
-  of the `herokuapp.com` root domain.
+# Run these commands if you have a production application
+heroku config:set -a ${APP_NAME} DJANGO_SECRET_KEY=<random-string-here>
+heroku config:set -a ${APP_NAME} DJANGO_ALLOWED_HOSTS=<your-list-of-allowed-hosts-here>
+```
 
-Note that while `DATABASE_URL` is probably required by your application, you don't actually
+Note that review app config vars cannot yet be set using the CLI, but you can set them in
+the Heroku dashboard by navigating to the pipeline home page and visiting
+`Settings > Review Apps > Review app config vars` in the nav.
+
+Also note that while `DATABASE_URL` is probably required by your application, you don't actually
 need to set it yourself. The Heroku Postgres add-on will [automatically define this
 variable](https://devcenter.heroku.com/articles/heroku-postgresql#designating-a-primary-database)
 when it provisions a database for your application.
-
-After your config vars are set up, configure the GitHub integration to set up [automatic
-deploys](https://devcenter.heroku.com/articles/github-integration#automatic-deploys)
-for both Heroku apps (staging and production). Ideally we would choose
-"Wait for CI to pass before deploy" for each app, but in our experience so far it will
-prevent Heroku from automatically creating new review apps for each new PR, so for now
-we recommend leaving it off. We have an open ticket with Heroku support and will update
-this recommendation in the future if the situation changes.
 
 Heroku needs to deploy from specific branches in order to deploy to different environments
 (e.g. staging vs. production). In order to properly enable automatic deployments, then,
@@ -567,3 +556,22 @@ command](https://devcenter.heroku.com/articles/connecting-to-heroku-postgres-dat
 You can use the Heroku CLI to accomplish this task. See the Heroku docs on
 [sharing databases between
 applications](https://devcenter.heroku.com/articles/heroku-postgresql#sharing-heroku-postgres-between-applications).
+
+### I get emails saying "[warning] Database disruption imminent, row limit exceeded"
+
+If a review app requires loading in data with more than 10,000 rows, Heroku will
+send an angry email to whoever "deployed" that review app saying that disruption
+of the database is imminent because of exceeded row limits.
+
+If the email is indeed referring to a review app, you can safely ignore it because "database disruption"
+means that `INSERT` operations will be revoked in seven days and for most review
+apps this is beyond the amount of time the app will be active anyway. If the email is
+instead referring to a production app or a long-lived staging app, you should
+[upgrade your Heroku Postgres plan](https://devcenter.heroku.com/articles/updating-heroku-postgres-databases)
+for that instance to insure that database function continues.
+
+In an ideal world it would be nice to configure apps that require >10,000 rows
+of data to use a larger Heroku Postgres plan for review apps. Unfortunately, there
+is not currently a way to set this type of configuration (and hence prevent these
+kinds of emails being sent for review apps) because [Heroku defaults to the cheapest plan for
+review app addons](https://help.heroku.com/SY28FR6H/why-aren-t-i-seeing-the-add-on-plan-specified-in-my-app-json-in-my-review-or-ci-app).
