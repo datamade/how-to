@@ -50,5 +50,5 @@ be scripted instead of interactive, thus making bit of mismatch with our ETL phi
 
 ## Manual integration
 
-We can do and do generate statistics and graphs in one tool and then copy the data or graphics into Google Docs or a markdown file. Sometimes this is the appropriate approach, in
+We can do and do generate statistics and graphs in one tool and then copy the data or graphics into Google Docs or a markdown file. Sometimes this is the appropriate approach, as described in
 the recommendation document.
