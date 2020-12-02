@@ -30,3 +30,6 @@ As far as RMarkdown in particular, the longterm outlook for this tool is excelle
 2. The R community has settled on RMarkdown (and RStudio) as not just an report authoring tool, but as their notebooking tool. Any possible successor to RMarkdown will have significant pressure to be backwards compatible.
 3. RMarkdown, as a file format, is very lightweight and convertible.
 
+## Editors
+
+[RStudio](https://rstudio.com/) is an excellent IDE for RMarkdown. We recommend that people new to RMarkdown start with using RStudio.
