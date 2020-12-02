@@ -8,7 +8,7 @@ Like rMarkdown, [Pweave](http://mpastell.com/pweave/) is an implementation of [n
 
 The main advantage of Pweave is that it is Python. 
 
-While rMarkdown does allow for Python code chunks, there is typically some setup code and that does need to in R. With Pweave, it's all Python.
+While rMarkdown does allow for Python code chunks, there is typically some setup code and that does need to be done in R. With Pweave, it's all Python.
 
 That is really the only advantage.
 
