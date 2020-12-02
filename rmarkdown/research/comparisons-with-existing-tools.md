@@ -8,17 +8,27 @@ Like rMarkdown, [Pweave](http://mpastell.com/pweave/) is an implementation of [n
 
 The main advantage of Pweave is that it is Python. 
 
-While rMarkdown does allow for Python code chunks, there is typically some setup code and that does need to in R. With Pweave, it's all Python.
+While rMarkdown does allow for Python code chunks, there is typically some setup code and that does need to be done in R. With Pweave, it's all Python.
 
 That is really the only advantage.
 
-Like rMarkdown requires an additional runtime beyond standard Python. rMarkdown requires R and Pweave requires
+Like rMarkdown, Pweave requires an additional runtime beyond standard Python. rMarkdown requires R and Pweave requires
 [IPython](https://ipython.org/).
 
 Pweave is not actively maintained, and has not been updated
 in three years.
 
-Pweave is missing many features compared to rMarkdown. Of greatest consequence are 1. chunk specific caching and support for 2. multiple languages, particularly SQL.
+rMarkdown has better editor support than Pweave. For the following editors, rMarkdown is as good and usually better
+than support for Pweave, if there any Pweave support exists.
+
+* [sublime](https://packagecontrol.io/packages/knitr)
+* [emacs](https://ess.r-project.org/)
+* [atom](http://www.goring.org/resources/atom_and_r.html)
+* [vscode](https://marketplace.visualstudio.com/items?itemName=Ikuyadeu.r)
+
+rMarkdown also has its own IDE, [RStudio](https://rstudio.com/)
+
+Beyond active devlopment and editor support, Pweave is missing many features compared to rMarkdown. Of greatest consequence are 1. chunk specific caching and support for 2. multiple languages, particularly SQL.
 
 Chunk specific caching can dramatically reduce build times which is critical in speed of development.
 
@@ -40,5 +50,5 @@ be scripted instead of interactive, thus making bit of mismatch with our ETL phi
 
 ## Manual integration
 
-We can do and do generate statistics and graphs in one tool and then copy the data or graphics into Google Docs or a markdown file. Sometimes this is the appropriate approach, in
+We can do and do generate statistics and graphs in one tool and then copy the data or graphics into Google Docs or a markdown file. Sometimes this is the appropriate approach, as described in
 the recommendation document.
