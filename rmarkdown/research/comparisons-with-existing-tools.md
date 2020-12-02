@@ -12,7 +12,7 @@ While rMarkdown does allow for Python code chunks, there is typically some setup
 
 That is really the only advantage.
 
-Like rMarkdown requires an additional runtime beyond standard Python. rMarkdown requires R and Pweave requires
+Like rMarkdown, Pweave requires an additional runtime beyond standard Python. rMarkdown requires R and Pweave requires
 [IPython](https://ipython.org/).
 
 Pweave is not actively maintained, and has not been updated
