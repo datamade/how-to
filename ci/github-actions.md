@@ -11,7 +11,7 @@ This guide provides documentation for setting up continuous integration with [Gi
 
 ## Running containerized tests
 
-N.b., we recommend running containerized tests when the application is containerized in deployment, i.e., deployed to Netlify. For legacy applications deployed on AWS EC2 infrastructure, we recommend a service-based test run. [Skip to deploying a legacy application to CodeDeploy](#deploying-a-legacy-application-to-codedeploy) for an example of this pattern.
+N.b., we recommend running containerized tests when the application is containerized in deployment, i.e., deployed to Heroku. For legacy applications deployed on AWS EC2 infrastructure, we recommend a service-based test run. [Skip to deploying a legacy application to CodeDeploy](#deploying-a-legacy-application-to-codedeploy) for an example of this pattern.
 
 To initialize a workflow for running containerized tests, start by creating a new feature branch in your repo. Then, create a directory called `.github/workflows/` at the root of your repo. GitHub Actions will read any workflows from this directory and run them automatically.
 
