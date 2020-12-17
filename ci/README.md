@@ -4,7 +4,7 @@ This directory records best practices for working with continuous integration (C
 
 ## Guides
 
-- [GitHub Actions: CI for apps deployed on Heroku or Netlify](./github-actions.md)
-- [Travis: Legacy CI for apps deployed on AWS EC2](https://github.com/datamade/deploy-a-site/blob/master/Setup-deployment-hook.md#setup-codedeploy-hook-for-github--travis-ci)
+- [GitHub Actions](./github-actions.md)
 - [Research](./research/)
     - [Recommendation of adoption of GitHub Actions](./research/recommendation-of-adoption.md)
+    - [Amendment 1](./research/amendment-1.md): Recommendation of adoption for CodeDeploy integration with GitHub Actions
