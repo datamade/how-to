@@ -176,13 +176,68 @@ helpful:
 
 ## Recommended default settings
 
-The only thing I remember changing was the `sql_alchemy_conn` value in the
-`airflow.cfg` file.
+### All environments
 
-- Default: https://github.com/apache/airflow/blob/master/airflow/config_templates/default_airflow.cfg#L58
-- We changed it to the `la-metro-dashboard` postgres connection string. Since we
-don’t ever use sqlite for local development or staging purposes, this is
-probably a change we will want to make for every app.
+```cfg
+# Point Airflow at your Postgres database, rather than the SQLite default
+sql_alchemy_conn = postgres://postgres@localhost:5432/${PG_DATABASE}
+```
+
+### Local `airflow.cfg`
+
+```cfg
+# Don't load example DAGs
+load_examples = False
+
+# Turn on authentication
+authenticate = True
+
+# Turn on role-based access control (Airflow's new model of authentication, with a separate UI)
+rbac = True
+
+# Don't catch up to old DAGs when restarting the process
+catchup_by_default = False
+
+# Increase interval between worker refreshes to give yourself time to debug
+# See "Preventing worker refresh when debugging" in the section on debugging, below
+worker_refresh_interval = 10000
+```
+
+We may not always want authentication and RBAC. I think that should probably be a project-by-project decision.
+
+### Production `configs/airflow.production.cfg`
+
+```cfg
+# Store logs in /var/log intead of AIRFLOW_HOME
+base_log_folder = /var/log/la-metro-dashboard/airflow
+dag_processor_manager_log_location = /var/log/la-metro-dashboard/airflow/dag_processor_manager/dag_processor_manager.log
+
+# Use a single node for task execution
+executor = LocalExecutor
+
+# Only two task instances should be able to run simultaneously
+parallelism = 2
+
+# The scheduler should only be able to run two task instances
+dag_concurrency = 2
+
+# Workers should only be able to run two task instances
+worker_concurrency = 2
+
+# Don't load example DAGs
+load_examples = False
+
+# Turn on authentication
+authenticate = True
+
+# Turn on role-based access control (Airflow's new model of authentication, with a separate UI)
+rbac = True
+
+# Don't catch up to old DAGs when restarting the process
+catchup_by_default = False
+```
+
+Again, authentication and RBAC should be set project-by-project. The concurrency configs are super confusing and [the docs](https://airflow.apache.org/docs/stable/configurations-ref.html) don't really help so I think there's a lot of opportunity for better tuning in the future.
 
 ## Best practices for DAGs
 
