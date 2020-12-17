@@ -75,57 +75,62 @@ Metro Dashboard, which has been open sourced
 ## Basic concepts
 
 Airflow is a framework that relies on several key concepts. For a tutorial that
-guides you through a summary of these concepts in Airflow’s words, go to
-[https://airflow.apache.org/docs/stable/tutorial.html#example-pipeline-definition](https://airflow.apache.org/docs/stable/tutorial.html#example-pipeline-definition).
+guides you through a summary of these concepts in Airflow’s words, here's the
+[Airflow tutorial](https://airflow.apache.org/docs/stable/tutorial.html#example-pipeline-definition).
 Below are listed the most important Airflow concepts based on our work with
 Airflow thus far.
 
 ### DAG (directed acyclic graph)
 
-A DAG is a way of visualizing the way Airflow works. It emphasizes that Airflow
-moves through tasks in a particular order without automatically repeating those
-tasks, and includes information about tasks’ dependencies on each other.
+##### [Airflow on DAGs](https://airflow.apache.org/docs/stable/concepts.html#dags)
 
-- Airflow’s description:
-- [https://airflow.apache.org/docs/stable/concepts.html#dags](https://airflow.apache.org/docs/stable/concepts.html#dags)
-- A DAG run is an instance of a DAG.
+A DAG is a way of visualizing the way Airflow works. It emphasizes that
+Airflow moves through tasks in a particular order without automatically
+repeating those tasks, and includes information about tasks’ dependencies
+on each other. A DAG run is an instance of a DAG.
 
 ### Task
 
-A task is a single function or command to run. At the bare minimum,
-instantiating a task requires a `task_id`, `dag`, and the command argument for
-the particular operator being used.
+##### [Airflow on tasks](https://airflow.apache.org/docs/stable/concepts.html#tasks)
 
-For example, the `bash_operator` has a `command` argument, whereas the
-`python_operator` has a `python_callable` argument. A task run is an instance
-of a task.
+A task is a single function or command to run. At the bare minimum,
+instantiating a task requires a `task_id`, `dag`, and the command argument
+for the particular operator being used. For example, the `bash_operator`
+has a `command` argument, whereas the `python_operator` has a `python_callable`
+argument. A task run is an instance of a task.
 
 ### Operator
 
-Airflow is really powerful in part because it can run commands for any part of
-your app that you can write in the most convenient language for that task [not
-sure about wording here]. For example, you can write a scraping script in Bash
-and run it with the `bash_operator`, run a Python command using the
+##### [Airflow on operators](https://airflow.apache.org/docs/stable/concepts.html#operators)
+
+Airflow is really powerful in part because it can run commands for
+any part of your app that you can write in the most convenient language
+for that task. For example, you could write a scraping script in Bash and
+run it with the `bash_operator`, run a Python command using the
 `python_operator`, and then run a database command using the `postgres_operator`
 -- all in the same DAG!
 
-There are also operators that handle control flow and other kinds of tasks. For
-a full list, see
-[https://airflow.apache.org/docs/stable/_api/airflow/operators/index.html](https://airflow.apache.org/docs/stable/_api/airflow/operators/index.html)
+We prefer the DockerOperator for reasons outlined in the
+[dependency management section](#dependency-management) of these docs.
+
+Additionally, there are operators that handle control flow and other kinds
+of tasks. Here's the [full list of operators](https://airflow.apache.org/docs/stable/_api/airflow/operators/index.html).
 
 ### Pipeline
+
+##### [Airflow pipeline example](https://airflow.apache.org/docs/stable/tutorial.html#example-pipeline-definition)
 
 A configuration file for a DAG. There are five parts to a pipeline, and they
 should be in this order:
 
-1. **Imports and Operators:** The first part of writing a pipeline the same as
-most files in an app; you start by importing any modules you will need.
-Depending on the kinds of tasks you will need to run in your DAG, you will also
-need to import different operators.
+1. **Imports and Operators:** The first part of writing a pipeline the same
+as most files in an app; you start by importing any modules you will need.
+Depending on the kinds of tasks you will need to run in your DAG, you will
+also need to import different operators.
 
 2. **Default arguments:** After importing your operators and other dependencies,
-define a dictionary containing all the arguments that the tasks in your DAG will
-have in common. A few often-used ones to know about:
+define a dictionary containing all the arguments that the tasks in your DAG
+will have in common. A few often-used ones to know about:
 
     - `start_date`: the date that the DAG should begin running tasks for. For
     example, if you intend to run a task to run a scraping task daily starting
@@ -137,42 +142,39 @@ have in common. A few often-used ones to know about:
     giving up. For example, if you need a DAG to run every 3 hours, you may want
     to make sure the previous DAG run is no longer running. Setting an
     `execution_timeout` of, for example, 2 hours and 55 minutes, would force the
-    first DAG run to stop in time for the next DAG run to begin without
-    overlapping.
+    first DAG run to stop in time for the next DAG run to begin without overlapping.
     - `retries`: If a DAG fails, the number of times it should try to run again.
 
 3. **Instantiate a DAG:** The next step is to instantiate a DAG. Here are a
 couple of important arguments to know:
 
-    - `dag_id`: a string that gives the DAG a name. This is the name that shows
-    up in the Airflow dashboard for this DAG.
-    - `schedule_interval`: the amount of time that should elapse between DAG
-    runs. This can be [a cron string](https://crontab.guru/), or you can use
-    [one of Airflow’s presets](http://airflow.apache.org/docs/stable/dag-run.html#cron-presets)
-    - `default_args`: set this equal to the dictionary defined in step 2. More
-    info about [the Airflow DAG object](http://airflow.apache.org/docs/stable/_api/airflow/models/dag/index.html#module-airflow.models.dag)
+    - `dag_id`: a string that gives the DAG a name. This is the name that
+    shows up in the Airflow dashboard for this DAG.
+    - `schedule_interval`: the amount of time that should elapse between DAG runs.
+    This can be [a cron string](https://crontab.guru/), or you can use
+    [one of Airflow’s presets](http://airflow.apache.org/docs/stable/dag-run.html#cron-presets).
+    - `default_args`: set this equal to the dictionary defined in step 2. More info
+    about [the Airflow DAG object](http://airflow.apache.org/docs/stable/_api/airflow/models/dag/index.html#module-airflow.models.dag).
 
-4. **Tasks:** In the penultimate step of defining your pipeline, define out the
-DAG’s tasks. Each task is an instance of one of Airflow’s operators, so look at
-the documentation for that specific operator for the most detailed information
-on how to define a task. Here’s the list of operators:
-[https://airflow.apache.org/docs/stable/_api/airflow/operators/index.html](https://airflow.apache.org/docs/stable/_api/airflow/operators/index.html)
+4. **Tasks:** In the penultimate step of defining your pipeline, define out
+the DAG’s tasks. Each task is an instance of one of Airflow’s operators, so
+look at the documentation for that specific operator for the most detailed
+information on how to define a task. Here’s the [list of operators](https://airflow.apache.org/docs/stable/_api/airflow/operators/index.html).
 
-    Keep in mind that there are also operators that are focused on control flow
-    that you might need to use in defining tasks. A couple common ones you might
-    use:
+    Keep in mind that there are also operators that are focused on control
+    flow that you might need to use in defining tasks. A couple common ones
+    you might use:
 
-    - Branch Operator: Allows you to run different tasks at different times or
-    under different conditions
+    - Branch Operator: Allows you to run different tasks at different times
+    or under different conditions
     - Dummy Operator: If you want to avoid running a task if a certain condition
     is true, you can use the Dummy Operator to run a fake task in place of the
     true one.
 
 5. **Task ordering and dependencies:** The final part of the pipeline is task
 ordering. Here, set the order that the tasks should run in and how they depend
-on each other. The example code given on the Airflow docs is concise and
-helpful:
-[https://airflow.apache.org/docs/stable/tutorial.html#setting-up-dependencies](https://airflow.apache.org/docs/stable/tutorial.html#setting-up-dependencies)
+on each other. The [example code](https://airflow.apache.org/docs/stable/tutorial.html#setting-up-dependencies) given on the Airflow docs is
+concise and helpful.
 
 ## Recommended default settings
 
