@@ -1,6 +1,8 @@
-# DataMade's Gatsby Starter
+# {{cookiecutter.app_verbose_name}}
 
-This is the beginning of a Gatsby project. It's adapted by DataMade from the [default Gatsby starter repo](https://github.com/gatsbyjs/gatsby-starter-default).
+{{cookiecutter.description}}
+
+This is a Gatsby app built on top of the [DataMade Gatsby starter template](https://github.com/datamade/how-to/tree/master/docker/templates), which was adapted from the [default Gatsby starter repo](https://github.com/gatsbyjs/gatsby-starter-default).
 
 ### 💾 Requirements
 
@@ -28,15 +30,15 @@ This is the beginning of a Gatsby project. It's adapted by DataMade from the [de
 
 This starter has a minimal number of dependencies in order to stay lean, but you'll likely want to add more to suit your needs. To add a dependency, run:
 
-    ```shell
-    docker-compose run --rm app add <dependency name> --save
-    ```
+```shell
+docker-compose run --rm app add <dependency name> --save
+```
 
 To remove a dependency:
 
-    ```shell
-    docker-compose run --rm app remove <dependency name>
-    ```
+```shell
+docker-compose run --rm app remove <dependency name>
+```
 
 ## Testing
 
