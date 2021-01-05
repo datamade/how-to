@@ -2,7 +2,9 @@
 
 Based on our research, we recommend adopting GitHub Actions as our CI service of choice for **apps deployed on Heroku and Netlify**.
 
-For apps deployed on our legacy AWS EC2 infrastructure, we recommend sticking with Travis CI until a well-supported Action for working with CodeDeploy becomes available.
+~For apps deployed on our legacy AWS EC2 infrastructure, we recommend sticking with Travis CI until a well-supported Action for working with CodeDeploy becomes available.~
+
+**Note:** We originally recommended continued use of Travis CI for apps deployed on legacy AWS EC2 infrastructure, however Travis CI [recently deprioritized open source builds](https://blog.travis-ci.com/2020-11-02-travis-ci-new-billing), leading to build times on the order of hours or days. We now recommend migrating legacy applications under continued development from Travis CI to GitHub Actions. See [Amendment 1](amendment-1.md) for further research, and [our documentation on GitHub Actions](../github-actions.md) for examples and starter code.
 
 The following document records our recommended path forward for adopting GitHub Actions.
 
@@ -30,14 +32,14 @@ Advantages of GitHub Actions:
 
 There are a few downsides to GitHub Actions:
 
-- No CodeDeploy integration
+- ~No CodeDeploy integration~
 - Workflow syntax is more complicated
 - No container layer caching
 
-Due to these tradeoffs, we think that GitHub Actions is an appropriate choice for apps that are not deployed with CodeDeploy. We will keep an eye out for CodeDeploy integrations, but until those arrive, we plan to continue supporting Travis CI for our legacy AWS EC2 infrastructure.
+Due to these tradeoffs, we think that GitHub Actions is an appropriate choice ~for apps that are not deployed with CodeDeploy. We will keep an eye out for CodeDeploy integrations, but until those arrive, we plan to continue supporting Travis CI for our legacy AWS EC2 infrastructure~.
 
 ## Maintenance outlook
 
 GitHub Actions is a low-risk choice of service because it is integrated with GitHub, the third-party service that we depend on the most. However, this adoption will create a situation for at least some amount of time where we have to maintain projects on two CI services, GitHub Actions and Travis, which could potentially make long-term maintenance tricky.
 
-This situation feels tenable because we have a substantial amount of written documentation for Travis CI along with a lot of developer expertise. We don't expect that existing Travis projects will be hard to maintain, even in a future where we're almost exclusively using GitHub Actions for new apps.
+This situation feels tenable because we have a substantial amount of written documentation for Travis CI along with a lot of developer expertise. ~We don't expect that existing Travis projects will be hard to maintain, even in a future where we're almost exclusively using GitHub Actions for new apps.~

@@ -6,9 +6,12 @@ This guide provides documentation for setting up continuous integration with [Gi
 
 - [Running containerized tests](#running-containerized-tests)
 - [Deploying a Python package](#deploying-a-python-package)
+- [Deploying a legacy application to CodeDeploy](#deploying-a-legacy-application-to-codedeploy)
 - [Resources](#resources)
 
 ## Running containerized tests
+
+N.b., we recommend running containerized tests when the application is containerized in deployment, i.e., deployed to Heroku. For legacy applications deployed on AWS EC2 infrastructure, we recommend a service-based test run. [Skip to deploying a legacy application to CodeDeploy](#deploying-a-legacy-application-to-codedeploy) for an example of this pattern.
 
 To initialize a workflow for running containerized tests, start by creating a new feature branch in your repo. Then, create a directory called `.github/workflows/` at the root of your repo. GitHub Actions will read any workflows from this directory and run them automatically.
 
@@ -125,8 +128,107 @@ Versions of this workflow are in use in the following packages:
 - [`django-geomultiplechoice`](https://github.com/datamade/django-geomultiplechoice/)
 - [`pytest-flask-sqlalchemy`](https://github.com/jeancochrane/pytest-flask-sqlalchemy) (no deployment to test PyPI, tests different versions of Python)
 
+## Deploying a legacy application to CodeDeploy
+
+As above, start by making a new feature branch and creating the directory `.github/workflows/` at the root of your repo if it doesn't yet exist. Then, define a workflow file:
+
+#### 📄`.github/workflows/main.yml`
+
+```yaml
+name: CI
+
+on:
+  push:
+    branches:
+      - master
+      - deploy
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  test:
+    name: Run tests
+    runs-on: ubuntu-latest
+    services:
+      # 🚨 Update the Postgres version and database name to match your app environment and test config
+      postgres:
+        image: postgres:${POSTGRES_VERSION}
+        env:
+          POSTGRES_DB: ${POSTGRES_DATABASE}
+          POSTGRES_PASSWORD: postgres
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+    steps:
+    - uses: actions/checkout@v2
+    # 🚨 Update the Python version to match your app environment
+    - name: Set up Python ${PYTHON_VERSION}
+      uses: actions/setup-python@v2
+      with:
+        # Semantic version range syntax or exact version of a Python version
+        python-version: '${PYTHON_VERSION}'
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+    - name: Test with pytest
+      # 🚨 Swap in the correct filenames for your test and application configs
+      run: |
+        mv ${TEST_CONFIG} ${APP_CONFIG}
+        pytest -sv
+  deploy:
+    needs: test
+    name: Deploy to AWS
+    runs-on: ubuntu-latest
+    steps:
+      - uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+      - uses: actions/checkout@v2
+      - id: deploy
+        uses: webfactory/create-aws-codedeploy-deployment@0.2.2
+        with:
+          # 🚨 Swap in your CodeDeploy application name, which is usually the same as the repository name
+          application: ${CODEDEPLOY_APPLICATION_NAME}
+```
+
+Update the values indicated inline with the 🚨 emoji. Then, append the following to `.appspec.yml`.
+
+#### 📄`.appspec.yml`
+
+```yaml
+# ... deployment lifecycle config ...
+branch_config:
+  master:
+    deploymentGroupName: staging
+  deploy:
+    deploymentGroupName: production
+```
+
+This workflow runs your tests, then creates a deployment conditional on your tests passing. The `deploy` action determines which deployment group, if any, it should create a deployment for using the `branch_config` you added to `.appspec.yml`. In effect, commits to `master` are deployed to staging and commits to `deploy` are deployed to production; commits to all other branches result in a no-op.
+
+Next, follow the instructions for [creating encrypted secrets](https://help.github.com/en/actions/automating-your-workflow-with-github-actions/creating-and-using-encrypted-secrets#creating-encrypted-secrets) and save values for `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY`, using the developer credentials in our team LastPass.
+
+To test that this configuration works, you can update the `on.push.branches` array of `main.yml` to include the name of your feature branch, and point your branch to the staging deployment group in the `branch_config` block of `.appspec.yml`. The result should be a staging deployment of your app on the next commit to your branch. Don't forget to revert these changes once you've tested the integration.
+
+### Examples
+
+This workflow is in use in the following applications:
+
+- [`la-metro-councilmatic`](https://github.com/datamade/la-metro-councilmatic)
+- [`la-metro-dashboard`](https://github.com/datamade/la-metro-dashboard)
+
 ## Resources
 
 Our workflows for deploying Python packages to PyPI were adapted from the Python guide to [publishing package distribution releases using GitHub Actions](https://packaging.python.org/guides/publishing-package-distribution-releases-using-github-actions-ci-cd-workflows).
+
+Our workflow for deploying to CodeDeploy via GitHub Actions comes from [Webfactory's `create-aws-codedeploy-deployment` action](https://github.com/marketplace/actions/webfactory-create-aws-codedeploy-deployment), which includes further details on configuration and usage.
 
 For more detailed information on using GitHub Actions, refer to the [documentation](https://help.github.com/en/actions).
