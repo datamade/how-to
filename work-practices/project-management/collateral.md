@@ -20,7 +20,7 @@ The project folder is the central repository for all documents related to the pr
 
 ## Project plan
 
-_[Project plan template](https://docs.google.com/document/d/1rwMSxjZqrGxSRqmxSY35r5kBCfgSPEa59vRQtKydeD8/edit?usp=sharing)_
+_[Project plan template](https://docs.google.com/document/d/1jsUIZcXiC7UaodTazSEUJjNqaDCHfRMWRgfQVtYNtV8/edit?usp=sharing)_
 
 The project plan is the root document that represents the central store of administrative knowledge about a project. It should be a Google Doc with an obvious title (e.g. `LISC CNDA Site Redesign Project Plan`) stored in the project folder. The project plan should contain links to all of the artifacts mentioned in this document. In the case of prose artifacts like the project timeline, the project plan may contain the artifacts themselves.
 
