@@ -29,8 +29,8 @@ as a target:
 docker-compose run --rm cookiecutter -f new-django-app
 ```
 
-To generate a Docker environment for an **existing Python project**,
-use the `python-docker-env` directory as a target:
+To generate a Docker environment for an **existing Python project**, use the
+`python-docker-env` directory as a target:
 
 ```bash
 docker-compose run --rm cookiecutter -f python-docker-env
@@ -43,7 +43,7 @@ in your terminal:
 
 | Variable | Definition |
 | - | - |
-| `directory_name` | The directory that will contain your generated files. The default, `.`, will put the generated files in your current directory. |
+| `directory_name` | The directory that will contain your generated files. We'll move the files out and remove this directory after running `cookiecutter` so it's fine to use the default here. |
 | `app_name` | The slug you use to refer to your application (typically the same as the GitHub repo). |
 | `app_verbose_name` | A verbose name for your application, written in plain English and typically title-case (e.g. "BGA Pensions Database"). |
 | `module_name` | The slug you use to refer to the Python module that contains your app. In contrast to `app_name`, this variable must be a valid Python module name, e.g. underscores are permitted while spaces/hyphens are not. |
@@ -67,6 +67,7 @@ into the new directory and initialize it as a Git repo with `git init`:
 
 ```bash
 # Replace ${directory_name} with the name of the directory you just set
+# If you used the default, it's my-new-app
 mv ${directory_name} ../../..
 cd ../../../${directory_name} && git init
 ```
@@ -77,8 +78,12 @@ the repo that stores the existing project. For example:
 
 ```bash
 # Replace ${directory_name} with the name of the directory you just set
-mv ${directory_name}/* /path/to/existing/project
+# If you used the default, it's my-docker-env
+rsync -av ${directory_name}/* /path/to/existing/project && rm -rf ${directory_name}/
 ```
+
+Note that this will preserve `configs/` and `scripts/` directories and their
+contents, if your project already contains them.
 
 ### 4. Customize your configs and scripts.
 
