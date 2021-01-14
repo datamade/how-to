@@ -105,5 +105,5 @@ venv.bak/
 
 # Compiled JavaScript
 node_modules/
-{{cookiecutter.module_name}}/static/compressor/*
+static/compressor/*
 !{{cookiecutter.module_name}}/static/js/lib/
