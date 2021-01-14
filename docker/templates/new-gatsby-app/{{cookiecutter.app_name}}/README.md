@@ -46,7 +46,7 @@ When you run `docker-compose up` locally, ESLint makes sure you're following the
 
 If you want to check the linter on its own you can run:
 
-`docker-compose run --rm app run lint`
+`docker-compose run --rm app run test`
 
 
 ### 🤖 What's inside?
