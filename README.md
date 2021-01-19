@@ -10,15 +10,13 @@ Here at DataMade, we do a lot of computer programming. In the spirit of [better 
 
 _In alphabetical order and including links to external repository-based documentation._
 
-- [Amazon Web Services](aws/)
-    - [AWS Relational Database Service (RDS)](aws/rds.md)
 - [Continuous Integration (CI)](ci/)
 - [Deployment](deployment/)
     - [Heroku](deployment/heroku/)
         - [Deploy a Django app to Heroku](deployment/heroku/deploy-a-django-app.md)
         - [Scheduling tasks](deployment/heroku/scheduling-tasks.md)
     - [Netlify](deployment/netlify/)
-        - [Deploy a static site to Netlify](netlify/README.md#deploy-a-static-site-to-netlify)
+        - [Deploy a static site to Netlify](deployment/netlify/README.md#deploy-a-static-site-to-netlify)
     - [Domain names](deployment/domain-names.md)
     - [Amazon Web Services](deployment/aws/)
 - [Django](django/)
