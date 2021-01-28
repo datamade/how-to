@@ -284,8 +284,7 @@ will help you deploy your application to the platform.
 
 ### Install the Heroku CLI with the manifest plugin
 
-The fastest way to get a project up and running on Heroku is to use the
-[Heroku CLI](https://devcenter.heroku.com/articles/heroku-cli). Before you start, make sure you have the CLI installed locally. Once you install the CLI, you'll need to [switch over to the CLI's beta version](https://devcenter.heroku.com/articles/build-docker-images-heroku-yml#creating-your-app-from-setup). This allows you to use the `manifest` CLI plugin, which you must install:
+The fastest way to get a project up and running on Heroku is to use the [Heroku CLI](https://devcenter.heroku.com/articles/heroku-cli). Before you start, make sure you have the CLI installed locally. Once you install the CLI, you'll need to [switch over to the CLI's beta version](https://devcenter.heroku.com/articles/build-docker-images-heroku-yml#creating-your-app-from-setup). This allows you to use the `manifest` CLI plugin, which you must install:
 
 ```
 heroku update beta
