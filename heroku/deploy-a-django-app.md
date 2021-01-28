@@ -11,13 +11,13 @@ preferred platform for hosting dynamic applications.
   - [Serve static files with WhiteNoise](#serve-static-files-with-whitenoise)
   - [Read settings and secret variables from the environment](#read-settings-and-secret-variables-from-the-environment)
   - [Configure Django logging](#configure-django-logging)
-- [Set up GitHub Actions for CI](#set-up-github-actions-for-ci)
-- [Provision Heroku resources](#provision-heroku-resources)
-  - [Ensure that the Heroku CLI is installed](#ensure-that-the-heroku-cli-is-installed)
   - [Create Heroku config files](#create-heroku-config-files)
     - [`heroku.yml`](#herokuyml)
     - [`release.sh`](#releasesh)
     - [`app.json`](#appjson)
+- [Set up GitHub Actions for CI](#set-up-github-actions-for-ci)
+- [Provision Heroku resources](#provision-heroku-resources)
+  - [Install the Heroku CLI with the manifest plugin](#install-the-heroku-cli-with-the-manifest-plugin)
   - [Create apps and pipelines for your project](#create-apps-and-pipelines-for-your-project)
 - [Set up Slack notifications](#set-up-slack-notifications)
 - [Enable additional services](#enable-additional-services)
@@ -172,29 +172,6 @@ LOGGING = {
 
 For more detail on Django's logging framework, [see the documentation](https://docs.djangoproject.com/en/2.2/topics/logging/).
 
-## Set up GitHub Actions for CI
-
-For Heroku deployments, we use GitHub Actions instead of Travis for CI (continuous integration). Read the [how-to to set up GitHub Actions](https://github.com/datamade/how-to/blob/master/ci/github-actions.md).
-
-## Provision Heroku resources
-
-Once your application is properly configured for Heroku, the following instructions
-will help you deploy your application to the platform.
-
-### Ensure that the Heroku CLI is installed
-
-The fastest way to get a project up and running on Heroku is to use the
-[Heroku CLI](https://devcenter.heroku.com/articles/heroku-cli). Before you start,
-make sure you have the CLI installed locally. In addition, confirm that you have the
-manifest plugin) installed:
-
-```
-heroku plugins | grep manifest
-```
-
-If you don't see any output, [follow the official instructions for installing the
-plugin](https://devcenter.heroku.com/changelog-items/1441).
-
 ### Create Heroku config files
 
 If you're converting an existing app to use Heroku, create the following config files
@@ -295,6 +272,35 @@ Use the following baseline to get started:
   "stack": "container"
 }
 ```
+
+## Set up GitHub Actions for CI
+
+For Heroku deployments, we use GitHub Actions instead of Travis for CI (continuous integration). Read the [how-to to set up GitHub Actions](https://github.com/datamade/how-to/blob/master/ci/github-actions.md).
+
+## Provision Heroku resources
+
+Once your application is properly configured for Heroku, the following instructions
+will help you deploy your application to the platform.
+
+### Install the Heroku CLI with the manifest plugin
+
+The fastest way to get a project up and running on Heroku is to use the
+[Heroku CLI](https://devcenter.heroku.com/articles/heroku-cli). Before you start,
+make sure you have the CLI installed locally. Once you install the CLI, you'll need to [switch over to the CLI's beta version](https://devcenter.heroku.com/articles/build-docker-images-heroku-yml#creating-your-app-from-setup). This allows you to use the `manifest` CLI plugin, which you must install:
+
+```
+heroku update beta
+heroku plugins:install @heroku-cli/plugin-manifest
+```
+
+Confirm that you have the manifest plugin installed:
+
+```
+heroku plugins | grep manifest
+```
+
+If you don't see any output, [follow the official instructions for installing the
+plugin](https://devcenter.heroku.com/changelog-items/1441).
 
 ### Create apps and pipelines for your project
 
@@ -575,3 +581,31 @@ of data to use a larger Heroku Postgres plan for review apps. Unfortunately, the
 is not currently a way to set this type of configuration (and hence prevent these
 kinds of emails being sent for review apps) because [Heroku defaults to the cheapest plan for
 review app addons](https://help.heroku.com/SY28FR6H/why-aren-t-i-seeing-the-add-on-plan-specified-in-my-app-json-in-my-review-or-ci-app).
+
+### Help! My staging pipeline doesn't have a database!
+You might deploy a review app and everything works. Then you merge your code to master, which builds a new version to the staging pipeline. But for some reason, there is no database provisioned for staging.
+
+Did you have the `manifest` CLI plugin installed when you first created the Heroku pipeline? If not, then it won't provision the Postgres add-on. [See this step](#install-the-heroku-cli-with-the-manifest-plugin).
+
+Here's an example where the `manifest` plugin **was not installed** when creating an app:
+```
+heroku create ${APP_NAME}-staging -t datamade --manifest                                 
+Creating ⬢ demo-app-staging... done
+https://demo-app-staging.herokuapp.com/ | https://git.heroku.com/demo-app-staging.git
+```
+
+Here is an example where everything worked because the `manifest` plugin was installed:
+```
+heroku create ${APP_NAME}-staging -t datamade --manifest 
+Reading heroku.yml manifest... done
+Creating ⬢ demo-app-staging... done, stack is container
+Adding heroku-postgresql... done
+https://demo-app-staging.herokuapp.com/ | https://git.heroku.com/demo-app-staging.git
+
+heroku pipelines:add ${APP_NAME}-staging -a ${APP_NAME}-staging -s staging
+Adding ⬢ demo-app-staging to datamade-app pipeline as staging... done
+```
+
+The difference is in the CLI's output. In the working example, note the output `Reading heroku.yml manifest... done` and `Adding heroku-postgresql... done`.
+
+If that is not the problem, then make sure your app's `heroku.yml` is configured correctly. When Heroku builds your app to a pipeline, it uses the `heroku.yml` file to provision the resources (like Postgres or Solr).
