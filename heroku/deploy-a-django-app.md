@@ -319,6 +319,18 @@ heroku pipelines:create -t datamade ${APP_NAME} -a ${APP_NAME}-staging -s stagin
 heroku pipelines:connect ${APP_NAME} -r datamade/${APP_NAME}
 ```
 
+Your CLI output should look like this:
+```bash
+heroku create ${APP_NAME}-staging -t datamade --manifest 
+Reading heroku.yml manifest... done
+Creating ⬢ demo-app-staging... done, stack is container
+Adding heroku-postgresql... done
+https://demo-app-staging.herokuapp.com/ | https://git.heroku.com/demo-app-staging.git
+
+heroku pipelines:add ${APP_NAME}-staging -a ${APP_NAME}-staging -s staging
+Adding ⬢ demo-app-staging to datamade-app pipeline as staging... done
+```
+
 If you would like to set up a production app as well, run the following commands
 to create one and add it to your pipeline:
 
