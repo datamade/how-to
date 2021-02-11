@@ -275,7 +275,7 @@ Use the following baseline to get started:
 
 ## Set up GitHub Actions for CI
 
-For Heroku deployments, we use GitHub Actions instead of Travis for CI (continuous integration). Read the [how-to to set up GitHub Actions](https://github.com/datamade/how-to/blob/master/ci/github-actions.md).
+For Heroku deployments, we use GitHub Actions for CI (continuous integration). Read the [how-to to set up GitHub Actions](https://github.com/datamade/how-to/blob/master/ci/github-actions.md).
 
 ## Provision Heroku resources
 
