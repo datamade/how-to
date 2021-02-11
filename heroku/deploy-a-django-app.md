@@ -19,6 +19,8 @@ for some other reason, see [Set up application code for Heroku](#set-up-applicat
 - [Provision Heroku resources](#provision-heroku-resources)
   - [Install the Heroku CLI with the manifest plugin](#install-the-heroku-cli-with-the-manifest-plugin)
   - [Create apps and pipelines for your project](#create-apps-and-pipelines-for-your-project)
+  - [Set configuration variables for review apps and deployments](#set-configuration-variables-for-review-apps-and-deployments)
+  - [Configure deployments from Git branches](#configure-deployments-from-git-branches)
 - [Set up Slack notifications](#set-up-slack-notifications)
 - [Enable additional services](#enable-additional-services)
   - [Solr](#solr)
@@ -116,6 +118,7 @@ heroku reviewapps:enable -p ${APP_NAME}
 heroku reviewapps:enable -p ${APP_NAME} --autodeploy --autodestroy
 ```
 
+### Set configuration variables for review apps and deployments
 Next, configure environment variables for staging and production apps. `DJANGO_SECRET_KEY`
 should be a string generated using the [XKCD password generator](https://preshing.com/20110811/xkcd-password-generator/),
 and `DJANGO_ALLOWED_HOSTS` should be a comma-separated string of valid hosts
@@ -139,6 +142,7 @@ need to set it yourself. The Heroku Postgres add-on will [automatically define t
 variable](https://devcenter.heroku.com/articles/heroku-postgresql#designating-a-primary-database)
 when it provisions a database for your application.
 
+### Configure deployments from Git branches
 Heroku needs to deploy from specific branches in order to deploy to different environments
 (e.g. staging vs. production). In order to properly enable automatic deployments, then,
 you'll need to deploy to production from a branch instead of tagged commits (a practice
