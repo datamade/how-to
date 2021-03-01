@@ -1,6 +1,6 @@
 {
     "only": [
-        "./build_test/static"
+        "./{{ cookiecutter.module_name }}/static"
     ],
     "presets": [
         [
