@@ -26,7 +26,15 @@ Some plug-ins target Node versions above ES5, which means that they aren't
 compatible for some browsers. Luckily, we can tell Babel to transpile these
 dependencies to ensure our apps are broadly compatible across browsers.
 
-To identify problematic plug-ins, XXX.
+To identify problematic plug-ins, you can use [the `es6-sniffer` CLI](https://github.com/hancush/python-es6-sniffer).
+
+```bash
+# Build the es6-sniffer image from GitHub
+docker build -t es6-sniffer https://github.com/hancush/python-es6-sniffer.git
+
+# Sniff out potentially incompatible modules
+docker run --v {{ cookiecutter.app_name }}_{{ cookiecutter.app_name }}-node-modules:/node_modules --rm es6-sniffer
+```
 
 Once you've found the culprits, add them to the `only` array in
 `babel.config.json`. For example:
@@ -34,9 +42,9 @@ Once you've found the culprits, add them to the `only` array in
 ```json
 {
     "only": [
-        "./build_test/static", // Your JavaScript - default
+        "./{{ cookiecutter.module_name }}/static", // Your JavaScript - default
         "./node_modules/problem_module_a",
-        "/.node_modules/problem_module_b"
+        "./node_modules/problem_module_b"
     ],
     // The rest of your config
 }
