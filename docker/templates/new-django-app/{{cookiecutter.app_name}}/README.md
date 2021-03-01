@@ -22,9 +22,13 @@ on port 32001.
 
 ### Ensuring browser compatibility
 
+The default `babel.config.json` file will transpile JavaScript in your static
+directory to syntax that's friendly to modern and legacy browsers but it will
+not transpile third-party plug-ins by default.
+
 Some plug-ins target Node versions above ES5, which means that they aren't
-compatible for some browsers. Luckily, we can tell Babel to transpile these
-dependencies to ensure our apps are broadly compatible across browsers.
+compatible for older browsers. Luckily, we can tell Babel to transpile these
+dependencies to ensure our apps remain broadly compatible across browsers.
 
 To identify problematic plug-ins, you can use [the `es6-sniffer` CLI](https://github.com/hancush/python-es6-sniffer).
 
