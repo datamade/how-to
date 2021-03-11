@@ -149,7 +149,10 @@ on:
 jobs:
   test:
     name: Run tests
-    runs-on: ubuntu-latest
+    # 🚨 Update the Ubuntu version to match the server you're deploying to. See
+    # https://docs.github.com/en/actions/reference/workflow-syntax-for-github-actions#jobsjob_idruns-on
+    # for supported versions.
+    runs-on: ubuntu-${UBUNTU_VERSION}
     services:
       # 🚨 Update the Postgres version and database name to match your app environment and test config
       postgres:
@@ -174,6 +177,9 @@ jobs:
         python-version: '${PYTHON_VERSION}'
     - name: Install dependencies
       run: |
+        # 🚨 Need PostGIS? Uncomment these lines to install GDAL.
+        # sudo apt update
+        # sudo apt install -y gdal-bin
         python -m pip install --upgrade pip
         pip install -r requirements.txt
     - name: Test with pytest
