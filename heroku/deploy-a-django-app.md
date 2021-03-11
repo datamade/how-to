@@ -143,12 +143,29 @@ variable](https://devcenter.heroku.com/articles/heroku-postgresql#designating-a-
 when it provisions a database for your application.
 
 ### Configure deployments from Git branches
-Heroku needs to deploy from specific branches in order to deploy to different environments
-(e.g. staging vs. production). In order to properly enable automatic deployments, then,
-you'll need to deploy to production from a branch instead of tagged commits (a practice
-which we've used in the past for deploying to production). We recommend creating a long-lived
-`deploy` branch off of `master` immediately after setting up your repo so that you can
-use `master` to deploy to staging and `deploy` to deploy to production.
+
+Heroku can deploy commits to specific branches to different environments
+(e.g. staging vs. production).
+
+[Follow the Heroku documentation](https://devcenter.heroku.com/articles/github-integration#automatic-deploys)
+to enable automatic deploys from `master` to your staging app. **Be sure to check
+`Wait for CI to pass before deploy` to prevent broken code from being deployed!**
+
+For production deployments, we recommend creating a long-lived `deploy` branch
+off of `master` and configuring automatic deployments from `deploy` to production.
+
+```bash
+# create deploy branch (first deployment)
+git checkout master
+git pull origin master
+git checkout -b deploy
+git push origin deploy
+
+# sync deploy branch with master and deploy to production (subsequent deployments)
+git checkout master
+git pull origin master
+git push origin master:deploy
+```
 
 ## Set up Slack notifications
 
