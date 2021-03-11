@@ -57,11 +57,11 @@ If you run into trouble, see [Debugging your containerized setup](#debugging-you
 
 ### 1. `Dockerfile`
 
-📄 [`Dockerfile`](templates/python/{{cookiecutter.directory_name}}/Dockerfile)
+📄 [`Dockerfile`](templates/python-docker-env/{{cookiecutter.directory_name}}/Dockerfile)
 
 ### 2. `docker-compose.yml`
 
-📄 [`docker-compose.yml`](templates/python/{{cookiecutter.directory_name}}/docker-compose.yml)
+📄 [`docker-compose.yml`](templates/python-docker-env/{{cookiecutter.directory_name}}/docker-compose.yml)
 
 There are [several versions](https://docs.docker.com/compose/compose-file/compose-versioning/)
 of `docker-compose` syntax. We prefer v2, in order to take advantage of health
@@ -72,7 +72,7 @@ v3 no longer supports this syntax. More on that [in this issue](https://github.c
 
 ### 3. `tests/docker-compose.yml`
 
-📄 [`tests/docker-compose.yml`](templates/python/{{cookiecutter.directory_name}}/tests/docker-compose.yml)
+📄 [`tests/docker-compose.yml`](templates/python-docker-env/{{cookiecutter.directory_name}}/tests/docker-compose.yml)
 
 ### 4. `.env` (Optional)
 
