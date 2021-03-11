@@ -37,7 +37,7 @@ To identify problematic plug-ins, you can use [the `es6-sniffer` CLI](https://gi
 docker build -t es6-sniffer https://github.com/hancush/python-es6-sniffer.git
 
 # Sniff out potentially incompatible modules
-docker run --v {{ cookiecutter.app_name }}_{{ cookiecutter.app_name }}-node-modules:/node_modules --rm es6-sniffer
+docker run -v {{ cookiecutter.app_name }}_{{ cookiecutter.app_name }}-node-modules:/node_modules --rm es6-sniffer
 ```
 
 Once you've found the culprits, add them to the `only` array in
