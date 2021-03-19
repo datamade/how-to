@@ -35,6 +35,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1
+    - shell: bash
+      run: |
+        cp .env.example .env
     - name: Build containers and run tests
       run: docker-compose -f docker-compose.yml -f tests/docker-compose.yml run --rm app
 ```
