@@ -35,14 +35,27 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1
+    - name: Build containers and run tests
+      run: docker-compose -f docker-compose.yml -f tests/docker-compose.yml run --rm app
+```
+
+Due to the `on` block, this workflow will run the `test` job on all commits to `master` and all commits to pull requests that have been opened against `master`.
+
+For most of our apps deployed to Heroku, we make use of local `.env` and `.env.example` files to store our secrets. If your app is setup this way, add these lines to the `test` block of `main.yml`
+
+```
+jobs:
+  test:
+    name: Run tests
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
     - shell: bash
       run: |
         cp .env.example .env
     - name: Build containers and run tests
       run: docker-compose -f docker-compose.yml -f tests/docker-compose.yml run --rm app
 ```
-
-Due to the `on` block, this workflow will run the `test` job on all commits to `master` and all commits to pull requests that have been opened against `master`.
 
 Commit this file to your feature branch and open up a pull request. You should be able to confirm that your workflow runs the tests for your pull request.
 
