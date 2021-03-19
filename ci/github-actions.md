@@ -41,7 +41,7 @@ jobs:
 
 Due to the `on` block, this workflow will run the `test` job on all commits to `master` and all commits to pull requests that have been opened against `master`.
 
-For most of our apps deployed to Heroku, we make use of local `.env` and `.env.example` files to store our secrets. If your app is setup this way, add these lines to the `test` block of `main.yml`
+If your tests need any additional configurations, such as a `.env` file or a local settings file, add a step to your `test` job to create or copy the necessary files, prior to running the tests. For example:
 
 ```yaml
 jobs:
