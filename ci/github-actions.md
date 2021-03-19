@@ -43,7 +43,7 @@ Due to the `on` block, this workflow will run the `test` job on all commits to `
 
 For most of our apps deployed to Heroku, we make use of local `.env` and `.env.example` files to store our secrets. If your app is setup this way, add these lines to the `test` block of `main.yml`
 
-```
+```yaml
 jobs:
   test:
     name: Run tests
