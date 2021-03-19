@@ -41,6 +41,22 @@ jobs:
 
 Due to the `on` block, this workflow will run the `test` job on all commits to `master` and all commits to pull requests that have been opened against `master`.
 
+If your tests need any additional configurations, such as a `.env` file or a local settings file, add a step to your `test` job to create or copy the necessary files, prior to running the tests. For example:
+
+```yaml
+jobs:
+  test:
+    name: Run tests
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+    - shell: bash
+      run: |
+        cp .env.example .env
+    - name: Build containers and run tests
+      run: docker-compose -f docker-compose.yml -f tests/docker-compose.yml run --rm app
+```
+
 Commit this file to your feature branch and open up a pull request. You should be able to confirm that your workflow runs the tests for your pull request.
 
 ### Examples
