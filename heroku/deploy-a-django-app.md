@@ -151,8 +151,8 @@ Heroku can deploy commits to specific branches to different environments
 to enable automatic deploys from `master` to your staging app. **Be sure to check
 `Wait for CI to pass before deploy` to prevent broken code from being deployed!**
 
-For production deployments, we recommend creating a long-lived `deploy` branch
-off of `master` and configuring automatic deployments from `deploy` to production.
+For production deployments, create a long-lived `deploy` branch off of `master` and
+configure automatic deployments from `deploy` to production.
 
 ```bash
 # create deploy branch (first deployment)
