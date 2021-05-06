@@ -19,6 +19,12 @@ This directory records best practices for working with [GatsbyJS](https://github
     - [Tools in our Gatsby development stack](stack.md)
     - [Some example setups](stack.md#some-example-setups)
     - [Managing packages and plugins](stack.md#managing-packages-and-plugins)
+- [Best practices](best-practices.md)
+    - [Styling and images](best-practices.md#styling-and-images)
+    - [State management](best-practices.md#state-management)
+    - [ETL and querying](best-practices.md#etl-and-querying)
+    - [Pagination](best-practices.md#pagination)
+    - [SEO](best-practices.md#seo)
 
 ## Standard toolkit
 

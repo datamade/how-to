@@ -3,22 +3,24 @@
 This guide provides instructions on deploying a Django app to Heroku, DataMade's
 preferred platform for hosting dynamic applications.
 
+The easiest way to properly set up your application code for Heroku is
+to use our [Django template](/docker/templates/) to create a fresh
+Heroku-enabled Django app. The template includes additional nice features like ES6
+support and GitHub Actions configuration, but it is only appropriate for brand new apps.
+Once you've created your app, you can skip to learning how to [Provision Heroku
+resources](#provision-heroku-resources).
+
+If you'd like to convert an existing app to Heroku, or if the template is unfeasible
+for some other reason, see [Set up application code for Heroku](#set-up-application-code-for-heroku).
+
 ## Contents
 
-- [Set up application code for Heroku](#set-up-application-code-for-heroku)
-  - [Containerize your app](#containerize-your-app)
-  - [Clean up old configurations](#clean-up-old-configurations)
-  - [Serve static files with WhiteNoise](#serve-static-files-with-whitenoise)
-  - [Read settings and secret variables from the environment](#read-settings-and-secret-variables-from-the-environment)
-  - [Configure Django logging](#configure-django-logging)
-- [Set up GitHub Actions for CI](#set-up-github-actions-for-ci)
+
 - [Provision Heroku resources](#provision-heroku-resources)
-  - [Ensure that the Heroku CLI is installed](#ensure-that-the-heroku-cli-is-installed)
-  - [Create Heroku config files](#create-heroku-config-files)
-    - [`heroku.yml`](#herokuyml)
-    - [`release.sh`](#releasesh)
-    - [`app.json`](#appjson)
+  - [Install the Heroku CLI with the manifest plugin](#install-the-heroku-cli-with-the-manifest-plugin)
   - [Create apps and pipelines for your project](#create-apps-and-pipelines-for-your-project)
+  - [Set configuration variables for review apps and deployments](#set-configuration-variables-for-review-apps-and-deployments)
+  - [Configure deployments from Git branches](#configure-deployments-from-git-branches)
 - [Set up Slack notifications](#set-up-slack-notifications)
 - [Enable additional services](#enable-additional-services)
   - [Solr](#solr)
@@ -28,165 +30,36 @@ preferred platform for hosting dynamic applications.
   - [Step 2: Configure a custom domain on a DNS provider](#step-2-configure-a-custom-domain-on-a-dns-provider)
   - [Step 3: Enable SSL](#step-3-enable-ssl)
   - [General guidelines for custom domains](#general-guidelines-for-custom-domains)
+- [Set up application code for Heroku](#set-up-application-code-for-heroku)
+  - [Containerize your app](#containerize-your-app)
+  - [Clean up old configurations](#clean-up-old-configurations)
+  - [Serve static files with WhiteNoise](#serve-static-files-with-whitenoise)
+  - [Read settings and secret variables from the environment](#read-settings-and-secret-variables-from-the-environment)
+  - [Configure Django logging](#configure-django-logging)
+  - [Create Heroku config files](#create-heroku-config-files)
+    - [`heroku.yml`](#herokuyml)
+    - [`release.sh`](#releasesh)
+    - [`app.json`](#appjson)
+  - [Set up GitHub Actions for CI](#set-up-github-actions-for-ci)
 - [Troubleshooting](#troubleshooting)
-
-## Set up application code for Heroku
-
-In order to deploy a Django application to Heroku, a few specific configurations
-need to be enabled in your application code.
-
-The easiest way to properly set up your application code for Heroku is
-to use our [Django template](/docker/templates/) to create a fresh
-Heroku-enabled Django app. The template includes additional nice features like ES6
-support and GitHub Actions configuration, but it is only appropriate for brand new apps.
-Once you've created your app, you can skip to learning how to [Provision Heroku
-resources](#provision-heroku-resources).
-
-If you'd like to convert an existing app to Heroku, or if the template is unfeasible
-for some other reason, read on for details on how to configure your Django app
-to work on Heroku.
-
-### Containerize your app
-
-We use Heroku as a platform for deploying containerized apps, which means that
-your app must be containerized in order to use Heroku properly. If your app
-is not yet containerized, [follow our instructions for containerizing Django
-apps](/docker/local-development.md) before moving on.
-
-There are two commands you should make sure to add to your Dockerfile in order to
-properly deploy with Heroku:
-
-1. In the section of your Dockerfile where you install OS-level dependencies with `apt-get`,
-   make sure to install `curl` so that Heroku can stream logs during releases (if you're
-   inheriting from the official `python` images, `curl` will already be installed by default)
-2. Toward the end of your Dockerfile, run `python manage.py collecstatic --noinput` so that
-   static files will be baked into your container on deployment
-
-For an example of a Django Dockerfile that is properly set up for Heroku, see
-the [Minnesota Election Archive project](https://github.com/datamade/mn-election-archive/blob/master/Dockerfile).
-
-### Clean up old configurations
-
-For new projects, you can skip this step. For existing projects that are being convered from our older deployment practices, you'll want to consolodate everything into `settings.py` and eventually delete your `settings_local.py` and supporting files. In switching to Heroku, the `settings_local.py` pattern is no longer necessary to store secret values as we'll be using environment variables instead. 
-
-In addition, you will want to **delete** the following files, as we won't be using Travis, Blackbox or CodeDeploy:
-
-* `.travis.yml` (we will be using GitHub Actions instead of Travis for CI)
-* `appspec.yml`
-* `APP_NAME/settings_local.example.py` (secret values are now stored as environment variables)
-* `configs/nginx.xxx.conf.gpg` files
-* `configs/supervisor.xxx.conf.gpg` files
-* `configs/settings_local.xxx.py.gpg` files
-* `configs/settings_local.travis.py` files
-* `keyrings/live/pubring.kbx` (Blackbox is no longer needed as we're using environment variables)
-* `scripts/after_install.sh.gpg` (no longer using AWS CodeDeploy)
-* `scripts/before_install.sh.gpg`
-* `scripts/app_start.sh.gpg`
-* `scripts/app_stop.sh.gpg`
-
-For an example of a conversion, [see this PR for the Erikson EDI project](https://github.com/datamade/erikson-edi/pull/162/) (private repo)
-
-### Serve static files with WhiteNoise
-
-Apps deployed on Heroku don't typically use Nginx to serve content, so they need some
-other way of serving static files. Since our apps tend to have relatively low traffic,
-we prefer configuring [WhiteNoise](http://whitenoise.evans.io/)
-to allow Django to serve static files in production.
-
-Follow the [setup instructions for WhiteNoise in
-Django](http://whitenoise.evans.io/en/stable/django.html) to ensure that your
-Django apps can serve static files. You will also need to include `whitenoise` in your `requirements.txt` as a dependency.
-
-In order to be able to serve static files when `DEBUG` is `False`, you'll also want
-to make sure that `RUN python manage.py collectstatic` is included as a step in your
-Dockerfile. This will ensure that the static files are baked into the container.
-Since we typically mount application code into the container during local development,
-you'll also need to make sure that your static files are stored outside of the root
-project folder so that the mounted files don't overwrite them. One easy way to do this
-is to set `STATIC_ROOT = '/static'` in your `settings.py` file.
-
-### Read settings and secret variables from the environment
-
-Heroku doesn't allow us to decrypt content with GPG, so we can't use Blackbox
-to decrypt application secrets. Instead, we can store these secrets as [config
-vars](https://devcenter.heroku.com/articles/config-vars), which Heroku will thread
-into our container environment.
-
-The three most basic config vars that you'll want to set for every app include
-the Django `DEBUG`, `SECRET_KEY`, and `ALLOWED_HOSTS` variables. Update `settings.py`
-to read these variables from the environment:
-
-```python
-SECRET_KEY = os.environ['DJANGO_SECRET_KEY']
-DEBUG = False if os.getenv('DJANGO_DEBUG', True) == 'False' else True
-allowed_hosts = os.getenv('DJANGO_ALLOWED_HOSTS', [])
-ALLOWED_HOSTS = allowed_hosts.split(',') if allowed_hosts else []
-```
-
-Make sure to update your app service in `docker-compose.yml` to thread any variables
-that don't have defaults into your local environment:
-
-```yml
-services:
-  app:
-    environment:
-      - DJANGO_SECRET_KEY=really-super-secret
-```
-
-For a full example of this pattern in a production app, see the [Docker Compose
-file](https://github.com/datamade/mn-election-archive/blob/master/docker-compose.yml)
-and [Django settings
-file](https://github.com/datamade/mn-election-archive/blob/master/elections/settings.py)
-in the [UofM Election Archive project](https://github.com/datamade/mn-election-archive).
-
-### Configure Django logging
-
-When Gunicorn is running our app on Heroku, we generally want it to log to stdout
-and stderr instead of logging to files, so that we can let Heroku capture the logs
-and see view them with the `heroku logs` CLI command (or in the web console).
-
-By default, Django will not log errors to the console when `DEBUG` is `False`
-([as documented here](https://docs.djangoproject.com/en/2.2/topics/logging/#django-s-default-logging-configuration)).
-To make sure that errors get logged appropriately in Heroku, set the following
-baseline logging settings in your `settings.py` file:
-
-```python
-import os
-
-LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': False,  # Preserve default loggers
-    'handlers': {
-        'console': {
-            'class': 'logging.StreamHandler',
-        },
-    },
-    'loggers': {
-        'django': {
-            'handlers': ['console'],
-            'level': os.getenv('DJANGO_LOG_LEVEL', 'INFO'),
-        },
-    },
-}
-```
-
-For more detail on Django's logging framework, [see the documentation](https://docs.djangoproject.com/en/2.2/topics/logging/).
-
-## Set up GitHub Actions for CI
-
-For Heroku deployments, we use GitHub Actions instead of Travis for CI (continuous integration). Read the [how-to to set up GitHub Actions](https://github.com/datamade/how-to/blob/master/ci/github-actions.md).
 
 ## Provision Heroku resources
 
-Once your application is properly configured for Heroku, the following instructions
-will help you deploy your application to the platform.
+**If you initialized your application with DataMade's [`new-django-app` Cookiecutter template](https://github.com/datamade/how-to/tree/master/docker/templates)**, your app is already configured to run on Heroku.
+**If you are migrating an existing app**, or if you want to learn more about the configuration that comes with the template, see [Set up application code for Heroku](#set-up-application-code-for-heroku), below, before proceeding with this step.
 
-### Ensure that the Heroku CLI is installed
+The following instructions will help you deploy your properly configured application to the platform.
 
-The fastest way to get a project up and running on Heroku is to use the
-[Heroku CLI](https://devcenter.heroku.com/articles/heroku-cli). Before you start,
-make sure you have the CLI installed locally. In addition, confirm that you have the
-manifest plugin) installed:
+### Install the Heroku CLI with the manifest plugin
+
+The fastest way to get a project up and running on Heroku is to use the [Heroku CLI](https://devcenter.heroku.com/articles/heroku-cli). Before you start, make sure you have the CLI installed locally. Once you install the CLI, you'll need to [switch over to the CLI's beta version](https://devcenter.heroku.com/articles/build-docker-images-heroku-yml#creating-your-app-from-setup). This allows you to use the `manifest` CLI plugin, which you must install:
+
+```
+heroku update beta
+heroku plugins:install @heroku-cli/plugin-manifest
+```
+
+Confirm that you have the manifest plugin installed:
 
 ```
 heroku plugins | grep manifest
@@ -194,107 +67,6 @@ heroku plugins | grep manifest
 
 If you don't see any output, [follow the official instructions for installing the
 plugin](https://devcenter.heroku.com/changelog-items/1441).
-
-### Create Heroku config files
-
-If you're converting an existing app to use Heroku, create the following config files
-relative to the root of your repo. If you're setting up a Heroku deployment for
-an app that you created with the Django template, you should have these config
-files already, and you can safely skip to [Create apps and pipelines for your
-project](#create-apps-and-pipelines-for-your-project).
-
-#### `heroku.yml`
-
-The `heroku.yml` manifest file tells Heroku how to build and network the services
-and containers that comprise your application. This file should live in the root of your project repo.
-For background and syntax, see [the
-documentation](https://devcenter.heroku.com/articles/build-docker-images-heroku-yml).
-Use the following baseline to get started:
-
-```yml
-# Define addons that you need for  your project, such as Postgres, Redis, or Solr.
-setup:
-  addons:
-    - plan: heroku-postgresql
-# Define your application's Docker containers.
-build:
-  docker:
-    web: Dockerfile
-# Define any scripts that you'd like to run every time the app deploys.
-release:
-  command:
-    - ./scripts/release.sh
-  image: web
-# The command that runs your application. Replace 'app' with the name of your app.
-run:
-  web: gunicorn -t 180 --log-level debug app.wsgi:application
-```
-
-#### `release.sh`
-
-In your app's `scripts` folder, define a script `release.sh` to run every time the app deploys.
-Use the following baseline script and make sure to run `chmod u+x scripts/release.sh`
-to make it executable:
-
-```bash
-#!/bin/bash
-set -euo pipefail
-
-python manage.py collectstatic --noinput
-python manage.py migrate --noinput
-python manage.py createcachetable && python manage.py clear_cache
-```
-
-If your app uses a `dbload` script to load initial data into the database, you can use `release.sh`
-to check if the initial data exists and run the data loading scripts if not. For example:
-
-```bash
-# Set ${TABLE} to the name of a table that you expect to have data in it.
-if [ `psql ${DATABASE_URL} -tAX -c "SELECT COUNT(*) FROM ${TABLE}"` -eq "0" ]; then
-    make all
-fi
-```
-
-The `release.sh` file must be set to executable at the file system level. To do this, run `chmod +x scripts/release.sh` on your local machine and commit the change. Surprisingly, GitHub will recognize this change!
-
-Note that logs for the release phase won't be viewable in the Heroku console unless `curl`
-is installed in your application container. Make sure your Dockerfile installs
-`curl` to see logs as `scripts/release.sh` runs.
-
-#### `app.json`
-
-In order to enable [review apps](https://devcenter.heroku.com/articles/github-integration-review-apps)
-for your project, the repo must contain an `app.json` config file in the root directory.
-For background and syntax, see [the documentation](https://devcenter.heroku.com/articles/app-json-schema).
-Use the following baseline to get started:
-
-```json
-{
-  "name": "your-app",
-  "scripts": {},
-  "env": {
-    "DJANGO_SECRET_KEY": {
-      "required": true
-    },
-    "DJANGO_ALLOWED_HOSTS": {
-      "required": true
-    }
-  },
-  "formation": {
-    "web": {
-      "quantity": 1,
-      "size": "hobby"
-    }
-  },
-  "environments": {
-    "review": {
-      "addons": ["heroku-postgresql:hobby-basic"]
-    }
-  },
-  "buildpacks": [],
-  "stack": "container"
-}
-```
 
 ### Create apps and pipelines for your project
 
@@ -313,6 +85,18 @@ Then, run the following Heroku CLI commands to create a staging app and a pipeli
 heroku create ${APP_NAME}-staging -t datamade --manifest
 heroku pipelines:create -t datamade ${APP_NAME} -a ${APP_NAME}-staging -s staging
 heroku pipelines:connect ${APP_NAME} -r datamade/${APP_NAME}
+```
+
+Your CLI output should look like this:
+```bash
+heroku create ${APP_NAME}-staging -t datamade --manifest 
+Reading heroku.yml manifest... done
+Creating ⬢ demo-app-staging... done, stack is container
+Adding heroku-postgresql... done
+https://demo-app-staging.herokuapp.com/ | https://git.heroku.com/demo-app-staging.git
+
+heroku pipelines:add ${APP_NAME}-staging -a ${APP_NAME}-staging -s staging
+Adding ⬢ demo-app-staging to datamade-app pipeline as staging... done
 ```
 
 If you would like to set up a production app as well, run the following commands
@@ -334,6 +118,7 @@ heroku reviewapps:enable -p ${APP_NAME}
 heroku reviewapps:enable -p ${APP_NAME} --autodeploy --autodestroy
 ```
 
+### Set configuration variables for review apps and deployments
 Next, configure environment variables for staging and production apps. `DJANGO_SECRET_KEY`
 should be a string generated using the [XKCD password generator](https://preshing.com/20110811/xkcd-password-generator/),
 and `DJANGO_ALLOWED_HOSTS` should be a comma-separated string of valid hosts
@@ -357,12 +142,30 @@ need to set it yourself. The Heroku Postgres add-on will [automatically define t
 variable](https://devcenter.heroku.com/articles/heroku-postgresql#designating-a-primary-database)
 when it provisions a database for your application.
 
-Heroku needs to deploy from specific branches in order to deploy to different environments
-(e.g. staging vs. production). In order to properly enable automatic deployments, then,
-you'll need to deploy to production from a branch instead of tagged commits (a practice
-which we've used in the past for deploying to production). We recommend creating a long-lived
-`deploy` branch off of `master` immediately after setting up your repo so that you can
-use `master` to deploy to staging and `deploy` to deploy to production.
+### Configure deployments from Git branches
+
+Heroku can deploy commits to specific branches to different environments
+(e.g. staging vs. production).
+
+[Follow the Heroku documentation](https://devcenter.heroku.com/articles/github-integration#automatic-deploys)
+to enable automatic deploys from `master` to your staging app. **Be sure to check
+`Wait for CI to pass before deploy` to prevent broken code from being deployed!**
+
+For production deployments, create a long-lived `deploy` branch off of `master` and
+configure automatic deployments from `deploy` to production.
+
+```bash
+# create deploy branch (first deployment)
+git checkout master
+git pull origin master
+git checkout -b deploy
+git push origin deploy
+
+# sync deploy branch with master and deploy to production (subsequent deployments)
+git checkout master
+git pull origin master
+git push origin master:deploy
+```
 
 ## Set up Slack notifications
 
@@ -517,6 +320,242 @@ When setting up custom domains, follow these general guidelines:
 - Don't allow `.herokuapp.com` in `DJANGO_ALLOWED_HOSTS` in production, since we want
   the custom domain to be canonical for search engine optimization.
 
+## Set up application code for Heroku
+
+In order to deploy a legacy Django application to Heroku, a few specific configurations
+need to be enabled in your application code.
+
+### Containerize your app
+
+We use Heroku as a platform for deploying containerized apps, which means that
+your app must be containerized in order to use Heroku properly. If your app
+is not yet containerized, [follow our instructions for containerizing Django
+apps](/docker/local-development.md) before moving on.
+
+There are two commands you should make sure to add to your Dockerfile in order to
+properly deploy with Heroku:
+
+1. In the section of your Dockerfile where you install OS-level dependencies with `apt-get`,
+   make sure to install `curl` so that Heroku can stream logs during releases (if you're
+   inheriting from the official `python` images, `curl` will already be installed by default)
+2. Toward the end of your Dockerfile, run `python manage.py collecstatic --noinput` so that
+   static files will be baked into your container on deployment
+
+For an example of a Django Dockerfile that is properly set up for Heroku, see
+the [Minnesota Election Archive project](https://github.com/datamade/mn-election-archive/blob/master/Dockerfile).
+
+### Clean up old configurations
+
+For new projects, you can skip this step. For existing projects that are being convered from our older deployment practices, you'll want to consolodate everything into `settings.py` and eventually delete your `settings_local.py` and supporting files. In switching to Heroku, the `settings_local.py` pattern is no longer necessary to store secret values as we'll be using environment variables instead. 
+
+In addition, you will want to **delete** the following files, as we won't be using Travis, Blackbox or CodeDeploy:
+
+* `.travis.yml` (we will be using GitHub Actions instead of Travis for CI)
+* `appspec.yml`
+* `APP_NAME/settings_local.example.py` (secret values are now stored as environment variables)
+* `configs/nginx.xxx.conf.gpg` files
+* `configs/supervisor.xxx.conf.gpg` files
+* `configs/settings_local.xxx.py.gpg` files
+* `configs/settings_local.travis.py` files
+* `keyrings/live/pubring.kbx` (Blackbox is no longer needed as we're using environment variables)
+* `scripts/after_install.sh.gpg` (no longer using AWS CodeDeploy)
+* `scripts/before_install.sh.gpg`
+* `scripts/app_start.sh.gpg`
+* `scripts/app_stop.sh.gpg`
+
+For an example of a conversion, [see this PR for the Erikson EDI project](https://github.com/datamade/erikson-edi/pull/162/) (private repo)
+
+### Serve static files with WhiteNoise
+
+Apps deployed on Heroku don't typically use Nginx to serve content, so they need some
+other way of serving static files. Since our apps tend to have relatively low traffic,
+we prefer configuring [WhiteNoise](http://whitenoise.evans.io/)
+to allow Django to serve static files in production.
+
+Follow the [setup instructions for WhiteNoise in
+Django](http://whitenoise.evans.io/en/stable/django.html) to ensure that your
+Django apps can serve static files. You will also need to include `whitenoise` in your `requirements.txt` as a dependency.
+
+In order to be able to serve static files when `DEBUG` is `False`, you'll also want
+to make sure that `RUN python manage.py collectstatic` is included as a step in your
+Dockerfile. This will ensure that the static files are baked into the container.
+Since we typically mount application code into the container during local development,
+you'll also need to make sure that your static files are stored outside of the root
+project folder so that the mounted files don't overwrite them. One easy way to do this
+is to set `STATIC_ROOT = '/static'` in your `settings.py` file.
+
+### Read settings and secret variables from the environment
+
+Heroku doesn't allow us to decrypt content with GPG, so we can't use Blackbox
+to decrypt application secrets. Instead, we can store these secrets as [config
+vars](https://devcenter.heroku.com/articles/config-vars), which Heroku will thread
+into our container environment.
+
+The three most basic config vars that you'll want to set for every app include
+the Django `DEBUG`, `SECRET_KEY`, and `ALLOWED_HOSTS` variables. Update `settings.py`
+to read these variables from the environment:
+
+```python
+SECRET_KEY = os.environ['DJANGO_SECRET_KEY']
+DEBUG = False if os.getenv('DJANGO_DEBUG', True) == 'False' else True
+allowed_hosts = os.getenv('DJANGO_ALLOWED_HOSTS', [])
+ALLOWED_HOSTS = allowed_hosts.split(',') if allowed_hosts else []
+```
+
+Make sure to update your app service in `docker-compose.yml` to thread any variables
+that don't have defaults into your local environment:
+
+```yml
+services:
+  app:
+    environment:
+      - DJANGO_SECRET_KEY=really-super-secret
+```
+
+For a full example of this pattern in a production app, see the [Docker Compose
+file](https://github.com/datamade/mn-election-archive/blob/master/docker-compose.yml)
+and [Django settings
+file](https://github.com/datamade/mn-election-archive/blob/master/elections/settings.py)
+in the [UofM Election Archive project](https://github.com/datamade/mn-election-archive).
+
+### Configure Django logging
+
+When Gunicorn is running our app on Heroku, we generally want it to log to stdout
+and stderr instead of logging to files, so that we can let Heroku capture the logs
+and see view them with the `heroku logs` CLI command (or in the web console).
+
+By default, Django will not log errors to the console when `DEBUG` is `False`
+([as documented here](https://docs.djangoproject.com/en/2.2/topics/logging/#django-s-default-logging-configuration)).
+To make sure that errors get logged appropriately in Heroku, set the following
+baseline logging settings in your `settings.py` file:
+
+```python
+import os
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,  # Preserve default loggers
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['console'],
+            'level': os.getenv('DJANGO_LOG_LEVEL', 'INFO'),
+        },
+    },
+}
+```
+
+For more detail on Django's logging framework, [see the documentation](https://docs.djangoproject.com/en/2.2/topics/logging/).
+
+### Create Heroku config files
+
+If you're converting an existing app to use Heroku, create the following config files
+relative to the root of your repo. If you're setting up a Heroku deployment for
+an app that you created with the Django template, you should have these config
+files already, and you can safely skip to [Create apps and pipelines for your
+project](#create-apps-and-pipelines-for-your-project).
+
+#### `heroku.yml`
+
+The `heroku.yml` manifest file tells Heroku how to build and network the services
+and containers that comprise your application. This file should live in the root of your project repo.
+For background and syntax, see [the
+documentation](https://devcenter.heroku.com/articles/build-docker-images-heroku-yml).
+Use the following baseline to get started:
+
+```yml
+# Define addons that you need for  your project, such as Postgres, Redis, or Solr.
+setup:
+  addons:
+    - plan: heroku-postgresql
+# Define your application's Docker containers.
+build:
+  docker:
+    web: Dockerfile
+# Define any scripts that you'd like to run every time the app deploys.
+release:
+  command:
+    - ./scripts/release.sh
+  image: web
+# The command that runs your application. Replace 'app' with the name of your app.
+run:
+  web: gunicorn -t 180 --log-level debug app.wsgi:application
+```
+
+#### `release.sh`
+
+In your app's `scripts` folder, define a script `release.sh` to run every time the app deploys.
+Use the following baseline script and make sure to run `chmod u+x scripts/release.sh`
+to make it executable:
+
+```bash
+#!/bin/bash
+set -euo pipefail
+
+python manage.py collectstatic --noinput
+python manage.py migrate --noinput
+python manage.py createcachetable && python manage.py clear_cache
+```
+
+If your app uses a `dbload` script to load initial data into the database, you can use `release.sh`
+to check if the initial data exists and run the data loading scripts if not. For example:
+
+```bash
+# Set ${TABLE} to the name of a table that you expect to have data in it.
+if [ `psql ${DATABASE_URL} -tAX -c "SELECT COUNT(*) FROM ${TABLE}"` -eq "0" ]; then
+    make all
+fi
+```
+
+The `release.sh` file must be set to executable at the file system level. To do this, run `chmod +x scripts/release.sh` on your local machine and commit the change. Surprisingly, GitHub will recognize this change!
+
+Note that logs for the release phase won't be viewable in the Heroku console unless `curl`
+is installed in your application container. Make sure your Dockerfile installs
+`curl` to see logs as `scripts/release.sh` runs.
+
+#### `app.json`
+
+In order to enable [review apps](https://devcenter.heroku.com/articles/github-integration-review-apps)
+for your project, the repo must contain an `app.json` config file in the root directory.
+For background and syntax, see [the documentation](https://devcenter.heroku.com/articles/app-json-schema).
+Use the following baseline to get started:
+
+```json
+{
+  "name": "your-app",
+  "scripts": {},
+  "env": {
+    "DJANGO_SECRET_KEY": {
+      "required": true
+    },
+    "DJANGO_ALLOWED_HOSTS": {
+      "required": true
+    }
+  },
+  "formation": {
+    "web": {
+      "quantity": 1,
+      "size": "hobby"
+    }
+  },
+  "environments": {
+    "review": {
+      "addons": ["heroku-postgresql:hobby-basic"]
+    }
+  },
+  "buildpacks": [],
+  "stack": "container"
+}
+```
+
+### Set up GitHub Actions for CI
+
+For Heroku deployments, we use GitHub Actions for CI (continuous integration). Read the [how-to to set up GitHub Actions](https://github.com/datamade/how-to/blob/master/ci/github-actions.md).
+
 ## Troubleshooting
 
 ### I see `Application error` or a `Welcome to Heroku` page on my site
@@ -575,3 +614,31 @@ of data to use a larger Heroku Postgres plan for review apps. Unfortunately, the
 is not currently a way to set this type of configuration (and hence prevent these
 kinds of emails being sent for review apps) because [Heroku defaults to the cheapest plan for
 review app addons](https://help.heroku.com/SY28FR6H/why-aren-t-i-seeing-the-add-on-plan-specified-in-my-app-json-in-my-review-or-ci-app).
+
+### Help! My staging pipeline doesn't have a database!
+You might deploy a review app and everything works. Then you merge your code to master, which builds a new version to the staging pipeline. But for some reason, there is no database provisioned for staging.
+
+Did you have the `manifest` CLI plugin installed when you first created the Heroku pipeline? If not, then it won't provision the Postgres add-on. [See this step](#install-the-heroku-cli-with-the-manifest-plugin).
+
+Here's an example where the `manifest` plugin **was not installed** when creating an app:
+```
+heroku create ${APP_NAME}-staging -t datamade --manifest                                 
+Creating ⬢ demo-app-staging... done
+https://demo-app-staging.herokuapp.com/ | https://git.heroku.com/demo-app-staging.git
+```
+
+Here is an example where everything worked because the `manifest` plugin was installed:
+```
+heroku create ${APP_NAME}-staging -t datamade --manifest 
+Reading heroku.yml manifest... done
+Creating ⬢ demo-app-staging... done, stack is container
+Adding heroku-postgresql... done
+https://demo-app-staging.herokuapp.com/ | https://git.heroku.com/demo-app-staging.git
+
+heroku pipelines:add ${APP_NAME}-staging -a ${APP_NAME}-staging -s staging
+Adding ⬢ demo-app-staging to datamade-app pipeline as staging... done
+```
+
+The difference is in the CLI's output. In the working example, note the output `Reading heroku.yml manifest... done` and `Adding heroku-postgresql... done`.
+
+If that is not the problem, then make sure your app's `heroku.yml` is configured correctly. When Heroku builds your app to a pipeline, it uses the `heroku.yml` file to provision the resources (like Postgres or Solr).

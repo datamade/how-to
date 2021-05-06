@@ -9,6 +9,7 @@ In some cases, it also provides extended documentation for setup and use.
 
 | Objective | Library | Internal documentation |
 | :- | :- | :- |
+| General wayfinding | [Classy Class-based Views](https://ccbv.co.uk/) | |
 | Debugging | [`django-debug-toolbar`](https://github.com/jazzband/django-debug-toolbar) + [`django-debug-toolbar-request-history`](https://github.com/djsutho/django-debug-toolbar-request-history) | |
 | CMS | [`wagtail`](https://wagtail.io/developers/) | [Link](wagtail/README.md) |
 | Search | [`django-haystack`](https://github.com/django-haystack/django-haystack) | |
