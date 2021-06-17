@@ -32,7 +32,7 @@ First, you'll need to setup the test reCAPTCHA within your application. The test
 
 3. Configure docker-compose to use the environment file
     - Reference the `.env` file in the project's root `docker-compose.yml` file. This will enable the app to run locally and use your local environment variables. [Here is an example](https://github.com/datamade/parserator.datamade.us/blob/bda3201c3d7873916ed4075a2102b5805fad9a3a/docker-compose.yml#L26).
-    - Add the environment variables to `~/tests/docker-compose.yml`, [like so](https://github.com/datamade/parserator.datamade.us/blob/bda3201c3d7873916ed4075a2102b5805fad9a3a/tests/docker-compose.yml#L13).
+    - If your tests interact with the reCAPTCHA, then add the environment variables to [`~/tests/docker-compose.yml`](https://github.com/datamade/parserator.datamade.us/blob/bda3201c3d7873916ed4075a2102b5805fad9a3a/tests/docker-compose.yml#L13).
 
 Now you can use the public key and private key in your code.
 
