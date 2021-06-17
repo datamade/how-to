@@ -1,6 +1,7 @@
-# The DataMade Gatsby Stack
+# The DataMade JavaScript Stack
 
-A number of tools comprise our development stack for Gatsby project. They are:
+A number of tools comprise our development stack for projects written in or
+containing JavaScript. They are:
 
 1. [Gatsby](https://www.gatsbyjs.org/) (obviously) - static site generator
 2. [React](https://reactjs.org/) - JavaScript framework for building user interfaces
@@ -17,6 +18,8 @@ Building a Gatsby project? Check out these projects from the DataMade team for e
 - Basic static app: [`static-app-template`](https://github.com/datamade/static-app-template/) (to be iterated upon)
 - Static app with `recharts` charts: [`how-to-recharts`](https://github.com/datamade/how-to-recharts/)
 - Static app with `react-leaflet` map: [`lisc-cnda-map`](https://github.com/datamade/lisc-cnda-map/)
+
+Integrating React with Django? See [the docs on our approach](https://github.com/datamade/how-to/blob/master/django/django-react-integration.md).
 
 ## Managing packages and plugins
 
@@ -38,7 +41,7 @@ error Command "yarn" not found.
 info Visit https://yarnpkg.com/en/docs/cli/run for documentation about this command.
 ```
 
-\- this is almost certainly the problem! Run your commands like this, instead:
+- this is almost certainly the problem! Run your commands like this, instead:
 
 ```bash
 # The application's entry point is "yarn" so we only need to pass the "add" command.
