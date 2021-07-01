@@ -59,6 +59,7 @@ _In alphabetical order and including links to external repository-based document
         - [Best practices for working with source control](work-practices/project-management/source-control.md)
     - [User research](work-practices/ux/project-research-and-interviews.md)
     - [Investment time](work-practices/investment-time/)
+    - [External meetings](work-practices/external-meetings/)
 
 ## Contributing
 
