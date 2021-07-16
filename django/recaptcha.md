@@ -66,8 +66,8 @@ Get with your project lead to create a new, official reCAPTCHA for your app. Thi
 ## Resources
 - [The reCAPTCHA admin dashboard](https://www.google.com/recaptcha/admin)
 - [Google's documentation about reCAPTCHA](https://developers.google.com/recaptcha/intro)
+- [Google's reCAPTCHA for automated testing](https://developers.google.com/recaptcha/docs/faq#id-like-to-run-automated-tests-with-recaptcha.-what-should-i-do)
 - [the `django-recaptcha` plugin](https://pypi.org/project/django-recaptcha/)
-- [A reCAPTCHA for automated testing](https://developers.google.com/recaptcha/docs/faq#id-like-to-run-automated-tests-with-recaptcha.-what-should-i-do)
 - DataMade implementations:
   - [Using the `django-recaptcha` plugin](https://github.com/datamade/la-metro-councilmatic/pull/737/files/02b6c9104eff556c15663e9c3d77bf24df35a519). This is the recommended implementation.
   - [v2 with custom code for the view and template](https://github.com/datamade/parserator.datamade.us/blob/bda3201c3d7873916ed4075a2102b5805fad9a3a/parserator_web/views.py#L524).
