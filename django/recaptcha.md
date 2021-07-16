@@ -10,7 +10,8 @@ This guide assumes that you have an existing form, or have created a new form pr
 - [How it works](#how-it-works)
 - [Set up the test reCAPTCHA](#set-up-the-test-recaptcha)
   - [Configure the keys](#configure-the-keys)
-- [Create a "throwaway" reCAPTCHA for testing](#create-a-throwaway-recaptcha-for-testing)
+  - [Implement your code](#implement-your-code)
+- [Test the implementation with a live reCATPCHA](#test-the-implementation-with-a-live-recaptcha)
 - [Add a production reCAPTCHA](#add-a-production-recaptcha)
 
 ## How it works
@@ -34,7 +35,7 @@ Google provides a test reCAPTCHA that you can use for automated testing and loca
     - Reference the `.env` file in the project's root `docker-compose.yml` file. This will enable the app to run locally and use your local environment variables. [Here is an example](https://github.com/datamade/parserator.datamade.us/blob/bda3201c3d7873916ed4075a2102b5805fad9a3a/docker-compose.yml#L26).
     - If your automated tests interact with the reCAPTCHA, then add the environment variables to [`~/tests/docker-compose.yml`](https://github.com/datamade/parserator.datamade.us/blob/bda3201c3d7873916ed4075a2102b5805fad9a3a/tests/docker-compose.yml#L13).
 
-Now you can use the public key and private key in your code. Whenever you deploy your app, you'll need to change these keys to use a production reCAPTCHA (see [Add a production reCAPTCHA](#add-a-production-recaptcha)).
+Now you can use the public key and private key in your code. Whenever you deploy your app, you must change these keys to use a production reCAPTCHA (see [Add a production reCAPTCHA](#add-a-production-recaptcha)).
 
 ### Implement your code
   - An example where we used the `django-recaptcha` plugin: https://github.com/datamade/la-metro-councilmatic/pull/737/files/02b6c9104eff556c15663e9c3d77bf24df35a519. This is the recommended implementation.
@@ -51,7 +52,7 @@ So far, you've been using Google's test reCAPTCHA, which always evaluates to tru
 3. Change the public and private keys you set in the [Configure the keys](#configure-the-keys) section.
 
 ## Add a production reCAPTCHA
-Get with a project lead to create a new, official reCAPTCHA for your app. This one should be used for staging and production environments. 
+Get with your project lead to create a new, official reCAPTCHA for your app. This one should be used for staging and production environments. 
 
 1. Visit the admin dashboard: https://www.google.com/recaptcha/admin
 1. Create a new reCAPTCHA. Be sure to whitelist the proper domains.
