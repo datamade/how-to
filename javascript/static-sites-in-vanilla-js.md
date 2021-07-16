@@ -119,8 +119,8 @@ You can serve your files in local development like:
 python3 -m http.server
 ```
 
-If you're using ES6 syntax, though, this approach will be compatible with all
-browsers.
+If you're using ES6 syntax, though, this approach will not be compatible with 
+all browsers.
 
 If you're targeting a broader user base, and/or if you prefer the ease of using
 a CLI to manage packages, we recommend using `yarn` to install dependencies
