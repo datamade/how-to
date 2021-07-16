@@ -20,7 +20,13 @@ https://github.com/datamade/ny-budget)
 - [Public Land Survey](https://github.com/fgregg/public-land-survey)
 
 I anticipate that we can find even more opportunities to create little apps once
-we officially add this development stack to our toolkit.
+we officially add this development stack to our toolkit. 
+
+While we don't create a huge volume of single-page apps, this stack is
+particularly well suited to demos and proofs of concepts, especially in
+instances where the proof of concept will eventually become part of a Django
+app. In this case, we can avoid the overhead of writing a Gatsby app we'll
+ultimately abandon by using vanilla JavaScript instead.
 
 ### What are the pros and cons of writing single page apps in vanilla JavaScript? How does it compare to Gatsby? 
 
@@ -80,7 +86,10 @@ Does your site need:
 - A minimally complicated map?
 - Lightweight data, e.g., a single JSON or CSV file or low cost external requests
 
-Does your site need:
+It could be well suited to the vanilla JavaScript stack! Read on for more
+details.
+
+On the other hand, does your site need:
 
 - Multiple pages, particularly pages based on data?
 - Heavyweight data, e.g., multiple data files, an external datastore (such as
