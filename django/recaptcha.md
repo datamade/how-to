@@ -31,7 +31,7 @@ Google provides a test reCAPTCHA that you can use for automated testing and loca
     - Create an `.env.example` file in your root directory. This will give you a file that can be commited to version control and shared with other developers, so they know what environment variables to set for their own local development. [Here is an example from one of our projects](https://github.com/datamade/parserator.datamade.us/blob/bda3201c3d7873916ed4075a2102b5805fad9a3a/.env.example#L9), with the keys for Google's test reCAPTCHA.
     - Once you have your `.env.example` file, copy it to a local `.env` file so that your application can use the environment variables.
 
-3. Configure docker-compose to use the environment file
+3. Configure `docker-compose.yml` to use the environment file.
     - Reference the `.env` file in the project's root `docker-compose.yml` file. This will enable the app to run locally and use your local environment variables. [Here is an example](https://github.com/datamade/parserator.datamade.us/blob/bda3201c3d7873916ed4075a2102b5805fad9a3a/docker-compose.yml#L26).
     - If your automated tests interact with the reCAPTCHA, then add the environment variables to [`~/tests/docker-compose.yml`](https://github.com/datamade/parserator.datamade.us/blob/bda3201c3d7873916ed4075a2102b5805fad9a3a/tests/docker-compose.yml#L13).
 
@@ -68,3 +68,7 @@ Get with your project lead to create a new, official reCAPTCHA for your app. Thi
 - [Google's documentation about reCAPTCHA](https://developers.google.com/recaptcha/intro)
 - [the `django-recaptcha` plugin](https://pypi.org/project/django-recaptcha/)
 - [A reCAPTCHA for automated testing](https://developers.google.com/recaptcha/docs/faq#id-like-to-run-automated-tests-with-recaptcha.-what-should-i-do)
+- DataMade implementations:
+  - [Using the `django-recaptcha` plugin](https://github.com/datamade/la-metro-councilmatic/pull/737/files/02b6c9104eff556c15663e9c3d77bf24df35a519). This is the recommended implementation.
+  - [v2 with custom code for the view and template](https://github.com/datamade/parserator.datamade.us/blob/bda3201c3d7873916ed4075a2102b5805fad9a3a/parserator_web/views.py#L524).
+  - [v3 with custom code for the view and template](https://github.com/datamade/django-salsa-auth/commit/c8512d030b90762c7d703bfd1630f79d11e10a5e#diff-bfb393f3e832ecb2f6fb86ad35eefa88a87e0d773b3e4a80ce224d83997df815R137).
