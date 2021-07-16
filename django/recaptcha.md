@@ -1,13 +1,11 @@
 # Set up Google reCAPTCHA in a Django app
 Google's reCAPTCHA protects public-facing forms from the bots (like a sign up form). This guide will walk you through how to set up a production-ready reCAPTCHA in a Django/Docker/Heroku application. See [the reCAPTCHA documentation](https://developers.google.com/recaptcha/intro) for more details about reCAPTCHA itself.
 
-Each application requires a unique reCAPTCHA. Anytime you want to add a reCAPTCHA to your app, you'll need to create a new one for production. In addition to your unique reCAPTCHA, Google provides a test reCAPTCHA that you can use for automated testing and local development. 
-
 There are two ways you can implement a reCAPTCHA in a Django app:
 1. Use [the `django-recaptcha` plugin](https://pypi.org/project/django-recaptcha/). This is the recommended approach for use cases.
 2. Implement the reCAPTCHA in your view and template.
 
-This guide assumes that you have an existing form, or have created a new form prior to starting. You'll first implement the test reCAPTCHA. Once this is setup, it will be easy to reconfigure your application to use a real reCAPTCHA.
+This guide assumes that you have an existing form, or have created a new form prior to starting. You'll first implement a test reCAPTCHA. Once this is setup, it will be easy to reconfigure your application to use a real reCAPTCHA.
 
 - [How it works](#how-it-works)
 - [Set up the test reCAPTCHA](#set-up-the-test-recaptcha)
@@ -23,7 +21,7 @@ This guide assumes that you have an existing form, or have created a new form pr
   - Depending on Google's response, the reCAPTCHA is valid or invalid.
 
 ## Set up the test reCAPTCHA
-First, you'll need to setup the test reCAPTCHA within your application. The test reCAPTCHA should not be used in a production environment, because the validation always evaluates to true (aka not a bot).
+Google provides a test reCAPTCHA that you can use for automated testing and local development. You'll need to setup the test reCAPTCHA within your application. The test reCAPTCHA should never be used in a production environment, because the validation always evaluates to true (aka not a bot).
 
 ### Configure the keys
 1. Get the public key and secret key for Google's test reCAPTCHA. You can [get the keys from their site](https://developers.google.com/recaptcha/docs/faq#id-like-to-run-automated-tests-with-recaptcha.-what-should-i-do).
