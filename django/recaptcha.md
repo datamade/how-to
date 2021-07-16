@@ -13,6 +13,7 @@ This guide assumes that you have an existing form, or have created a new form pr
   - [Implement your code](#implement-your-code)
 - [Test the implementation with a live reCATPCHA](#test-the-implementation-with-a-live-recaptcha)
 - [Add a production reCAPTCHA](#add-a-production-recaptcha)
+- [Resources](#resources)
 
 ## How it works
 - A user fills out a form with the reCAPTCHA, then submits the form. Google provides some JavaScript to help with this.
