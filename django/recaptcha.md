@@ -38,9 +38,9 @@ Google provides a test reCAPTCHA that you can use for automated testing and loca
 Now you can use the public key and private key in your code. Whenever you deploy your app, you must change these keys to use a production reCAPTCHA (see [Add a production reCAPTCHA](#add-a-production-recaptcha)).
 
 ### Implement your code
-  - An example where we used the `django-recaptcha` plugin: https://github.com/datamade/la-metro-councilmatic/pull/737/files/02b6c9104eff556c15663e9c3d77bf24df35a519. This is the recommended implementation.
-  - An example of how we've done this with V2: https://github.com/datamade/parserator.datamade.us/blob/bda3201c3d7873916ed4075a2102b5805fad9a3a/parserator_web/views.py#L524.
-  - An example of this with V3: https://github.com/datamade/django-salsa-auth/commit/c8512d030b90762c7d703bfd1630f79d11e10a5e#diff-bfb393f3e832ecb2f6fb86ad35eefa88a87e0d773b3e4a80ce224d83997df815R137
+  - An example where [we used the `django-recaptcha` plugin](https://github.com/datamade/la-metro-councilmatic/pull/737/files/02b6c9104eff556c15663e9c3d77bf24df35a519). This is the recommended implementation.
+  - An example of how [we've implemented v2](https://github.com/datamade/parserator.datamade.us/blob/bda3201c3d7873916ed4075a2102b5805fad9a3a/parserator_web/views.py#L524).
+  - An example of how [we've implemented v3](https://github.com/datamade/django-salsa-auth/commit/c8512d030b90762c7d703bfd1630f79d11e10a5e#diff-bfb393f3e832ecb2f6fb86ad35eefa88a87e0d773b3e4a80ce224d83997df815R137).
 
 ## Test the implementation with a live reCATPCHA
 So far, you've been using Google's test reCAPTCHA, which always evaluates to true. If you want to test with a real, live reCAPTCHA, you can use one of the existing local development reCAPTCHAs.
