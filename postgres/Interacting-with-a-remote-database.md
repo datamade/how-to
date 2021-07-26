@@ -1,6 +1,6 @@
 # Interacting with a remote database
 
-In the course of developing an application, you may want to make use of data that's stored remotely. For instance, DataMade maintains databases of the information scraped for its [Open Civic Data API](http://docs.opencivicdata.org/en/latest/api/index.html).
+In the course of developing an application, you may want to make use of data that's stored remotely. For instance, DataMade maintains databases of the information scraped for its [Open Civic Data API](https://opencivicdata.readthedocs.io/en/latest/).
 
 You can access that data directly via SSH tunneling, or binding a port on your machine to a port on a remote machine. Doing so allows your application to interact with a remote database as if it were local.
 
