@@ -15,7 +15,7 @@ In some cases, it also provides extended documentation for setup and use.
 | Search | [`django-haystack`](https://github.com/django-haystack/django-haystack) | |
 | Autocomplete | [`django-autocomplete-light`](https://github.com/yourlabs/django-autocomplete-light) | |
 | Cross-browser ES6 support | [`django-compressor`](https://github.com/django-compressor/django-compressor) | [Link](django-compressor.md) |
-| API | [`django-rest-framework`](https://github.com/encode/django-rest-framework) + [`django-cors-headers`](https://github.com/ottoyiu/django-cors-headers) | [Link](django-rest-framework.md) |
+| API | [`django-rest-framework`](https://github.com/encode/django-rest-framework) + [`django-cors-headers`](https://github.com/ottoyiu/django-cors-headers) | |
 | File uploads | [`django-storages`](https://django-storages.readthedocs.io/en/latest/) | [Link](file-uploads.md) |
 | React integration | [`django-compressor`](https://github.com/django-compressor/django-compressor) | [Link](django-react-integration.md) |
 | Translation | [`django-rosetta`](https://django-rosetta.readthedocs.io/) | [Link](translation.md) |
