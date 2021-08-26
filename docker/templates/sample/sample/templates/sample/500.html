@@ -1,0 +1,24 @@
+{% extends "sample/base.html" %}
+
+{% block title %}Server Error{% endblock %}
+
+{% block content %}
+<div class="container">
+  <div class="row">
+    <div class="col-sm-10 offset-sm-1">
+      <h1>Server error</h1>
+      <p>
+        The server could not return the content you were looking for. Our development
+        team has been notified and will look into the error.
+      </p>
+      <p>
+        If this error persists, contact the webmaster at
+        <a href="mailto:info@datamade.us">info@datamade.us</a>.
+      </p>
+      <p>
+        <a href="{% url 'home' %}"><i class="fa fa-fw fa-arrow-left"></i>Back to home page</a>
+      </p>
+    </div>
+  </div>
+</div>
+{% endblock %}

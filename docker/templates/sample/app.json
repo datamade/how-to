@@ -1,0 +1,25 @@
+{
+  "name": "sample",
+  "scripts": {},
+  "env": {
+    "DJANGO_ALLOWED_HOSTS": {
+      "required": true
+    },
+    "DJANGO_SECRET_KEY": {
+      "required": true
+    }
+  },
+  "formation": {
+    "web": {
+      "quantity": 1,
+      "size": "hobby"
+    }
+  },
+  "environments": {
+    "review": {
+      "addons": ["heroku-postgresql:hobby-basic"]
+    }
+  },
+  "buildpacks": [],
+  "stack": "container"
+}

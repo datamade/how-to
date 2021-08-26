@@ -1,0 +1,12 @@
+setup:
+  addons:
+    - plan: heroku-postgresql
+build:
+  docker:
+    web: Dockerfile
+release:
+  command:
+    - ./scripts/release.sh
+  image: web
+run:
+  web: gunicorn -t 180 -w 3 --log-level debug sample.wsgi:application

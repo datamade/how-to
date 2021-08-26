@@ -1,0 +1,18 @@
+# Pin these requirements to the latest versions when you create a new project,
+# e.g. Django==3.0.2.
+Django
+psycopg2
+gunicorn
+dj-database-url
+whitenoise
+django-compressor
+sentry-sdk
+
+# Testing requirements
+pytest
+pytest-django
+pytest-mock
+flake8
+
+# Project setup requirements
+pip-chill
