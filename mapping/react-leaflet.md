@@ -1,4 +1,13 @@
 # React Leaflet how-to
+`react-leaflet` is an abstraction of LeafletJS for React. It provides React components for building Leaflet maps.
+
+## Examples
+- If you need a straightforward implementation, checkout the [LISC Chicago Neighborhood Development Awardees map](https://github.com/datamade/lisc-cnda-map/blob/master/app/src/components/map.js)
+- [The introduction section for `react-leaflet`](https://react-leaflet.js.org/docs/start-introduction)
+
+## react-leaflet guide
+At the time of writing, DataMade doesn't have many examples of `react-leaflet`, so this guide fills that gap.
+
 This guide will walk you through how to use React Leaflet to make an interactive map with GeoJSON. You will first make a basic map, then add GeoJSON fetching, then attach click events to each GeoJSON feature. Each feature will be clickable and render data to the UI about the clicked feature. In other words, you'll make a map where you can click on a Chicago Judicial Ward, and information about that ward will show up on the page.
 
 This guide also shows one of several ways to compose reusable components in a React app. Hopefully, if this guide succeeds at that, then you should be able to take these lessons and apply them to your project, i.e. organize your components in a way that works for your project or makes more sense to your brain.
@@ -420,7 +429,5 @@ If you did this correctly, your map should render the same as it did. This patte
 For the full code: https://github.com/smcalilly/hello-leaflet
 
 ## Resources
-- If you need a more straightforward implementation, without the reusable components, checkout the [LISC Chicago Neighborhood Development Awardees map](https://github.com/datamade/lisc-cnda-map/blob/master/app/src/components/map.js)
-- [the introduction section for `react-leaflet`](https://react-leaflet.js.org/docs/start-introduction)
 - [`leaflet`](https://leafletjs.com/reference-1.7.1.html#domevent)
 - [the `leaflet` documentation for DOM events](https://leafletjs.com/reference-1.7.1.html#domevent)
