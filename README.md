@@ -62,8 +62,10 @@ _In alphabetical order and including links to external repository-based document
     - [Remote work](work-practices/remote-work/)
     - [Project management](work-practices/project-management/)
         - [Project collateral](work-practices/project-management/collateral.md)
-        - [Best practices for working with source control](work-practices/project-management/source-control.md)
     - [User research](work-practices/ux/project-research-and-interviews.md)
+    - [Version control](work-practices/version-control/)
+        - [Best practices for working with source control](work-practices/version-control/source-control.md)
+        - [Changing your default branch to main](work-practices/version-control/renaming-to-main.md)
 
 ## Contributing
 
