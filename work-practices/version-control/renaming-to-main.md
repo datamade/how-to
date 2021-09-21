@@ -29,6 +29,7 @@ git remote set-head origin -a
 
 4. Do a global find for references to 'master' in your code and update where appropriate. This is typically in places like `README.md` and `.github/workflows/main.yml`
 5. For apps deployed to Heroku, it should automatically pick up on the new default branch. However, if you had any automatic deploys set up off that branch, you will need to go into the settings and re-enable them off the new `main` branch.
+6. For apps deployed on Netlify, you will need to edit the Deploy settings and update the Production branch to `main`.
 
 
 ## Renaming examples
