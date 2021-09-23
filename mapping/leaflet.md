@@ -26,7 +26,7 @@ The Leaflet library is a tool to use when:
 - [Interactive Choropleth Map](https://leafletjs.com/examples/choropleth/)
  
 ### Limitations
-tk
+Leaflet with vanilla JavaScript can lead to an unorganized and hard-to-use codebase. If you have a map that might have a lot of extra functionality, then we'd recommend using [react-leaflet](/mapping/react-leaflet.md).
 
 #### Further reading
 - [Map templates for Leaflet](https://handsondataviz.org/leaflet.html)
