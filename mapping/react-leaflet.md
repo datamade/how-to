@@ -218,7 +218,7 @@ function onWardClick(e) {
     }
  ```
 
-To your `GeoJSON` instance, pass in the function as an argument to the `onEachFeature` props:
+To your `GeoJSON` instance, pass in the `eventHandlersOnEachFeature` function as an argument to the `onEachFeature` props:
 ```jsx
 <GeoJSON
     key='ward-layer'
