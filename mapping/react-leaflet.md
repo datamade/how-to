@@ -289,7 +289,7 @@ export default ChicagoWardMap
 Now, whenever you click on a ward in your map, it should print some information in your console.
 
 ### Show the ward's information in the UI
-Printing to the console isn't very useful. So, we need get that data and render it to the UI. Once we've done that, we'll refactor the component and "lift state up" to the parent component, so that we can keep the logic for a `ChicagoWardMap` separated from the logic of what you want on other parts of the UI.
+Printing to the console isn't very useful. So, we need get that data and render it to the UI. Once we've done that, we'll refactor the component and ["lift state up" to the parent component](https://reactjs.org/docs/lifting-state-up.html), so that we can keep the logic for a `ChicagoWardMap` separated from the logic of what you want on other parts of the UI.
 
 Create a new hook in the `ChicagoWardMap` component called `ward`:
 ```jsx
