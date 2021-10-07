@@ -291,10 +291,12 @@ Now, whenever you click on a ward in your map, it should print some information 
 ### Show the ward's information in the UI
 Printing to the console isn't very useful. So, we need get that data and render it to the UI. Once we've done that, we'll refactor the component and "lift state up" to the parent component, so that we can keep the logic for a `ChicagoWardMap` separated from the logic of what you want on other parts of the UI.
 
-Create a new stateful object in the `ChicagoWardMap` component called `ward`:
+Create a new hook in the `ChicagoWardMap` component called `ward`:
 ```jsx
 const [ward, setWard] = useState({})
 ```
+
+If you don't know what a React Hook is, then you can learn about it [from the React docs](https://reactjs.org/docs/hooks-intro.html). It's a powerful API for managing the state of your React components.
 
 Use the `setWard` function in your `onWardClick` function:
 ```jsx
