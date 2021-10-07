@@ -17,7 +17,7 @@ The Leaflet library is a tool to use when:
 - [Searchable Map Template](https://github.com/datamade/searchable-map-template-csv)
 - [Justice Divided](https://github.com/datamade/justice-divided/blob/master/js/district_map.js)
 - [Cal FWD CDI site](https://github.com/datamade/california-dream-index/blob/master/cdi/static/js/detailMap.js)
-- [Councilmatic](https://github.com/datamade/django-councilmatic/blob/5b074f376667766e4b6dbf093871d294bb35fc51/councilmatic_core/templates/councilmatic_core/council_members.html#L105)
+- [Councilmatic](https://github.com/datamade/django-councilmatic/blob/5b074f376667766e4b6dbf093871d294bb35fc51/councilmatic_core/templates/partials/map.html)
 
 
 ### Examples from Leaflet's documentation
