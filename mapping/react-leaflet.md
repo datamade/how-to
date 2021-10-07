@@ -60,7 +60,7 @@ export default BaseMap
 
 This is a reusable component for making maps. Whenever you use it, you can pass props into it, like `center`, `zoom`, `className`, and `children`. The `children` argument enables you to build a map with custom layers. This is a powerful feature of React, and helps you "compose" resuable components in a way that makes sense for your UI. You will see how this works when you add the GeoJSON layer.
 
-**It's very important that you import `leaflet/dist/leaflet.css` to your `BaseMap`. This isn't obvious from the React Leaflet documentation.**
+**It's very important that you import `leaflet/dist/leaflet.css` to your `BaseMap`. This isn't obvious from the React Leaflet documentation.** If you don't show this, then the `react-leaflet` library won't have the required CSS, causing the map to render in weird, undesired ways.
 
 ### Add the CSS
 The `react-leaflet` library creates a [`<div>` element on the DOM](https://react-leaflet.js.org/docs/start-introduction#dom-rendering) when the map is rendered, and it comes with a CSS class named `leaflet-container`. You need to target this class with some height and width properties in order to show the map.
