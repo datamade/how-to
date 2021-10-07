@@ -205,7 +205,7 @@ function eventHandlersOnEachFeature(feature, layer) {
 ```
 This is an undocumented method in `react-leaflet`, but it's using the underlying `leaflet` library and HTML DOM events. See [the `leaflet` documentation](https://leafletjs.com/reference-1.7.1.html#domevent) for more details.
 
-Create the `onWardClick` function:
+Create the `onWardClick` function, also in the scope of `ChicagoWardMap`:
 ```jsx
 function onWardClick(e) {
         const layer = e.target
