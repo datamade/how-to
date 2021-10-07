@@ -311,7 +311,7 @@ function onWardClick(e) {
 }
 ```
 
-You can now use that object in your UI. Add some html to your `ChicagoWardMap` that shows the clicked object. Your `ChicagoWardMap` should look like this:
+You can now use that GeoJSON feature in your UI. Add some html to your `ChicagoWardMap` that shows the clicked object. Your `ChicagoWardMap` should look like this:
 ```jsx
 import React, { useEffect, useState } from 'react'
 import BaseMap from './base'
