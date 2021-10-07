@@ -12,7 +12,7 @@ This guide will walk you through how to use React Leaflet to make an interactive
 
 This guide also shows one of several ways to compose reusable components in a React app. Hopefully, if this guide succeeds at that, then you should be able to take these lessons and apply them to your project, i.e. organize your components in a way that works for your project or makes more sense to your brain.
 
-Before you begin, you should read [the introduction section for `react-leaflet`](https://react-leaflet.js.org/docs/start-introduction), but the rest of their setup guide is lacking. This guide hopes to help others avoid that pain.
+Before you begin, you should read [the introduction section for `react-leaflet`](https://react-leaflet.js.org/docs/start-introduction).
 
 ## Setup your React app
 Assuming you have npm installed:
