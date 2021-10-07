@@ -13,6 +13,9 @@ The Leaflet library is a tool to use when:
 
 [The Leaflet documentation](https://leafletjs.com/) is the best place to learn the basics of Leaflet. 
 
+### Limitations
+Leaflet with vanilla JavaScript can lead to an unorganized and hard-to-use codebase. If you have a map that might have a lot of extra functionality, then we'd recommend using [react-leaflet](/mapping/react-leaflet.md).
+
 ### Examples from DataMade projects
 - [Searchable Map Template](https://github.com/datamade/searchable-map-template-csv)
 - [Justice Divided](https://github.com/datamade/justice-divided/blob/master/js/district_map.js)
@@ -24,9 +27,6 @@ The Leaflet library is a tool to use when:
 - [Quickstart](https://leafletjs.com/examples/quick-start/)
 - [Using GeoJSON with Leaflet](https://leafletjs.com/examples/geojson/)
 - [Interactive Choropleth Map](https://leafletjs.com/examples/choropleth/)
- 
-### Limitations
-Leaflet with vanilla JavaScript can lead to an unorganized and hard-to-use codebase. If you have a map that might have a lot of extra functionality, then we'd recommend using [react-leaflet](/mapping/react-leaflet.md).
 
 #### Further reading
 - [Map templates for Leaflet](https://handsondataviz.org/leaflet.html)
