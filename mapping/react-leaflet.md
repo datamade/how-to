@@ -150,34 +150,34 @@ import BaseMap from './base'
 import { GeoJSON } from 'react-leaflet'
 
 function ChicagoWardMap() {
-    const [wardBorders, setWardBorders] = useState(null)
+  const [wardBorders, setWardBorders] = useState(null)
 
-    useEffect(() => {
-        // get the geojson
-        fetch('https://raw.githubusercontent.com/datamade/chicago-judicial-elections/master/wards/wards_2012.geojson')
-            .then((res) => res.json()) // parse the response into json
-            .then((geojson) => {
-                setWardBorders(geojson) // with the geojson, set the state for wardBorders
-            })
-    }, [setWardBorders])
+  useEffect(() => {
+    // get the geojson
+    fetch('https://raw.githubusercontent.com/datamade/chicago-judicial-elections/master/wards/wards_2012.geojson')
+      .then((res) => res.json()) // parse the response into json
+      .then((geojson) => {
+        setWardBorders(geojson) // with the geojson, set the state for wardBorders
+      })
+  }, [setWardBorders])
 
-    const fill = {
-        fillColor: '#daf0ce', 
-        weight: 0.5,
-        opacity: 0.4,
-        color: '#666',
-        fillOpacity: 0.5
-    }
+  const fill = {
+    fillColor: '#daf0ce', 
+    weight: 0.5,
+    opacity: 0.4,
+    color: '#666',
+    fillOpacity: 0.5
+  }
 
-    return (
-        <BaseMap center={[41.8781, -87.6298]} zoom={10}>
-                {/* this will only show when wardBorders has a truthy value */}
-                {wardBorders && <GeoJSON
-                                    key='ward-layer'
-                                    data={wardBorders}
-                                    style={fill} />}
-        </BaseMap>
-    )
+  return (
+    <BaseMap center={[41.8781, -87.6298]} zoom={10}>
+      {/* this will only show when wardBorders has a truthy value */}
+      {wardBorders && <GeoJSON
+                        key='ward-layer'
+                        data={wardBorders}
+                        style={fill} />}
+    </BaseMap>
+  )
 }
 
 export default ChicagoWardMap
@@ -198,9 +198,9 @@ Finally, we can attach callbacks to each GeoJSON feature. This is how you can ad
 You want to send a callback function into the GeoJSON layer. The GeoJSON component includes a prop called `onEachFeature`, where you can access the GeoJSON layer within the leaflet instance. Add this method inside the scope of the `ChicagoWardMap` component:
 ```jsx
 function eventHandlersOnEachFeature(feature, layer) {
-    layer.on({
-      click: onWardClick
-    })
+  layer.on({
+    click: onWardClick
+  })
 }
 ```
 This is an undocumented method in `react-leaflet`, but it's using the underlying `leaflet` library and HTML DOM events. See [the `leaflet` documentation](https://leafletjs.com/reference-1.7.1.html#domevent) for more details.
@@ -208,23 +208,23 @@ This is an undocumented method in `react-leaflet`, but it's using the underlying
 Create the `onWardClick` function, also in the scope of `ChicagoWardMap`:
 ```jsx
 function onWardClick(e) {
-        const layer = e.target
+  const layer = e.target
 
-        const layerFeature = (layer && layer.feature && layer.feature.properties) 
-                                ? layer.feature.properties 
-                                : null
-        
-        console.log(layerFeature)
-    }
+  const layerFeature = layer?.feature?.properties
+                        ? layer.feature.properties 
+                        : null
+  
+  console.log(layerFeature)
+}
  ```
 
 To your `GeoJSON` instance, pass in the `eventHandlersOnEachFeature` function as an argument to the `onEachFeature` props:
 ```jsx
 <GeoJSON
-    key='ward-layer'
-    data={wardBorders}
-    style={fill} 
-    onEachFeature={eventHandlersOnEachFeature} />
+  key='ward-layer'
+  data={wardBorders}
+  style={fill} 
+  onEachFeature={eventHandlersOnEachFeature} />
 ```
 
 Your `src/maps/wards.js` should look like this:
@@ -234,53 +234,53 @@ import BaseMap from './base'
 import { GeoJSON } from 'react-leaflet'
 
 function ChicagoWardMap() {
-    const [wardBorders, setWardBorders] = useState(null)
+  const [wardBorders, setWardBorders] = useState(null)
 
-    useEffect(() => {
-        // get the geojson
-        fetch('https://raw.githubusercontent.com/datamade/chicago-judicial-elections/master/wards/wards_2012.geojson')
-            .then((res) => res.json())
-            .then((geojson) => {
-                setWardBorders(geojson)
-            })
+  useEffect(() => {
+    // get the geojson
+    fetch('https://raw.githubusercontent.com/datamade/chicago-judicial-elections/master/wards/wards_2012.geojson')
+      .then((res) => res.json())
+      .then((geojson) => {
+        setWardBorders(geojson)
+      })
 
-    }, [setWardBorders])
+  }, [setWardBorders])
 
-    const fill = {
-        fillColor: '#daf0ce', 
-        weight: 0.5,
-        opacity: 0.4,
-        color: '#666',
-        fillOpacity: 0.5
-    }
+  const fill = {
+    fillColor: '#daf0ce', 
+    weight: 0.5,
+    opacity: 0.4,
+    color: '#666',
+    fillOpacity: 0.5
+  }
+  
+  function onWardClick(e) {
+    const layer = e.target
+
+    const layerFeature = layer?.feature?.properties
+                          ? layer.feature.properties 
+                          : null
     
-    function onWardClick(e) {
-        const layer = e.target
+    console.log(layerFeature)
+  }
 
-        const layerFeature = (layer && layer.feature && layer.feature.properties) 
-                                ? layer.feature.properties 
-                                : null
-        
-        console.log(layerFeature)
-    }
+  function eventHandlersOnEachFeature(feature, layer) {
+    layer.on({
+      click: onWardClick
+    })
+  }
 
-    function eventHandlersOnEachFeature(feature, layer) {
-        layer.on({
-          click: onWardClick
-        })
-    }
-
-    return (
-        <div className='map-viewer'>
-            <BaseMap center={[41.8781, -87.6298]} zoom={10}>
-                {wardBorders && <GeoJSON
-                                    key='ward-layer'
-                                    data={wardBorders}
-                                    style={fill} 
-                                    onEachFeature={eventHandlersOnEachFeature} />}
-            </BaseMap>
-        </div>
-    )
+  return (
+    <div className='map-viewer'>
+      <BaseMap center={[41.8781, -87.6298]} zoom={10}>
+        {wardBorders && <GeoJSON
+                          key='ward-layer'
+                          data={wardBorders}
+                          style={fill} 
+                          onEachFeature={eventHandlersOnEachFeature} />}
+      </BaseMap>
+    </div>
+  )
 }
 
 export default ChicagoWardMap
@@ -299,13 +299,13 @@ const [ward, setWard] = useState({})
 Use the `setWard` function in your `onWardClick` function:
 ```jsx
 function onWardClick(e) {
-    const layer = e.target
+  const layer = e.target
 
-    const layerFeature = (layer && layer.feature && layer.feature.properties) 
-                            ? layer.feature.properties 
-                            : null
+  const layerFeature = layer?.feature?.properties
+                        ? layer.feature.properties 
+                        : null
 
-    setWard(layerFeature)
+  setWard(layerFeature)
 }
 ```
 
@@ -316,56 +316,55 @@ import BaseMap from './base'
 import { GeoJSON } from 'react-leaflet'
 
 function ChicagoWardMap() {
-    const [wardBorders, setWardBorders] = useState(null)
-    const [ward, setWard] = useState(null)
+  const [wardBorders, setWardBorders] = useState(null)
+  const [ward, setWard] = useState(null)
 
-    useEffect(() => {
-        // get the geojson
-        fetch('https://raw.githubusercontent.com/datamade/chicago-judicial-elections/master/wards/wards_2012.geojson')
-            .then((res) => res.json()) // parse the response into json
-            .then((geojson) => {
-                setWardBorders(geojson) // with the geojson, set the state for wardBorders
-            })
+  useEffect(() => {
+    // get the geojson
+    fetch('https://raw.githubusercontent.com/datamade/chicago-judicial-elections/master/wards/wards_2012.geojson')
+      .then((res) => res.json()) // parse the response into json
+      .then((geojson) => {
+          setWardBorders(geojson) // with the geojson, set the state for wardBorders
+      })
+  }, [setWardBorders])
 
-    }, [setWardBorders])
+  const fill = {
+    fillColor: '#daf0ce', 
+    weight: 0.5,
+    opacity: 0.4,
+    color: '#666',
+    fillOpacity: 0.5
+  }
 
-    const fill = {
-        fillColor: '#daf0ce', 
-        weight: 0.5,
-        opacity: 0.4,
-        color: '#666',
-        fillOpacity: 0.5
-    }
+  function onWardClick(e) {
+    const layer = e.target
 
-    function onWardClick(e) {
-        const layer = e.target
+    const layerFeature = layer?.feature?.properties
+                          ? layer.feature.properties 
+                          : null
+    
+    setWard(layerFeature)
+  }
 
-        const layerFeature = (layer && layer.feature && layer.feature.properties) 
-                                ? layer.feature.properties 
-                                : null
-        
-        setWard(layerFeature)
-    }
+  function eventHandlersOnEachFeature(feature, layer) {
+    layer.on({
+      click: onWardClick
+    })
+  }
 
-    function eventHandlersOnEachFeature(feature, layer) {
-        layer.on({
-          click: onWardClick
-        })
-    }
-
-    return (
-        <>
-            <BaseMap center={[41.8781, -87.6298]} zoom={10}>
-            {/* this will only show when wardBorders has a value */}
-            {wardBorders && <GeoJSON
-                                key='ward-layer'
-                                data={wardBorders}
-                                style={fill} 
-                                onEachFeature={eventHandlersOnEachFeature} />}
-            </BaseMap>
-            {ward && <p>Ward {ward.ward}'s shape_area = {ward.shape_area} and shape_leng = {ward.shape_leng}</p>}
-        </>
-    )
+  return (
+    <>
+      <BaseMap center={[41.8781, -87.6298]} zoom={10}>
+        {/* this will only show when wardBorders has a value */}
+        {wardBorders && <GeoJSON
+                          key='ward-layer'
+                          data={wardBorders}
+                          style={fill} 
+                          onEachFeature={eventHandlersOnEachFeature} />}
+      </BaseMap>
+      {ward && <p>Ward {ward.ward}'s shape_area = {ward.shape_area} and shape_leng = {ward.shape_leng}</p>}
+    </>
+  )
 }
 
 export default ChicagoWardMap
@@ -412,15 +411,15 @@ Remove these two lines of code, since you replaced them in `App.js`:
 And in the `onWardClick` function, replace the `setWard` function with `onChooseCounty`:
 ```jsx
 function onCountyClick(e) {
-        const layer = e.target
+  const layer = e.target
 
-        const layerFeature = (layer && layer.feature && layer.feature.properties) 
-                                ? layer.feature.properties 
-                                : null
+  const layerFeature = layer?.feature?.properties
+                        ? layer.feature.properties 
+                        : null
 
-        // send the information about the feature to the parent component
-        onChooseCounty(layerFeature)
-    }
+  // send the information about the feature to the parent component
+  onChooseCounty(layerFeature)
+}
 ```
 
 If you did this correctly, your map should render the same as it did. This pattern can make applications complicated, so only use it sparingly, when it's absolutely necessary.
