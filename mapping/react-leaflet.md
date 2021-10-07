@@ -293,7 +293,7 @@ Printing to the console isn't very useful. So, we need get that data and render 
 
 Create a new hook in the `ChicagoWardMap` component called `ward`:
 ```jsx
-const [ward, setWard] = useState({})
+const [ward, setWard] = useState(null)
 ```
 
 If you don't know what a React Hook is, then you can learn about it [from the React docs](https://reactjs.org/docs/hooks-intro.html). It's a powerful API for managing the state of your React components.
@@ -407,7 +407,7 @@ function ChicagoWardMap({ onSelectWard }) {...}
 ```
 
 Remove these two lines of code, since you replaced them in `App.js`:
-- `const [ward, setWard] = useState({})`
+- `const [ward, setWard] = useState(null)`
 - `{ward && <p>Ward {ward.ward}'s shape_area = {ward.shape_area} and shape_leng = {ward.shape_leng}</p>}`
 
 And in the `onWardClick` function, replace the `setWard` function with `onChooseCounty`:
