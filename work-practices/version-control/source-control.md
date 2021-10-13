@@ -31,19 +31,19 @@ Pull requests are the core of a project: they're how changes actually get made, 
 
 ## Branches
 
-In general, our projects center around the `master` branch. Continuous integration hooks like CodeDeploy should point to `master`, such that all commits to `master` are deployed to a staging instance, and tagged commits to `master` correspond to releases and are deployed to a production instance.
+In general, our projects center around the `main` branch. Continuous integration hooks like CodeDeploy should point to `main`, such that all commits to `main` are deployed to a staging instance, and tagged commits to `main` correspond to releases and are deployed to a production instance.
 
-We will sometimes make an exception to this pattern when deploying static sites to Netlify, where tags can't trigger build hooks. In that case, we deploy from `master` for a staging environment, and deploy to production from a dedicated `deploy` branch. To deploy to production, merge your change into master, pull the changes down locally, and then run `git push origin master:deploy`. That way, the `master` and `deploy` branches will always be fully in sync.
+We will sometimes make an exception to this pattern when deploying static sites to Netlify, where tags can't trigger build hooks. In that case, we deploy from `main` for a staging environment, and deploy to production from a dedicated `deploy` branch. To deploy to production, merge your change into main, pull the changes down locally, and then run `git push origin main:deploy`. That way, the `main` and `deploy` branches will always be fully in sync.
 
-We _do not_ use a `dev` branch for the vast majority of projects. During active development, create feature branches off `master`. It is often helpful to open pull requests for these feature branches during the course of work. When doing so, include "[WIP]" in the title to indicate to reviewers/teammates that your branch is in progress, or mark your pull request [as a draft](https://github.blog/2019-02-14-introducing-draft-pull-requests/).
+We _do not_ use a `dev` branch for the vast majority of projects. During active development, create feature branches off `main`. It is often helpful to open pull requests for these feature branches during the course of work. When doing so, include "[WIP]" in the title to indicate to reviewers/teammates that your branch is in progress, or mark your pull request [as a draft](https://github.blog/2019-02-14-introducing-draft-pull-requests/).
 
-Be sure to `rebase` (don't `merge`) your feature branch onto `master` from time to time to capture any underlying changes from bug fixes or integration of other feature branches.
+Be sure to `rebase` (don't `merge`) your feature branch onto `main` from time to time to capture any underlying changes from bug fixes or integration of other feature branches.
 
 ```bash
-git checkout master
+git checkout main
 git pull
 git checkout branch
-git rebase master
+git rebase main
 ```
 
-When you have completed work on your feature branch, remove "[WIP]" from the title of your pull request and request a review. Once your changes are accepted, merge the feature branch into `master`. If your pull request involved a lot of extraneous commits, such as debugging CI, merge your pull request using the [squash and merge](https://help.github.com/articles/about-pull-request-merges/#squash-and-merge-your-pull-request-commits) option. This will combine all commits on your feature branch into a single commit, eliminating the extraneous commits.
+When you have completed work on your feature branch, remove "[WIP]" from the title of your pull request and request a review. Once your changes are accepted, merge the feature branch into `main`. If your pull request involved a lot of extraneous commits, such as debugging CI, merge your pull request using the [squash and merge](https://help.github.com/articles/about-pull-request-merges/#squash-and-merge-your-pull-request-commits) option. This will combine all commits on your feature branch into a single commit, eliminating the extraneous commits.
