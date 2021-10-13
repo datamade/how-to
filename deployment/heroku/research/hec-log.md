@@ -222,7 +222,7 @@ could also be automated with an `init_db` script in your application's language.
    ```bash
    git add heroku.yml [updated_config.py updated_script.py ...]
    git commit -m "add heroku.yml"
-   git push heroku your-branch:main
+   git push heroku your-branch:master
    ```
 
 ## Logging
