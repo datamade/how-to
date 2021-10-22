@@ -37,7 +37,7 @@ Netlify.
    for Business Cat, authenticate with Netlify, and choose the repo you want to integrate from
    the dropdown menu.
 4. For the `Branch to deploy` option, select `deploy`. If you don't have a `deploy` branch
-   yet, create one off of `master` so that you can verify the Netlify deployment.
+   yet, create one off of `main` so that you can verify the Netlify deployment.
 5. For the `Build command` option, input whatever command you use to generate
    a build of the site (e.g. `yarn build`).
 6. For the `Publish directory` option, input the directory that houses your built
@@ -70,7 +70,7 @@ Once you've deployed your site in the Netlify console, you can keep your deploym
 under version control by defining a `netlify.toml` config file in the root of your project repo.
 
 For an example of a simple `netlify.toml` file, see the [DataMade website
-repo](https://github.com/datamade/datamade.us/blob/master/netlify.toml). For
+repo](https://github.com/datamade/datamade.us/blob/main/netlify.toml). For
 full reference, see the [Netlify docs](https://www.netlify.com/docs/netlify-toml-reference/).
 
 This step isn't required for your deployment to work, but it's considered a best practice to keep

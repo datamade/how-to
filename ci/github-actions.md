@@ -23,11 +23,11 @@ name: CI
 on:
   push:
     branches:
-    - master
+    - main
     - deploy
   pull_request:
     branches:
-    - master
+    - main
 
 jobs:
   test:
@@ -39,7 +39,7 @@ jobs:
       run: docker-compose -f docker-compose.yml -f tests/docker-compose.yml run --rm app
 ```
 
-Due to the `on` block, this workflow will run the `test` job on all commits to `master` and all commits to pull requests that have been opened against `master`.
+Due to the `on` block, this workflow will run the `test` job on all commits to `main` and all commits to pull requests that have been opened against `main`.
 
 If your tests need any additional configurations, such as a `.env` file or a local settings file, add a step to your `test` job to create or copy the necessary files, prior to running the tests. For example:
 
@@ -84,7 +84,7 @@ jobs:
     if: startsWith(github.event.ref, 'refs/tags')
     runs-on: ubuntu-18.04
     steps:
-    - uses: actions/checkout@master
+    - uses: actions/checkout@main
     - name: Set up Python 3.7
       uses: actions/setup-python@v1
       with:
@@ -108,14 +108,14 @@ name: Publish to Test PyPI
 on:
   push:
     branches:
-      - master
+      - main
 
 jobs:
   build-and-publish:
     name: Publish to Test PyPI
     runs-on: ubuntu-18.04
     steps:
-    - uses: actions/checkout@master
+    - uses: actions/checkout@main
     - name: Set up Python 3.7
       uses: actions/setup-python@v1
       with:
@@ -131,7 +131,7 @@ jobs:
       continue-on-error: true
 ```
 
-Taken together, these two workflows will publish any branch merged into `master` to [test PyPI](https://test.pypi.org/) and publish tagged commits to [PyPI](https://pypi.org/). This structure parallels our practice of keeping a staging site consistent with `master` and pushing tagged commits to production. If the active package version has already been deployed to either instance, the workflows will skip the upload to that instance; this means that only commits that bump the package version in `setup.py` will result in a newly deployed package.
+Taken together, these two workflows will publish any branch merged into `main` to [test PyPI](https://test.pypi.org/) and publish tagged commits to [PyPI](https://pypi.org/). This structure parallels our practice of keeping a staging site consistent with `main` and pushing tagged commits to production. If the active package version has already been deployed to either instance, the workflows will skip the upload to that instance; this means that only commits that bump the package version in `setup.py` will result in a newly deployed package.
 
 Next, follow the instructions for [creating encrypted secrets](https://help.github.com/en/actions/automating-your-workflow-with-github-actions/creating-and-using-encrypted-secrets#creating-encrypted-secrets) and save values for `pypi_token` and `test_pypi_token`.
 
@@ -156,11 +156,11 @@ name: CI
 on:
   push:
     branches:
-      - master
+      - main
       - deploy
   pull_request:
     branches:
-      - master
+      - main
 
 jobs:
   test:
@@ -228,13 +228,13 @@ Update the values indicated inline with the 🚨 emoji. Then, append the followi
 ```yaml
 # ... deployment lifecycle config ...
 branch_config:
-  master:
+  main:
     deploymentGroupName: staging
   deploy:
     deploymentGroupName: production
 ```
 
-This workflow runs your tests, then creates a deployment conditional on your tests passing. The `deploy` action determines which deployment group, if any, it should create a deployment for using the `branch_config` you added to `.appspec.yml`. In effect, commits to `master` are deployed to staging and commits to `deploy` are deployed to production; commits to all other branches result in a no-op.
+This workflow runs your tests, then creates a deployment conditional on your tests passing. The `deploy` action determines which deployment group, if any, it should create a deployment for using the `branch_config` you added to `.appspec.yml`. In effect, commits to `main` are deployed to staging and commits to `deploy` are deployed to production; commits to all other branches result in a no-op.
 
 Next, follow the instructions for [creating encrypted secrets](https://help.github.com/en/actions/automating-your-workflow-with-github-actions/creating-and-using-encrypted-secrets#creating-encrypted-secrets) and save values for `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY`, using the developer credentials in our team LastPass.
 

@@ -150,23 +150,23 @@ Heroku can deploy commits to specific branches to different environments
 (e.g. staging vs. production).
 
 [Follow the Heroku documentation](https://devcenter.heroku.com/articles/github-integration#automatic-deploys)
-to enable automatic deploys from `master` to your staging app. **Be sure to check
+to enable automatic deploys from `main` to your staging app. **Be sure to check
 `Wait for CI to pass before deploy` to prevent broken code from being deployed!**
 
-For production deployments, create a long-lived `deploy` branch off of `master` and
+For production deployments, create a long-lived `deploy` branch off of `main` and
 configure automatic deployments from `deploy` to production.
 
 ```bash
 # create deploy branch (first deployment)
-git checkout master
-git pull origin master
+git checkout main
+git pull origin main
 git checkout -b deploy
 git push origin deploy
 
-# sync deploy branch with master and deploy to production (subsequent deployments)
-git checkout master
-git pull origin master
-git push origin master:deploy
+# sync deploy branch with main and deploy to production (subsequent deployments)
+git checkout main
+git pull origin main
+git push origin main:deploy
 ```
 
 ## Set up Slack notifications
@@ -618,7 +618,7 @@ kinds of emails being sent for review apps) because [Heroku defaults to the chea
 review app addons](https://help.heroku.com/SY28FR6H/why-aren-t-i-seeing-the-add-on-plan-specified-in-my-app-json-in-my-review-or-ci-app).
 
 ### Help! My staging pipeline doesn't have a database!
-You might deploy a review app and everything works. Then you merge your code to master, which builds a new version to the staging pipeline. But for some reason, there is no database provisioned for staging.
+You might deploy a review app and everything works. Then you merge your code to `main`, which builds a new version to the staging pipeline. But for some reason, there is no database provisioned for staging.
 
 Did you have the `manifest` CLI plugin installed when you first created the Heroku pipeline? If not, then it won't provision the Postgres add-on. [See this step](#install-the-heroku-cli-with-the-manifest-plugin).
 

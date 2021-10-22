@@ -68,7 +68,7 @@ Levarages `django-datatables-view` to [populate a DataTables instance](https://g
 
 **[SSCE Dashboard](https://github.com/datamade/cps-ssce-dashboard) (Django)**
 
-Users can search by school name on the landing page, a simple table made [searchable](https://github.com/datamade/cps-ssce-dashboard/blob/master/cps_app/templates/cps_app/search.html#L123) with DataTables. The [filters](https://github.com/datamade/cps-ssce-dashboard/blob/master/cps_app/filters.py) use django-filter.
+Users can search by school name on the landing page, a simple table made [searchable](https://github.com/datamade/cps-ssce-dashboard/blob/main/cps_app/templates/cps_app/search.html#L123) with DataTables. The [filters](https://github.com/datamade/cps-ssce-dashboard/blob/main/cps_app/filters.py) use django-filter.
 
 **[BGA Payroll Database](https://github.com/datamade/bga-payroll/blob/9de0f4c02fde86038ee109288ab663d64c7fdf7b/data_import/admin.py) (Django)**
 
