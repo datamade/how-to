@@ -12,8 +12,8 @@ for publishing your work.
 Yes, several DataMade projects, old and new, qualify as little sites, including:
 
 - The budget visualization family, including [Look at Cook](
-https://github.com/datamade/look-at-cook) and [NY Budget](
-https://github.com/datamade/ny-budget)
+https://github.com/datamade/look-at-cook), [NY Budget](
+https://github.com/datamade/ny-budget), and [Budget Oak Park](https://github.com/derekeder/oak-park-budget)
 - [IHS Displacement Risk Map](https://github.com/datamade/ihs-displacement-risk-in-chicago)
 - [IHS Price Index](https://github.com/datamade/ihs-price-index)
 - [NWSS Demo](https://github.com/datamade/nwss-data-standard/tree/main/docs)
@@ -52,7 +52,7 @@ script to bundle and transpile code during deployment.
 
 #### Deployment
 
-Vanilla JavaScript can be deployed on GitHub pages, a feature none of our
+Vanilla JavaScript can be deployed on [GitHub Pages](https://guides.github.com/features/pages/), a feature none of our
 other development stacks offers. If a staging site is needed, vanilla JavaScript
 can be deployed on Netlify, the same as our Gatsby apps.
 
