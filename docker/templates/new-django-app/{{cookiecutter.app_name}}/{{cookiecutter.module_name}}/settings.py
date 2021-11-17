@@ -69,7 +69,7 @@ ROOT_URLCONF = '{{cookiecutter.module_name}}.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': ['templates/'],
+        'DIRS': ['templates/', 'templates/{{ cookiecutter.module_name }}'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -172,3 +172,10 @@ COMPRESS_OUTPUT_DIR = 'compressor'
 if DEBUG is False:
     SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
     SECURE_SSL_REDIRECT = True
+
+# Disable search indexing by default. Set DJANGO_ALLOW_SEARCH_INDEXING env
+# variable to True in container or deploymeny environment to enable indexing.
+if os.getenv('DJANGO_ALLOW_SEARCH_INDEXING', False) == 'True':
+    ALLOW_SEARCH_INDEXING = True
+else:
+    ALLOW_SEARCH_INDEXING = False

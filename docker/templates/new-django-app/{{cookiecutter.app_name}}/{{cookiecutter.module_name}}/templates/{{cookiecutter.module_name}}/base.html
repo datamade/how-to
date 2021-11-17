@@ -13,19 +13,28 @@
     <!-- Facebook metadata -->
     <meta property="og:site_name" content="{% endraw %}{{cookiecutter.app_verbose_name}}{% raw %}">
     <meta property="og:type" content="website">
-    <meta property="og:title" content="Title TK">
+    <meta property="og:title" content="{{ page.title }}">
     <meta property="og:description" content="Description TK">
-    <meta property="og:url" content="URL TK">
-    <meta property="og:image" content="Image TK">
+    <meta property="og:url" content="{{ request.build_absolute_uri }}">
+    <!-- TODO: Update with path to real share card instead of DataMade logo. -->
+    <meta property="og:image" content="{{ request.scheme }}://{{ request.get_host }}{% static 'images/datamade-logo.png' %}">
 
     <!-- Twitter metadata -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:site" content="{% endraw %}{{cookiecutter.app_verbose_name}}{% raw %}">
     <meta name="twitter:creator" content="Creator TK">
-    <meta name="twitter:title" content="Title TK">
-    <meta name="twitter:url" content="URL TK">
+    <meta name="twitter:title" content="{{ page.title }}">
+     <meta name="twitter:url" content="{{ request.build_absolute_uri }}">
     <meta name="twitter:description" content="Description TK">
-    <meta name="twitter:image" content="Image TK">
+    <!-- TODO: Update with path to real share card instead of DataMade logo. -->
+    <meta property="twitter:image" content="{{ request.scheme }}://{{ request.get_host }}{% static 'images/datamade-logo.png' %}">
+
+    <meta name="robots" content="{% if allow_index %}all{% else %}noindex{% endif %}">
+    {% if allow_index %}
+    <!-- TODO: Replace ${PRODUCTION_DOMAIN} with the production domain. Do
+    not add a slash between the domain and the request path. -->
+    <link rel="canonical" href="${PRODUCTION_DOMAIN}{{ request.path }}" />
+    {% endif %}
 
     <!-- Override this block to add extra meta tags -->
     {% block extra_meta %}{% endblock %}
