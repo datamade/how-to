@@ -1,18 +1,18 @@
 # React Leaflet how-to
-`react-leaflet` is an abstraction of LeafletJS for React. It provides React components for building Leaflet maps.
+`react-leaflet` is an abstraction of LeafletJS for React. It provides React components for building Leaflet maps, with React props that allow you to pass any of the Leaflet options as props.
 
 ## Examples
 - If you need a straightforward implementation, checkout the [LISC Chicago Neighborhood Development Awardees map](https://github.com/datamade/lisc-cnda-map/blob/master/app/src/components/map.js)
 - [The introduction section for `react-leaflet`](https://react-leaflet.js.org/docs/start-introduction)
 
 ## react-leaflet guide
-At the time of writing, DataMade doesn't have many examples of `react-leaflet`, so this guide fills that gap.
-
 This guide will walk you through how to use React Leaflet to make an interactive map with GeoJSON. You will first make a basic map, then add GeoJSON fetching, then attach click events to each GeoJSON feature. Each feature will be clickable and render data to the UI about the clicked feature. In other words, you'll make a map where you can click on a Chicago Judicial Ward, and information about that ward will show up on the page.
 
 This guide also shows one of several ways to compose reusable components in a React app. Hopefully, if this guide succeeds at that, then you should be able to take these lessons and apply them to your project, i.e. organize your components in a way that works for your project or makes more sense to your brain.
 
 Before you begin, you should read [the introduction section for `react-leaflet`](https://react-leaflet.js.org/docs/start-introduction).
+
+Check out the full code for this guide here: https://github.com/smcalilly/hello-leaflet.
 
 ## Setup your React app
 Assuming you have npm installed:
@@ -195,7 +195,7 @@ Note that you don't have to fetch the GeoJSON. You can import the JSON directly 
 ## Attach click event callbacks to each GeoJSON feature
 Finally, we can attach callbacks to each GeoJSON feature. This is how you can add logic whenever a user clicks on a feature.
 
-You want to send a callback function into the GeoJSON layer. The GeoJSON component includes a prop called `onEachFeature`, where you can access the GeoJSON layer within the leaflet instance. Add this method inside the scope of the `ChicagoWardMap` component:
+Leaflet provides an `onEachFeature` option you can use to assign a callback that runs for each feature you add to your map. See [the Leaflet documentation](https://leafletjs.com/reference.html#geojson-oneachfeature) for more details. `react-leaflet` provides access to this option through the `onEachFeature` prop. First, define your callback inside the scope of the `ChicagoWardMap` component:
 ```jsx
 function eventHandlersOnEachFeature(feature, layer) {
   layer.on({
@@ -203,7 +203,6 @@ function eventHandlersOnEachFeature(feature, layer) {
   })
 }
 ```
-This is an undocumented method in `react-leaflet`, but it's using the underlying `leaflet` library and HTML DOM events. See [the `leaflet` documentation](https://leafletjs.com/reference-1.7.1.html#domevent) for more details.
 
 Create the `onWardClick` function, also in the scope of `ChicagoWardMap`:
 ```jsx
@@ -401,7 +400,7 @@ function App() {
 export default App
 ```
 
-This code does what `ChicagoWardMap` did, but it depends on the `onSelectWard` prop to do this. So, we need to add that prop to the `ChicagoWardMap` component. (TODO: this is where a diff would be helpful...) Where you declare the `ChicagoWardMap` function, pass in `onSelectWard` as a prop:
+This code does what `ChicagoWardMap` did, but it depends on the `onSelectWard` prop to do this. So, we need to add that prop to the `ChicagoWardMap` component. Where you declare the `ChicagoWardMap` function, pass in `onSelectWard` as a prop:
 ```jsx
 function ChicagoWardMap({ onSelectWard }) {...}
 ```
@@ -424,7 +423,109 @@ function onCountyClick(e) {
 }
 ```
 
-If you did this correctly, your map should render the same as it did. This pattern can make applications complicated, so only use it sparingly, when it's absolutely necessary.
+This is what your updated `wards.js` component should look like:
+```jsx
+function ChicagoWardMap({ selectWard }) {
+  const [wardBorders, setWardBorders] = useState(null)
+
+  useEffect(() => {
+    // get the geojson
+    fetch('https://raw.githubusercontent.com/datamade/chicago-judicial-elections/master/wards/wards_2012.geojson')
+      .then((res) => res.json()) // parse the response into json
+      .then((geojson) => {
+          setWardBorders(geojson) // with the geojson, set the state for wardBorders
+      })
+  }, [setWardBorders])
+
+  const fill = {
+    fillColor: '#daf0ce', 
+    weight: 0.5,
+    opacity: 0.4,
+    color: '#666',
+    fillOpacity: 0.5
+  }
+
+  function onWardClick(e) {
+    const layer = e.target
+
+    const layerFeature = layer?.feature?.properties 
+                          ? layer.feature.properties 
+                          : null
+    
+    selectWard(layerFeature)
+  }
+
+  function eventHandlersOnEachFeature(feature, layer) {
+    layer.on({
+      click: onWardClick
+    })
+  }
+
+  return (
+    <>
+      <BaseMap center={[41.8781, -87.6298]} zoom={10}>
+      {/* this will only show when wardBorders has a value */}
+      {wardBorders && <GeoJSON
+                        key='ward-layer'
+                        data={wardBorders}
+                        style={fill} 
+                        onEachFeature={eventHandlersOnEachFeature} />}
+      </BaseMap>
+    </>
+  )
+}
+
+export default ChicagoWardMap
+```
+
+[Here is a diff of this change](https://www.diffchecker.com/IIY5xLCO). If you did this correctly, your map should render the same as it did.
+
+## Class vs Functional Components
+At this point, you might prefer to refactor your component into a class component instead of a functional component. For reference, `ChicagoWardMap` code was implemented in a class component here: https://github.com/smcalilly/hello-leaflet/blob/main/src/maps/wards-class-component.js.
+
+This is a big debate in the React world. To some, class-based components might seem more readable and organized than functional components and vice versa. The React documentation recommends using functional components over class-based components going forward, though they claim to never deprecate class-based components. [Their documentation gives some background about React Hooks]( https://reactjs.org/docs/hooks-intro.html#motivation), which is a big reason why one would want to use functional components. 
+
+A functional component gives a developer a lot of extra functionality via the Hooks API, like `useEffect`, `useContext`, `useDispatch`, `useMemo`, `userReducer`. You can see more about the API here: https://reactjs.org/docs/hooks-reference.html. (The FAQ in that section also delve into this discussion of class vs functional.) 
+
+The Hooks API isn't available in a class-based component. Since the `react-leaflet` library leverages the Hooks API (as seen [in this example where you can access the map via the useMapEvent hook](https://react-leaflet.js.org/docs/example-events/)), functional components might be better for maps, though you can still use the `react-leaflet` hooks by encapsulating single-use functional components with a class component. 
+
+IMO, hooks are a more straightforward way of accessing React state. I especially like how it's a descriptive, readable way of using state, since you essentially wrap the state management operation in a name:
+```jsx
+// functional
+setWardBorders(feature)
+
+// class
+this.setState(prevstate => ({
+  ...prevState, // use the spread operator to copy the existing state into new state
+  wardBorders: features
+}))
+```
+
+In a class component, you have to use the various component lifecycle methods, like the confusing `componentDidMount`, `componentDidUpdate`, `componentWillUnmount`, rather the `useEffect` hook that always executes when the component renders, updates, and unmounts:
+```jsx
+
+// functional
+useEffect(() => {
+   const geojson = getGeoJSON() // psuedocode for the sake of example
+   setWardBoders(geojson)
+}, [setWardBorders]) // this "dependency array" is the second argument to the useEffect hook. it prevents unnecessary functional calls upon re-renders, and it cleans up the component after the lifecyle ends
+
+
+// class
+componentDidMount() {
+    const geojson = getGeoJSON() // psuedocode for the sake of example
+    this.setState({
+      wardBorders: geojson
+    })
+}
+  
+componentWillUnmount() {
+  // clean up the component however you need to 
+}
+```
+
+However, if your map requires a lot of complex state objects (e.g. filtering or other pieces of state that interact with the map), a class component might be a better way to manage the state. This is an issue that's best left up to a developer + the team's choice, depending on the project and map's requirements.
+
 
 ## Help!
 For the full code: https://github.com/smcalilly/hello-leaflet
