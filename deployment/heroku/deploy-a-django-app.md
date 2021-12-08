@@ -29,6 +29,7 @@ for some other reason, see [Set up application code for Heroku](#set-up-applicat
   - [Step 1: Configure a custom domain on Heroku](#step-1-configure-a-custom-domain-on-heroku)
   - [Step 2: Configure a custom domain on a DNS provider](#step-2-configure-a-custom-domain-on-a-dns-provider)
   - [Step 3: Enable SSL](#step-3-enable-ssl)
+    - [Manual SSL Certificates](#manual-ssl-certificates)
   - [General guidelines for custom domains](#general-guidelines-for-custom-domains)
 - [Set up application code for Heroku](#set-up-application-code-for-heroku)
   - [Containerize your app](#containerize-your-app)
@@ -307,6 +308,12 @@ if DEBUG is False:
 
 When you deploy this change and try to load your app with the `http://` protocol,
 it should now automatically redirect you to `https://` and display a valid certificate.
+
+#### Manual SSL Certificates
+
+For most of our Heroku sites, we go with Automatic Certificate Management (ACM) for our SSL certifications. However, for domains that already have an SSL certification for the entire domain like `*.example.com`, the SSL certificate must be set up manually:
+
+Heroku provides documentation on how to create the necessary CSR file that SSL providers require: https://devcenter.heroku.com/articles/acquiring-an-ssl-certificate
 
 ### General guidelines for custom domains
 
