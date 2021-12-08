@@ -4,7 +4,7 @@ services:
   app:
     image: {{cookiecutter.app_name}}
     container_name: {{cookiecutter.app_name}}
-    image: "ghcr.io/datamade/{{cookiecutter.app_name}}:latest"
+    build: .
     # Allow container to be attached to, e.g., to access the pdb shell
     stdin_open: true
     tty: true
