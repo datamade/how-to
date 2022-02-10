@@ -175,7 +175,7 @@ git push origin main:deploy
 Creating your production instance from our template Heroku artifacts will
 provision hobby-grade resources for your application. Ahead of launch, plan
 time to upgrade your dyno and database to at least the first production-grade
-tier.
+tier. That's Standard-1x for dynos and Standard-0 for Postgres.
 
 Consult the Heroku documentation on:
 
