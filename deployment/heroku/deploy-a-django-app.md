@@ -21,6 +21,7 @@ for some other reason, see [Set up application code for Heroku](#set-up-applicat
   - [Create apps and pipelines for your project](#create-apps-and-pipelines-for-your-project)
   - [Set configuration variables for review apps and deployments](#set-configuration-variables-for-review-apps-and-deployments)
   - [Configure deployments from Git branches](#configure-deployments-from-git-branches)
+  - [Upgrade production resources](#upgrade-production-resources)
 - [Set up Slack notifications](#set-up-slack-notifications)
 - [Enable additional services](#enable-additional-services)
   - [Solr](#solr)
@@ -169,6 +170,18 @@ git pull origin main
 git push origin main:deploy
 ```
 
+### Upgrade production resources
+
+Creating your production instance from our template Heroku artifacts will
+provision hobby-grade resources for your application. Ahead of launch, plan
+time to upgrade your dyno and database to at least the first production-grade
+tier.
+
+Consult the Heroku documentation on:
+
+- [Setting dyno types](https://devcenter.heroku.com/articles/dyno-types#setting-dyno-types)
+- [Upgrading Postgres with `pg:copy`](https://devcenter.heroku.com/articles/upgrading-heroku-postgres-databases#upgrading-with-pg-copy)
+
 ## Set up Slack notifications
 
 Heroku can send build notifications to Slack via the Heroku ChatOps integration.
@@ -192,28 +205,8 @@ to perform some extra steps to set them up for your pipeline.
 
 ### Solr
 
-Solr can be configured as a separate service using the [Websolr
-add-on for Heroku](https://devcenter.heroku.com/articles/websolr). We recommend
-following the instructions for configuring [Websolr with
-Haystack](https://devcenter.heroku.com/articles/websolr#haystack-for-django).
-In addition to following these instructions, complete the following two steps:
-
-1. Update your `heroku.yml` and `app.json` config files to add `websolr` to your
-   add-ons configuration attributes, so Websolr will be enabled for review apps
-2. Define `WEBSOLR_URL` as an environment variable for your `app`
-   service in your `docker-compose.yml` file in order to point your app to your
-   Solr service in local development
-
-For help setting up Haystack for local development, see [our guide to
-Haystack](https://github.com/datamade/how-to/blob/master/search/03-heavyweight.md#getting-started).
-For an example of a working Solr installation in a Heroku app, see the [`2.5_deploy`
-branch of LA Metro Councilmatic](https://github.com/datamade/la-metro-councilmatic/tree/2.5_deploy).
-
-Note that the Websolr add-on [can be expensive](https://elements.heroku.com/addons/websolr#pricing),
-with staging instances costing a minimum of $20/mo and the smallest production
-instance costing $60/mo. Refer to our [guide to searching
-data](https://github.com/datamade/how-to/blob/master/search/03-heavyweight.md#heavyweight)
-to make sure you really need Solr before going forward with installing it on your project.
+In the absence of an affordable Solr add-on, we deploy apps that use Solr using
+our legacy AWS deployment pattern. Consult senior staff.
 
 ### PostGIS
 
