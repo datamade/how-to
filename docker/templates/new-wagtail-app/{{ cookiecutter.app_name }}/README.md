@@ -19,20 +19,6 @@ When running `docker-compose up` for the first time, you may run into a database
 error that causes Docker to hang. Simply force quit Docker with `Ctrl-C` and re-run
 `docker-compose up`.
 
-### Initial Wagtail CMS Content
-
-The `fixtures/` directory has been intentionally left empty. Including `initial_cms_content.json`
-and `initial_cms_content_custom_pages.json` would require creating a Django admin account
-in advance which would introduce a security vulnerability if the admin password was not
-updated.
-
-After initializing the database, follow the instructions below to generate the initial CMS content.
-
-Note: Because the initial CMS content is created using stdout, it may include extra content
-at the top of the file. After creating `initial_cms_content.json` and `initial_cms_content_custom_pages.json`,
-check the files. Simply remove any stdout text that precedes the opening bracket of the
-CMS content list.
-
 
 ## Developing
 
@@ -60,7 +46,14 @@ docker-compose up
 The app will be available at http://localhost:8000. The database will be exposed
 on port 32001.
 
-### Running tests
+
+## Admin Interfaces
+
+You can access the Wagtail admin interface at http://localhost:8000/admin and the 
+Django admin interface at http://localhost:8000/django-admin.
+
+
+## Running tests
 
 Run tests with Docker Compose:
 
@@ -68,13 +61,6 @@ Run tests with Docker Compose:
 docker-compose -f docker-compose.yml -f tests/docker-compose.yml run --rm app
 ```
 
-## Creating CMS users
-
-To access the Wagtail CMS at http://localhost:8000/admin, you will need to create a login:
-
-```bash
-docker-compose run --rm app python manage.py createsuperuser
-```
 
 ## For the designers: styles, images and templates
 
@@ -86,6 +72,18 @@ When working on the styles, images and templates for this site, here are the pla
 * Icons: This site makes use of the free icon set from [Fontawesome 5.11](https://fontawesome.com/icons?d=gallery&p=2&m=free), which can be [used directly in any templates](https://fontawesome.com/how-to-use/on-the-web/referencing-icons/basic-use).
 
 ## Initial CMS content
+
+The `fixtures/` directory has been intentionally left empty. Including `initial_cms_content.json`
+and `initial_cms_content_custom_pages.json` would require creating a Django admin account
+in advance which would introduce a security vulnerability if the admin password was not
+updated.
+
+After initializing the database, follow the instructions below to generate the initial CMS content.
+
+Note: Because the initial CMS content is created using stdout, it may include extra content
+at the top of the file. After creating `initial_cms_content.json` and `initial_cms_content_custom_pages.json`,
+check the files. Simply remove any stdout text that precedes the opening bracket of the
+CMS content list.
 
 **To create a new dump** of all the content in the Wagtail backend, perform the following steps:
 
@@ -137,4 +135,12 @@ This will update the default image files by copying your local Wagtail images fo
     {{ cookiecutter.module_name }}.homepage \
     {{ cookiecutter.module_name }}.staticpage \
     > {{ cookiecutter.module_name }}/fixtures/initial_cms_content_custom_pages.json
+```
+
+## Creating CMS users
+
+To access the Wagtail CMS at http://localhost:8000/admin, you will need to create a login:
+
+```bash
+docker-compose run --rm app python manage.py createsuperuser
 ```
