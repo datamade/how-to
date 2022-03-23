@@ -2,9 +2,16 @@ version: '2.4'
 
 services:
   app:
+    # As soon as possible, get an image of your app on the github container registry
+    # and use that image for local development. This will avoid drift between containers
+    # on different machines.
+    # 
+    # When that is ready, uncomment the next line, and delete the following two lines
+    # and commit those changes to the repository.
+    # image: ghcr.io/${{ github.repository }}:latest
     image: {{cookiecutter.app_name}}
+    build: .    
     container_name: {{cookiecutter.app_name}}
-    build: .
     # Allow container to be attached to, e.g., to access the pdb shell
     stdin_open: true
     tty: true
