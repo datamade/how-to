@@ -527,6 +527,278 @@ componentWillUnmount() {
 However, if your map requires a lot of complex state objects (e.g. filtering or other pieces of state that interact with the map), a class component might be a better way to manage the state. This is an issue that's best left up to a developer + the team's choice, depending on the project and map's requirements.
 
 
+## Syncing Multiple Maps
+What if you needed multiple, separate `react-leaflet` maps to communicate with each other? For example, let's say we wanted to have two maps of Chicago Wards side by side such that when a user hovers over a ward on one map, the corresponding ward on the other map is also highlighted.
+
+#### Using State Updates
+It's entirely logical to try to use `useState` hooks to keep the maps in sync. After all, efficiently managing state is the whole point of React. Building off of our previous map, we could create a component that holds two `ChicagoWardMap` components:
+
+```jsx
+import { useState } from 'react'
+import './App.css'
+import ChicagoWardMap from './maps/wards'
+
+function App() {
+  const [ward, setWard] = useState(null)
+
+  return (
+    <div className="App">
+      <div className='map-viewer'>
+        <ChicagoWardMap 
+          onSelectWard={setWard}
+        />
+        <ChicagoWardMap
+          onSelectWard={setWard}
+        />
+        {ward && <p>Ward {ward.ward}'s shape_area = {ward.shape_area} and shape_leng = {ward.shape_leng}</p>}
+      </div>
+    </div>
+  );
+}
+
+export default App
+
+```
+Note that we're now also passing each map the `ward` state variable so that each `ChicagoWardMap` can both access and change the currently selected ward. And instead of changing the ward on click, we'll highlight wards when we hover over them with the cursor.
+
+```jsx
+const fill = {
+    fillColor: "#daf0ce",
+    weight: 0.5,
+    opacity: 0.4,
+    color: "#666",
+    fillOpacity: 0.5,
+  },
+  highlighted = {
+    fillColor: "#daf0ce",
+    weight: 5,
+    color: "yellow",
+    fillOpacity: 0.5,
+  };
+
+function setWardStyle(feature) {
+  if (ward) {
+    if (feature.properties.ward === ward.ward) {
+      return highlighted;
+    } else {
+      return fill;
+    }
+  } else {
+    return fill;
+  }
+}
+
+function highlightWard(e) {
+  e.target.setStyle(highlighted);
+}
+
+function onWardHover(e) {
+  const layer = e.target;
+
+  const layerFeature = layer?.feature?.properties
+    ? layer.feature.properties
+    : null;
+
+  highlightWard(e);
+  selectWard(layerFeature);
+}
+
+function onWardMouseout(e) {
+  const layer = e.target;
+
+  layer.setStyle(fill);
+  selectWard(null);
+}
+
+function eventHandlersOnEachFeature(feature, layer) {
+  layer.on({
+    mouseover: onWardHover,
+    mouseout: onWardMouseout,
+  });
+  console.log("Loaded a ward!");
+}
+
+return (
+  <>
+    <BaseMap center={[41.8781, -87.6298]} zoom={10}>
+      {/* this will only show when wardBorders has a value */}
+      {wardBorders && (
+        <GeoJSON
+          key="ward-layer"
+          data={wardBorders}
+          style={setWardStyle}
+          onEachFeature={eventHandlersOnEachFeature}
+        />
+      )}
+    </BaseMap>
+  </>
+);
+```
+
+To sync the maps, we can add `ward` to the props of each `ChicagoWardMap` so that each map knows when a ward is selected on the other map.
+
+Notice that we haven't yet synced the maps. Hovering over a ward will change the state of the `App`, giving each map receiving new props and causing it to re-render. The highlight on the ward's boundaries occurs on only one map. We could finish the implementation but let's check out the performance first.
+
+![](../images/hover_react.gif)
+
+As you can see, highlight effect noticeably lags behind the movement of the cursor. Why? We included a print statement in `eventHandlersOnEachFeature` than runs every time a feature (i.e. a ward) is re-rendered. Note that in the few seconds I hovered over the map, React re-rendered 12,200 wards. Every time we hover over a ward, we update the state. But since the selected ward is passed as a prop to both maps, each hover triggers a re-render of *both maps*.
+
+There are only 50 wards in Chicago so every time we hover over a wards, React force a re-render of 50 * 2 = 100 wards. Imagine if we had two maps with thousands of features or multiple GeoJSONs per map. We could easily find ourselves triggering tens of thousands of re-renders every second. Relying on React state updates to trigger interactive events can leave your maps unusable.
+
+#### An Alternative Approach
+
+Instead of relying on state updates, we can give each map access to the other's features. At a high level, we're trying to give each map direct access to each other's GeoJSON layers so that whenever the user hovers over a ward in one map, the other map can avoid a React state update and simply set the style of the corresponding ward in the other map. 
+
+
+```jsx
+import { useState, useEffect } from "react";
+import "./App.css";
+//import ChicagoWardMap from './maps/wards'
+import ChicagoWardMap from "./maps/wards-functional-component";
+import { MapContext } from "./maps/MapContext";
+
+function App() {
+  const [wardBorders, setWardBorders] = useState(null);
+
+  useEffect(() => {
+    // get the geojson
+    fetch(
+      "https://raw.githubusercontent.com/datamade/chicago-judicial-elections/master/wards/wards_2012.geojson"
+    )
+      .then((res) => res.json()) // parse the response into json
+      .then((geojson) => {
+        setWardBorders(geojson); // with the geojson, set the state for wardBorders
+      });
+  }, [setWardBorders]);
+
+  return (
+    <div className="App">
+      <div className="map-viewer">
+        <MapContext.Provider
+          value={{
+            wardBorders: wardBorders,
+            ward: null,
+            leftFeatures: {},
+            rightFeatures: {},
+          }}
+        >
+          <ChicagoWardMap position="left" />
+          <ChicagoWardMap position="right" />
+        </MapContext.Provider>
+      </div>
+    </div>
+  );
+}
+
+export default App;
+```
+
+The first obvious change is the use of a React context. Contexts are used to share state between components and their descendants. Anything you can do with a context can also be done with regular props. Contexts just let you share state without have to manually re-type the same props for multiple components.
+
+Since the two maps use the same GeoJSON data, we moved the logic for `wardBorders` up into `App`. We then gave the context variables that each map will eventually use: `wardBorders`, `ward`, `leftFeatures`, and `rightFeatures`.
+
+Each map is also given a `position` prop that is simply used to differentiate it from the other map.
+
+```jsx
+import React, { useContext } from "react";
+import BaseMap from "./base";
+import { GeoJSON } from "react-leaflet";
+import { MapContext } from "./MapContext";
+
+function ChicagoWardMap({ position, ward, }) {
+  const Context = useContext(MapContext);
+
+  const fill = {
+      fillColor: "#daf0ce",
+      weight: 0.5,
+      opacity: 0.4,
+      color: "#666",
+      fillOpacity: 0.5,
+    },
+    highlighted = {
+      fillColor: "#daf0ce",
+      weight: 5,
+      color: "yellow",
+      fillOpacity: 0.5,
+    };
+
+  function onGeojsonLoad(node) {
+    if (node) {
+      let featureDict;
+      if (position == "left") {
+        featureDict = Context.leftFeatures;
+      } else {
+        featureDict = Context.rightFeatures;
+      }
+
+      for (const layer of node.getLayers()) {
+        featureDict[layer.feature.properties.ward] = layer;
+      }
+    }
+  }
+
+  function setSyncedStyle(e, style) {
+    const layer = e.target;
+    layer.setStyle(style);
+
+    let mirrorFeature;
+    if (position === "left") {
+      mirrorFeature = Context.rightFeatures[layer.feature.properties.ward];
+    } else {
+      mirrorFeature = Context.leftFeatures[layer.feature.properties.ward];
+    }
+    mirrorFeature.setStyle(style);
+  }
+
+  function eventHandlersOnEachFeature(feature, layer) {
+    layer.on({
+      mouseover: (e) => setSyncedStyle(e, highlighted),
+      mouseout: (e) => setSyncedStyle(e, fill),
+    });
+    console.log("Loaded a ward!");
+  }
+
+  return (
+    <>
+      <BaseMap center={[41.8781, -87.6298]} zoom={10}>
+        {/* this will only show when wardBorders has a value */}
+        {Context.wardBorders && (
+          <GeoJSON
+            key="ward-layer"
+            data={Context.wardBorders}
+            style={fill}
+            onEachFeature={eventHandlersOnEachFeature}
+            ref={onGeojsonLoad}
+          />
+        )}
+      </BaseMap>
+    </>
+  );
+}
+
+export default ChicagoWardMap;
+```
+
+Here is where the bulk of the changes are. Let's start from the top:
+
+1. The `useContext` hook gives us access to the context we defined in `App`'s definition.
+
+2. `onGeojsonLoad` is a [callback ref](https://reactjs.org/docs/refs-and-the-dom.html#callback-refs). When each GeoJSON layer is loaded, we need to store a dictionary that links a unique ID for each ward with its HTML element for each map. Why? When the user hovers over ward 11 in one map, for example, that map needs to highlight ward 11 in the other map. By using a callback ref ensure that `onGeojsonLoad` runs only when the layer has finished rendering.
+
+3. `setSyncedStyle` takes care of setting the style on both the ward the user is hovering over and the corresponding ward in the other map. Notice how it uses the prop `position` to determine whether to use `Context.rightFeatures` or `Context.leftFeatures`.
+
+4. `eventHandlersOnEachFeature` sets the event handlers for mouseover and mouseout when the features are loaded.
+
+Now let's compare this implementation's performance:
+
+![](../images/hover_no_react.gif)
+
+Much faster! And no unnecessary re-renders! Arguably, we've lost a bit of React's syntactic elegance but we've gained a much more usable app.
+
+#### A Note On Contexts
+As was mentioned, contexts are great for eliminating the need to re-type the same props for multiple components and their descendants. But keep in mind that they do make components less reusable. It's much harder to extract the `ChicagoWardMap` and use it somewhere else now that we're relying on `MapContext` to share the state. If you think you'll need flexibility in the future, stick with props.
+
+
 ## Help!
 For the full code: https://github.com/smcalilly/hello-leaflet
 
