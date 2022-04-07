@@ -13,6 +13,12 @@ docker-compose run --rm app python manage.py makemigrations
 ```bash
 docker-compose run --rm app python manage.py migrate
 ```
+
+Then run:
+```bash
+mv env.example .env
+```
+
 ### Initial Docker Run
 
 When running `docker-compose up` for the first time, you may run into a database connection
@@ -68,22 +74,10 @@ When working on the styles, images and templates for this site, here are the pla
 
 * Templates: Located in `{{ cookiecutter.module_name }}/templates/{{ cookiecutter.module_name }}/` and use the [Django template language](https://docs.djangoproject.com/en/3.2/topics/templates/). `base.html` is the base page template, which contain the header and footer. 
 * CSS: This site uses [Bootstrap 4.6](https://getbootstrap.com/docs/4.6/getting-started/introduction/) for its base sytles. All additional style customizations should be placed in `{{ cookiecutter.module_name }}/static/css/custom.css`
-* Javascript: This site uses [jQuery 3.6](https://jquery.com/) and [Bootstrap 4.6](https://getbootstrap.com/docs/4.6/getting-started/javascript/). Custom javascript should be placed in `{{ cookiecutter.module_name }}/static/js/base.js`.
+* Javascript: This site uses [React 17.0.2](https://reactjs.org/), [jQuery 3.6](https://jquery.com/) and [Bootstrap 4.6](https://getbootstrap.com/docs/4.6/getting-started/javascript/). Custom javascript should be placed in `{{ cookiecutter.module_name }}/static/js/base.js`.
 * Icons: This site makes use of the free icon set from [Fontawesome 5.11](https://fontawesome.com/icons?d=gallery&p=2&m=free), which can be [used directly in any templates](https://fontawesome.com/how-to-use/on-the-web/referencing-icons/basic-use).
 
 ## Initial CMS content
-
-The `fixtures/` directory has been intentionally left empty. Including `initial_cms_content.json`
-and `initial_cms_content_custom_pages.json` would require creating a Django admin account
-in advance which would introduce a security vulnerability if the admin password was not
-updated.
-
-After initializing the database, follow the instructions below to generate the initial CMS content.
-
-Note: Because the initial CMS content is created using stdout, it may include extra content
-at the top of the file. After creating `initial_cms_content.json` and `initial_cms_content_custom_pages.json`,
-check the files. Simply remove any stdout text that precedes the opening bracket of the
-CMS content list.
 
 **To create a new dump** of all the content in the Wagtail backend, perform the following steps:
 
@@ -96,14 +90,15 @@ CMS content list.
         --exclude=auth.permission \
         --exclude=wagtailcore.groupcollectionpermission \
         --exclude=wagtailcore.grouppagepermission \
-        --exclude=sessions > {{ cookiecutter.module_name }}/fixtures/initial_cms_content.json
+        --exclude=sessions \ 
+        -o {{ cookiecutter.module_name }}/fixtures/initial_cms_content.json
     ```
 
     ```bash
     docker-compose run --rm app python manage.py dumpdata --natural-foreign --indent 2 \
         {{ cookiecutter.module_name }}.homepage \
         {{ cookiecutter.module_name }}.staticpage \
-        > {{ cookiecutter.module_name }}/fixtures/initial_cms_content_custom_pages.json
+        -o {{ cookiecutter.module_name }}/fixtures/initial_cms_content_custom_pages.json
     ```
 
     This should update the `initial_cms_content.json` file in your `{{ cookiecutter.module_name }}/fixtures`

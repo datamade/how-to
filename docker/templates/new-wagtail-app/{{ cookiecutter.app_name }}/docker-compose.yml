@@ -27,6 +27,7 @@ services:
       DJANGO_SECRET_KEY: reallysupersecret
       DJANGO_MANAGEPY_MIGRATE: "on"
       DJANGO_DEBUG: "True"
+      PGPASSWORD: postgres
     env_file:
       - .env
     entrypoint: /app/docker-entrypoint.sh
@@ -45,8 +46,9 @@ services:
       # that allow you to configure the container's behavior, without writing
       # any additional code. Specify the name of your database, and any other
       # variables, here. https://hub.docker.com/_/postgres/#environment-variables
-      POSTGRES_DB: {{ cookiecutter.module_name }}
+      POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: {{ cookiecutter.module_name }}
     volumes:
       # By default, Postgres instantiates an anonymous volume. Use a named
       # one, so your data persists beyond the life of the container. See this
