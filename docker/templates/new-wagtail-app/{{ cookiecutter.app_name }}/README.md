@@ -1,30 +1,11 @@
 # {{ cookiecutter.app_verbose_name }}
 
-## Cookiecutter Notes
+## Preparing for Docker
 
-### Preparing for Docker
-
-Before building the Docker container, initialize the database:
-
-```bash
-docker-compose run --rm app python manage.py makemigrations
-```
-
-```bash
-docker-compose run --rm app python manage.py migrate
-```
-
-Then run:
+Before building the Docker container, run
 ```bash
 mv env.example .env
 ```
-
-### Initial Docker Run
-
-When running `docker-compose up` for the first time, you may run into a database connection
-error that causes Docker to hang. Simply force quit Docker with `Ctrl-C` and re-run
-`docker-compose up`.
-
 
 ## Developing
 
@@ -79,6 +60,13 @@ When working on the styles, images and templates for this site, here are the pla
 
 ## Initial CMS content
 
+This template does not include a default user or starter pages in the fixtures directory, so you'll need 
+to create an admin user and initialize initial content as needed by your site:
+
+```bash
+docker-compose run --rm app python manage.py createsuperuser
+```
+
 **To create a new dump** of all the content in the Wagtail backend, perform the following steps:
 
 1. Back up the CMS content (except for image files) with the following 2 commands:
@@ -132,10 +120,3 @@ This will update the default image files by copying your local Wagtail images fo
     > {{ cookiecutter.module_name }}/fixtures/initial_cms_content_custom_pages.json
 ```
 
-## Creating CMS users
-
-To access the Wagtail CMS at http://localhost:8000/admin, you will need to create a login:
-
-```bash
-docker-compose run --rm app python manage.py createsuperuser
-```
