@@ -2,10 +2,10 @@ from django.shortcuts import render
 from django.views.generic import TemplateView
 
 
-class HelloReact(TemplateView):
-    title = 'Hello React View'
-    template_name = '{{ cookiecutter.module_name }}/hello_react.html'
-    component = 'js/hello-react.js'
+class ReactView(TemplateView):
+    title = 'React Page'
+    template_name = '{{ cookiecutter.module_name }}/react_page.html'
+    component = 'js/App.js'
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)

@@ -18,7 +18,7 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 
-from .views import HelloReact
+from .views import ReactView
 
 from wagtail.admin import urls as wagtailadmin_urls
 from wagtail.core import urls as wagtail_urls
@@ -29,8 +29,8 @@ urlpatterns = [
     path('django-admin/', admin.site.urls),
     path('admin/', include(wagtailadmin_urls)),
     path('documents/', include(wagtaildocs_urls)),
+    path('react-page/', ReactView.as_view(), name='react-page'),
     path("", include(wagtail_urls)),
-    path('hello-react', HelloReact.as_view(), name='hello-react'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 handler404 = '{{ cookiecutter.module_name }}.views.page_not_found'
