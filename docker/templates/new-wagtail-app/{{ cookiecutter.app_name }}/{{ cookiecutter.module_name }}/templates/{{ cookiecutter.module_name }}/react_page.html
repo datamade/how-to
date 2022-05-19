@@ -6,7 +6,7 @@
 
 {% raw %}{% block body %}{% endraw %}
   <div id="App">
-    <!-- Contents get replaced by mounted React.Component -->
+    <!-- Contents get replaced by mounted React -->
     <div class="text-center">
       <i class="fa fa-lg fa-spinner fa-spin"></i><br><br>
       <i class="pending">Loading components...</i><br><br>
@@ -16,11 +16,6 @@
 
   {% raw %}{% block extra_js %}
              {% load compress %}
-             {{ props|json_script:"props" }}
-             <script type="text/javascript">
-               window.props = JSON.parse(document.getElementById('props').textContent)
-               window.reactMount = document.getElementById('App')
-             </script>
              {% compress js %}
                <script type="text/jsx" src="{% static 'js/App.js' %}"></script>
              {% endcompress %}
