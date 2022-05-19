@@ -1,5 +1,5 @@
 import React from 'react'
-import ReactDOM from 'react-dom'
+import { createRoot } from 'react-dom/client'
 
 function Home() {
     return (
@@ -7,7 +7,6 @@ function Home() {
     )
 }
 
-ReactDOM.render(
-  React.createElement(Home, window.props),
-  window.reactMount,
-)
+const container = document.getElementById('App')
+const root = createRoot(container)
+root.render(<Home />)
