@@ -78,8 +78,7 @@ docker-compose run --rm app python manage.py createsuperuser
         --exclude=auth.permission \
         --exclude=wagtailcore.groupcollectionpermission \
         --exclude=wagtailcore.grouppagepermission \
-        --exclude=sessions \ 
-        -o {{ cookiecutter.module_name }}/fixtures/initial_cms_content.json
+        --exclude=sessions -o {{ cookiecutter.module_name }}/fixtures/initial_cms_content.json
     ```
 
     ```bash
