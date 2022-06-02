@@ -12,8 +12,6 @@ mv env.example .env
 Development requires a local installation of [Docker](https://docs.docker.com/install/)
 and [Docker Compose](https://docs.docker.com/compose/install/).
 
-Run application containers:
-
 To populate the starter content for the CMS, run:
 
 ```bash
