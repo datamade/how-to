@@ -1,6 +1,7 @@
 # Based on the Wagtail demo:
 # https://github.com/wagtail/bakerydemo/blob/master/bakerydemo/base/management/commands/load_initial_data.py
 import os
+import json
 
 from django.core.files.storage import default_storage
 from django.apps import apps
@@ -47,24 +48,30 @@ class Command(BaseCommand):
             os.path.join(self.fixtures_dir,
                          'initial_cms_content_custom_pages.json')
 
-        # Delete existing Wagtail models
-        try:
-            Site.objects.all().delete()
-            Page.objects.all().delete()
-            PageRevision.objects.all().delete()
-            Image.objects.all().delete()
+        with open(initial_data_file) as f:
+            initial_data = json.load(f)
 
-            for Model in apps.get_app_config('{{ cookiecutter.module_name }}').get_models():
-                if getattr(Model, 'reset_on_load', False):
-                    Model.objects.all().delete()
+        if initial_data:
+            # Delete existing Wagtail models
+            try:
+                Site.objects.all().delete()
+                Page.objects.all().delete()
+                PageRevision.objects.all().delete()
+                Image.objects.all().delete()
 
-        except ObjectDoesNotExist as e:
-            self.stdout.write(self.style.WARNING(e))
+                for Model in apps.get_app_config('{{ cookiecutter.module_name }}').get_models():
+                    if getattr(Model, 'reset_on_load', False):
+                        Model.objects.all().delete()
 
-        call_command('loaddata', initial_data_file, verbosity=0)
-        call_command('loaddata', initial_data_file_custom_pages, verbosity=0)
+            except ObjectDoesNotExist as e:
+                self.stdout.write(self.style.WARNING(e))
 
-        self.stdout.write(self.style.SUCCESS('Initial data loaded!'))
+            call_command('loaddata', initial_data_file, verbosity=0)
+            call_command('loaddata', initial_data_file_custom_pages, verbosity=0)
+
+            self.stdout.write(self.style.SUCCESS('Initial data loaded!'))
+        else:
+            self.stdout.write(self.style.NOTICE('No initial data!'))
 
     def load_images(self):
         initial_images_dir = os.path.join(self.fixtures_dir, 'initial_images')
