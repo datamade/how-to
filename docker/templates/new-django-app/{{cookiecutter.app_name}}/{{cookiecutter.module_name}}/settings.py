@@ -164,7 +164,7 @@ STATICFILES_FINDERS = (
 # README under "Ensuring browser compatibility".
 COMPRESS_PRECOMPILERS = (
     ('module', 'export NODE_PATH=/app/node_modules && npx browserify -g browserify-css {infile} -t [ babelify --global ] > {outfile}'),
-    ('text/jsx', 'export NODE_PATH=/app/node_modules && npx browserify -g browserify-css {infile} -t [ babelify --global --presets [ @babel/preset-react ] ] > {outfile}')
+    ('text/jsx', 'export NODE_PATH=/app/node_modules && npx browserify -g browserify-css {infile} -t [ babelify --global --presets [ @babel/preset-react ] ] > {outfile}'),
 )
 
 COMPRESS_OUTPUT_DIR = 'compressor'
