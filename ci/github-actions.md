@@ -7,6 +7,7 @@ This guide provides documentation for setting up continuous integration with [Gi
 - [Running containerized tests](#running-containerized-tests)
 - [Deploying a Python package](#deploying-a-python-package)
 - [Deploying a legacy application to CodeDeploy](#deploying-a-legacy-application-to-codedeploy)
+- [Setting up Google Lighthouse for accessibility testing](#setting-up-google-lighthouse)
 - [Resources](#resources)
 
 ## Running containerized tests
@@ -246,6 +247,81 @@ This workflow is in use in the following applications:
 
 - [`la-metro-councilmatic`](https://github.com/datamade/la-metro-councilmatic)
 - [`la-metro-dashboard`](https://github.com/datamade/la-metro-dashboard)
+
+## Setting Up Google Lighthouse
+Google Lighthouse is a tool that provides information on 5 different areas of performance for websites. We only use it to run accessibility audits on our sites prior to deploying to production, and using Lighthouse is the first step in the Accessibility section of our [site launch checklist](https://github.com/datamade/site-launch-checklist).
+
+The documentation for Google's Lighthouse can be found [here](https://github.com/GoogleChrome/lighthouse-ci/blob/main/docs/getting-started.md), along with some basic configuration. Since we only use Lighthouse for accessibility audits, our configuration files are set up a bit differently.
+
+1. List the audits you would like to run in a file named `lighthouserc.js` in the root of the application directory:
+
+```js
+module.exports = {
+  ci: {
+    collect: {
+        staticDistDir: './cms_app/templates/',
+      },
+      assert: {
+        preset: 'lighthouse:recommended',
+        assertions: {
+          'categories:accessibility': ['error', {'minScore': 0.9}],
+          'apple-touch-icon': 'off',
+          'content-width': 'off',
+          'csp-xss': 'off',
+          'doctype': 'off',
+          'document-title': 'off',
+          'errors-in-console': 'off',
+          'font-size': 'off',
+          'heading-order': 'off',
+          'html-has-lang': 'off',
+          'installable-manifest': 'off',
+          'interactive': 'off',
+          'is-on-https': 'off',
+          'legacy-javascript': 'off',
+          'maskable-icon': 'off',
+          'meta-description': 'off',
+          'no-vulnerable-libraries': 'off',
+          'render-blocking-resources': 'off',
+          'service-worker': 'off',
+          'splash-screen': 'off',
+          'tap-targets': 'off',
+          'themed-omnibox': 'off',
+          'unminified-javascript': 'off',
+          'unused-javascript': 'off',
+          'uses-long-cache-ttl': 'off',
+          'viewport': 'off',
+        },
+      },
+    upload: {
+      target: 'temporary-public-storage',
+    },
+  },
+};
+```
+
+2. Configure GitHub Actions in `.github/workflows/main.yml`
+```yaml
+...
+jobs:
+  lhci:
+    name: Lighthouse
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js 12.x
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12.x
+      - name: run Lighthouse CI
+        run: |
+          npm install -g @lhci/cli@0.8.x
+          lhci autorun
+...
+```
+
+See [Running Containerized Tests](#running-containerized-tests) for what additional features of a `.github/workflows/main.yml` file.
+
+For an example of Lighthouse built into a CI pipeline, see the [`lighthouse-ci` branch of the CPS app](https://github.com/datamade/cps-ssce-dashboard/tree/lighthouse-ci).
 
 ## Resources
 
