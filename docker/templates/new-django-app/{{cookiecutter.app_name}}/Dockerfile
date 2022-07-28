@@ -49,5 +49,10 @@ COPY . /app
 # the 'collectstatic' management command
 ENV DJANGO_SECRET_KEY 'foobar'
 
+# Sets Debug to False to make sure that Django compressor can run.
+# Unless overridden in docker-compose.yml or .env locally or config variables
+# in Heroku, this sets the environment to production mode
+ENV DJANGO_DEBUG 'False'
+
 # Build static files into the container
 RUN python manage.py collectstatic --noinput
