@@ -45,7 +45,7 @@ _In alphabetical order and including links to external repository-based document
     - [Dumping and restoring a Postgres database](postgres/Dump-and-restore-Postgres.md)
     - [Dockerizing Postgres](postgres/Dockerizing-Postgres.md)
 - [Python](python/)
-    - [Python project documentation](python/#python-project-documentation)
+    - [Python project documentation](python/)
 - [Reproducible data analysis](data-analysis/)
 - [Scraping](scraping/)
     - [`lxml` for web scraping](scraping/lxml-for-web-scraping.md)
