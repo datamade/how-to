@@ -44,6 +44,8 @@ _In alphabetical order and including links to external repository-based document
     - [Interacting with a remote database](postgres/Interacting-with-a-remote-database.md)
     - [Dumping and restoring a Postgres database](postgres/Dump-and-restore-Postgres.md)
     - [Dockerizing Postgres](postgres/Dockerizing-Postgres.md)
+- [Python](python/)
+    - [Python project documentation]
 - [Reproducible data analysis](data-analysis/)
 - [Scraping](scraping/)
     - [`lxml` for web scraping](scraping/lxml-for-web-scraping.md)
