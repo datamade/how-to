@@ -1,0 +1,19 @@
+{% load i18n static slugurl_translate pageurl_translate wagtailcore_tags %}
+
+{% if not item.children %}
+  <li class="nav-item">
+    <a class="nav-link" href="{% slugurl_translate item.nav_item.page.slug %}" hreflang="{{ LANGUAGE_CODE }}">
+      {% pageurl_translate item.nav_item.page.slug %}
+    </a>
+  </li>
+{% else %}
+  <li class="nav-item dropdown">
+    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown-{{ forloop.counter }}" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{% pageurl_translate item.nav_item.page.slug %}</a>
+    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+      <a class="dropdown-item" href="{% slugurl_translate item.nav_item.page.slug %}">{% translate "Overview" %}</a>
+      {% for child in item.children %}
+        <a class="dropdown-item" href="{% slugurl_translate child.page.slug %}">{% pageurl_translate child.page.slug %}</a>
+      {% endfor %}
+    </div>
+  </li>
+{% endif %}

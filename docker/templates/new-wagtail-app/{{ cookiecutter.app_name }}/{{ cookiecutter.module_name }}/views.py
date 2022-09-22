@@ -3,6 +3,7 @@ import os
 from django.shortcuts import render
 from django.views.generic import TemplateView
 
+from {{ cookiecutter.module_name }}.utils import get_site_menu
 
 class ReactView(TemplateView):
     title = "React Page"
@@ -11,6 +12,7 @@ class ReactView(TemplateView):
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
+        context["menu"] = get_site_menu()
         return context
 
 
