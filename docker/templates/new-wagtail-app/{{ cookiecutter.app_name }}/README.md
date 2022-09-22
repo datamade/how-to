@@ -1,13 +1,36 @@
 # {{ cookiecutter.app_verbose_name }}
 
-## Preparing for Docker
+## Developing
+
+### Set-up pre-commit
+
+We use the [pre-commit](https://pre-commit.com/) framework to use Git pre-commit hooks that keep our codebase clean.
+
+To set up Pre-Commit, install the Python package on your local machine using
+
+```bash
+python -m pip install pre-commit
+```
+
+If you'd rather not install pre-commit globally, create and activate a [virtual environment](https://docs.python.org/3/library/venv.html) in this repo before running the above command.
+
+Then, run
+
+```bash
+pre-commit install
+```
+
+to set up the git hooks.
+
+Since hooks are run locally, you can modify which scripts are run before each commit by modifying `.pre-commit-config.yaml`.
+
+
+### Docker
 
 Before building the Docker container, run
 ```bash
 mv env.example .env
 ```
-
-## Developing
 
 Development requires a local installation of [Docker](https://docs.docker.com/install/)
 and [Docker Compose](https://docs.docker.com/compose/install/).
@@ -28,13 +51,13 @@ The app will be available at http://localhost:8000. The database will be exposed
 on port 32001.
 
 
-## Admin Interfaces
+### Admin Interfaces
 
 You can access the Wagtail admin interface at http://localhost:8000/admin and the 
 Django admin interface at http://localhost:8000/django-admin.
 
 
-## Running tests
+### Running tests
 
 Run tests with Docker Compose:
 
