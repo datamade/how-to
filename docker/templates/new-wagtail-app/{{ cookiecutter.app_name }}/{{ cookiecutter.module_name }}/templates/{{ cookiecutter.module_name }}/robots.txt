@@ -1,0 +1,2 @@
+User-agent: *
+{% if ALLOW_CRAWL %}Disallow:{% else %}Disallow: /{% endif %}
