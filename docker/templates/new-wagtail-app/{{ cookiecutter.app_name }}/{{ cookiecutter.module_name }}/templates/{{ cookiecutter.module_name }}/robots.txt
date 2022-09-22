@@ -1,2 +1,2 @@
 User-agent: *
-{% if ALLOW_CRAWL %}Disallow:{% else %}Disallow: /{% endif %}
+{% raw %}{% if ALLOW_CRAWL %}Disallow:{% else %}Disallow: /{% endif %}{% endraw %}
