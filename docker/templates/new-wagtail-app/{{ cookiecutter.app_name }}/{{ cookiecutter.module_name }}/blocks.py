@@ -40,3 +40,35 @@ class TeamMemberBlock(blocks.StructBlock):
     last_name = blocks.CharBlock()
     position = blocks.CharBlock()
     photo = ImageChooserBlock(required=False)
+
+
+class ParagraphBlock(blocks.StructBlock):
+    paragraph = blocks.RichTextBlock()
+    width = blocks.ChoiceBlock(
+        choices=[
+            ("col-md-12", "Full Width"),
+            ("col-md-6", "Half Width"),
+        ]
+    )
+
+    class Meta:
+        icon = "doc-full"
+
+
+class ImageLinkBlock(blocks.StructBlock):
+    image = ImageChooserBlock()
+    alt_text = blocks.CharBlock(
+        max_length=255,
+        required=True,
+        help_text="Alternate text to show if the image doesn’t load",
+    )
+    link = blocks.URLBlock()
+    width = blocks.ChoiceBlock(
+        choices=[
+            ("col-md-12", "Full Width"),
+            ("col-md-6", "Half Width"),
+        ]
+    )
+
+    class Meta:
+        icon = "image"
