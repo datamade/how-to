@@ -1,91 +1,115 @@
-{% raw %}{% load static %}
-         {% load wagtailcore_tags %}
-         {% load wagtailembeds_tags wagtailimages_tags %}
-         
-         {% for block in page.body %}
-           {% if block.block_type == 'heading' %}
-             <h1>{{ block.value }}</h1>
-           {% elif block.block_type == 'paragraph' %}
-             {{ block.value|richtext }}
-           {% elif block.block_type == 'accordion' %}
-             <div class="accordion my-4" id="accordion-{{ block.id }}">
-             {% for a in block.value %}
-               <div class="card">
-                 <div class="card-header" id="heading-{{ block.id }}-{{ forloop.counter0 }}">
-                   <p class="mb-0">
-                     <button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="#collapse-{{ block.id }}-{{ forloop.counter0 }}" aria-expanded="false" aria-controls="collapse-{{ block.id }}-{{ forloop.counter0 }}">
-                       {{ a.title }}
-                       <span class='float-right'><i class='fa fa-plus-square expand-icon'></i></span>
-                     </button>
-                   </p>
-                 </div>
-                 <div id="collapse-{{ block.id }}-{{ forloop.counter0 }}" class="collapse" aria-labelledby="heading-{{ block.id }}-{{ forloop.counter0 }}" data-parent="#accordion-{{ block.id }}">
-                   <div class="card-body">
-                     {{ a.paragraph }}
-                   </div>
-                 </div>
-               </div>
-               {% endfor %}
-             </div>
-           {% elif block.block_type == 'button' %}
-             <div class='d-flex justify-content-center'>
-               <a href="{{ block.value.link }}" class="btn btn-primary">{{ block.value.text }}</a>
-             </div>
-           {% elif block.block_type == 'callout' %}
-             <div class='bg-secondary text-light px-4 py-4 my-3 text-center'>
-               {{ block.value.paragraph|richtext }}
-             </div>
-           {% elif block.block_type == 'embedded_media' %}
-             <div class='row my-4'>
-               {% if block.value.title or block.value.description %}
-                 <div class="col-lg-7">
-                   <div class="embed-responsive embed-responsive-16by9 mb-3">
-                     {% embed block.value.media_link.url max_width='4000' %}
-                   </div>
-                 </div>
-                 <div class='col-lg-5'>
-                   {% if block.value.title %}
-                     <h5>{{ block.value.title }}</h5>
-                   {% endif %}
-                   {% if block.value.description %}
-                     <p>{{ block.value.description }}</p>
-                   {% endif %}
-                 </div>
-               {% else %}
-                 <div class="col">
-                   <div class="embed-responsive embed-responsive-16by9 mb-3">
-                     {% embed block.value.media_link.url max_width='4000' %}
-                   </div>
-                 </div>
-               {% endif %}
-             </div>
-           {% elif block.block_type == 'document' %}
-             <a href="{{block.value.url}}">{{ block.value }}</a>
-           {% elif block.block_type == 'image' %}
-             <p>{{block}}</p>
-           {% elif block.block_type == 'table' %}
-             {% include_block block %}
-           {% elif block.block_type == 'team_members' %}
-             <div class='row'>
-               {% for p in block.value %}
-                 <div class='col-lg-6 mb-4'>
-                   <div class='row'>
-                     <div class='col text-center'>
-                       {% image p.photo fill-150x150 class="img-fluid rounded-circle" %}<br />
-                       <strong>{{ p.first_name }} {{ p.last_name }}</strong><br />
-                       <em>{{ p.position }}</em><br />
-                       {% if p.email %}
-                         <a href='mailto:{{ p.email }}'>{{ p.email }}</a>
-                       {% endif %}
-                     </div>
-                     <div class='col'>
-                       {% if p.biography %}
-                         {{ p.biography }}
-                       {% endif %}
-                     </div>
-                   </div>
-                 </div>
-               {% endfor %}
-             </div>
-           {% endif %}
-         {% endfor %}{% endraw %}
+{% load static %}
+{% load wagtailcore_tags %}
+{% load wagtailembeds_tags wagtailimages_tags %}
+{% load wagtailuserbar %}
+
+{% for block in page.body %}
+  {% if block.block_type == 'heading' %}
+    <h1>{{ block.value }}</h1>
+  {% elif block.block_type == 'paragraph' %}
+    <div class="{{ block.value.width }} map-container">
+      {{ block.value.paragraph|richtext }}
+    </div>
+  {% elif block.block_type == 'accordion' %}
+    <div class="accordion my-4" id="accordion-{{ block.id }}">
+      {% for a in block.value %}
+        <div class="card">
+          <div class="card-header" id="heading-{{ block.id }}-{{ forloop.counter0 }}">
+            <p class="mb-0">
+              <button class="btn btn-link btn-lg btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="#collapse-{{ block.id }}-{{ forloop.counter0 }}" aria-expanded="false" aria-controls="collapse-{{ block.id }}-{{ forloop.counter0 }}">
+                {{ a.title }}
+                <span class='float-right'><i class='fa fa-plus-square expand-icon'></i></span>
+              </button>
+            </p>
+          </div>
+          <div id="collapse-{{ block.id }}-{{ forloop.counter0 }}" class="collapse" aria-labelledby="heading-{{ block.id }}-{{ forloop.counter0 }}" data-parent="#accordion-{{ block.id }}">
+            <div class="card-body">
+              {{ a.paragraph }}
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  {% elif block.block_type == 'button' %}
+    <div class='justify-content-center'>
+      <div class='row my-4'>
+        <div class="col">
+          <a href="{{ block.value.link }}" class="btn btn-lg btn-primary">{{ block.value.text }}</a>
+        </div>
+      </div>
+    </div>
+  {% elif block.block_type == 'image_link' %}
+    <div class="{{ block.value.width }} map-container">
+      <a href="{{ block.value.link }}">
+        {% image block.value.image max-2000x2000 as self_image %}
+        <img src="{{self_image.url}}" class="img-fluid" alt="{{block.value.alt_text|safe}}" />
+      </a>
+    </div>
+  {% elif block.block_type == 'callout' %}
+    <div class='bg-light px-4 py-4 my-3 text-center'>
+      {{ block.value.paragraph|richtext }}
+    </div>
+  {% elif block.block_type == 'embedded_media' %}
+    <div class='row my-4'>
+      {% if block.value.title or block.value.description %}
+        <div class="col-lg-7">
+          <div class="embed-responsive embed-responsive-16by9 mb-3">
+            {% embed block.value.media_link.url max_width='4000' %}
+          </div>
+        </div>
+        <div class='col-lg-5'>
+          {% if block.value.title %}
+            <h5>{{ block.value.title }}</h5>
+          {% endif %}
+          {% if block.value.description %}
+            <p>{{ block.value.description }}</p>
+          {% endif %}
+        </div>
+      {% else %}
+        <div class="col">
+          <div class="embed-responsive embed-responsive-16by9 mb-3">
+            {% embed block.value.media_link.url max_width='4000' %}
+          </div>
+        </div>
+      {% endif %}
+    </div>
+  {% elif block.block_type == 'table' %}
+    {% include_block block %}
+  {% elif block.block_type == 'team_members' %}
+    <div class='row'>
+      {% for p in block.value %}
+        <div class='col-lg-6 mb-4'>
+          <div class='row'>
+            <div class='col text-center'>
+              {% image p.photo fill-150x150 class="img-fluid rounded-circle" %}<br />
+              <strong>{{ p.first_name }} {{ p.last_name }}</strong><br />
+              <em>{{ p.position }}</em><br />
+              {% if p.email %}
+                <a href='mailto:{{ p.email }}'>{{ p.email }}</a>
+              {% endif %}
+            </div>
+            <div class='col'>
+              {% if p.biography %}
+                {{ p.biography }}
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  {% elif block.block_type == 'map' %}
+    <div class="{{ block.value.width }} map-block">
+      <div class="single-map" boundary={{ block.value.boundaries }} investment={{ block.value.map_data }}>
+        <h5>{{ block.value.title }}</h5>
+        <div class="text-muted">
+          <small>
+            {{ block.value.description|richtext }}
+          </small>
+        </div>
+        {% include_block block %}
+      </div>
+    </div>
+  {% endif %}
+{% endfor %}
+
+{% wagtailuserbar %}
