@@ -2,15 +2,29 @@ module.exports = {
   globals: {
     __PATH_PREFIX__: true,
   },
-  extends: `react-app`,
+  extends: ["eslint:recommended", "plugin:react/recommended", "prettier"],
   rules: {
-    "indent": ["error", 2],
+    indent: ["error", 2],
     "no-console": "off",
-    "strict": ["error", "global"],
-    "curly": "warn",
-    "semi": ["error", "never"],
+    strict: ["error", "global"],
+    curly: "warn",
+    semi: ["error", "never"],
     "space-in-parens": ["error", "never"],
-    "space-before-function-paren": ["error", "always"],
-    "space-before-blocks": ["error", "always"]
-  }
+    "space-before-blocks": ["error", "always"],
+    "react/prop-types": "off",
+  },
+  ignorePatterns: [
+    "{{ cookiecutter.module_name }}/static/js/lib/**/*.js",
+    "venv/**/*",
+    "/static/**/*",
+  ],
+  parserOptions: {
+    sourceType: "module",
+    allowImportExportEverywhere: true,
+  },
+  env: {
+    browser: true,
+    node: true,
+    es2022: true,
+  },
 }
