@@ -10,14 +10,14 @@ repos:
     rev: 22.3.0
     hooks:
       - id: black
-        exclude: ^(efi/migrations/)
+        exclude: ^({{ cookiecutter.module_name }}/migrations/)
 
   - repo: https://github.com/pycqa/flake8
     rev: "9f60881"
     hooks:
       - id: flake8
-        files: efi tests
-        exclude: efi/migrations
+        files: {{ cookiecutter.module_name }} tests
+        exclude: {{ cookiecutter.module_name }}/migrations
 
   - repo: https://github.com/rtts/djhtml
     rev: v1.5.1 # replace with the latest tag on GitHub

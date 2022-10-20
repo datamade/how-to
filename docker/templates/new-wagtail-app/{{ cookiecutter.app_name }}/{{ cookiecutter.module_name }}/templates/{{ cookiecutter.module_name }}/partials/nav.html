@@ -1,11 +1,8 @@
-{% load i18n static slugurl_translate wagtailcore_tags wagtailembeds_tags wagtailimages_tags %}
+{% raw %}{% load i18n static slugurl_translate wagtailcore_tags wagtailembeds_tags wagtailimages_tags %}
 
 <li class="nav-item">
-  <a class="nav-link" href="{% slugurl_translate 'equitable-financial-incentives' %}">{% translate "Home" %}</a>
-</li>
-<li class="nav-item">
-  <a class="nav-link" href="{% url 'efi-map' %}">{% translate "Map" %}</a>
+  <a class="nav-link" href="/">{% translate "Home" %}</a>
 </li>
 {% for item in menu.menu %}
-  {% include 'efi/partials/nav-item.html' with item=item %}
-{% endfor %}
+{% include {% endraw %}'{{ cookiecutter.module_name }}/partials/nav-item.html'{% raw %} with item=item %}
+{% endfor %}{% endraw %}
