@@ -13,7 +13,7 @@ from {{cookiecutter.module_name}}.blocks import (
     ParagraphBlock,
     ImageLinkBlock,
 )
-from efi.utils import get_site_menu
+from {{ cookiecutter.module_name }}.utils import get_site_menu
 
 
 class BasePage(Page):

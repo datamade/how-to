@@ -1,4 +1,4 @@
-{% load static %}
+{% raw %}{% load static %}
 {% load wagtailcore_tags %}
 {% load wagtailembeds_tags wagtailimages_tags %}
 {% load wagtailuserbar %}
@@ -112,4 +112,4 @@
   {% endif %}
 {% endfor %}
 
-{% wagtailuserbar %}
+{% wagtailuserbar %}{% endraw %}

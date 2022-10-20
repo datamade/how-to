@@ -1,6 +1,6 @@
-{% raw %}{% load static %}
-{% load wagtailcore_tags %}
-{% load wagtailuserbar %}{% endraw %}
+{% raw %}
+{% load static wagtailcore_tags wagtailuserbar i18n slugurl_translate pageurl_translate %}
+{% endraw %}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -60,17 +60,28 @@
         <a class="h2 text-dark m-2 row" href="/">{{ cookiecutter.app_verbose_name }}</a>
       </div>
 
-
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+		<div class="collapse navbar-collapse " id="navbarSupportedContent">
+          <ul class="navbar-nav">
+			{% raw %}{% include {% endraw %}'{{ cookiecutter.module_name }}/partials/nav.html' {% raw %}%}{% endraw %}
+          </ul>
           <ul class="navbar-nav ml-auto">
-            <li class="nav-item">
-              {% raw %}<a class="nav-link" href="{% slugurl 'about' %}" class="text-dark p-2">About</a>{% endraw %}
-            </li>
+			{% raw %}{% if page %}
+              {% for translation in page.get_translations.live %}
+                {% get_language_info for translation.locale.language_code as lang %}
+                <li class="nav-item">
+                  <a class="nav-link" href="{% pageurl translation %}" rel="alternate" hreflang="{{ language_code }}">
+                    {{ lang.name_local|title }}
+                  </a>
+                </li>
+              {% endfor %}
+			  {% endif %}{% endraw %}
           </ul>
         </div>
+
     </nav>
 
     <div id="main-body">

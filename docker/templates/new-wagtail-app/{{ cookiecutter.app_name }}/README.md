@@ -51,10 +51,12 @@ The app will be available at http://localhost:8000. The database will be exposed
 on port 32001.
 
 
-### Admin Interfaces
+### Admin
 
 You can access the Wagtail admin interface at http://localhost:8000/admin and the 
 Django admin interface at http://localhost:8000/django-admin.
+
+The default admin account credentials are located in the DataMade LastPass.
 
 
 ### Running tests

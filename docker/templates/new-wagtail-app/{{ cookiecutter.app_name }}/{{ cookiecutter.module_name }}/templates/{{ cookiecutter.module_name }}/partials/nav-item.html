@@ -1,4 +1,4 @@
-{% load i18n static slugurl_translate pageurl_translate wagtailcore_tags %}
+{% raw %}{% load i18n static slugurl_translate pageurl_translate wagtailcore_tags %}
 
 {% if not item.children %}
   <li class="nav-item">
@@ -16,4 +16,4 @@
       {% endfor %}
     </div>
   </li>
-{% endif %}
+  {% endif %}{% endraw %}
