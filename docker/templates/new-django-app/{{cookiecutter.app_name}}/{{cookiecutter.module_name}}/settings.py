@@ -164,13 +164,24 @@ STATICFILES_FINDERS = (
 # Add them to the "only" array in babel.config.json, as documented in the
 # README under "Ensuring browser compatibility".
 COMPRESS_PRECOMPILERS = (
-    ('module', 'export NODE_PATH=/app/node_modules && npx browserify -g browserify-css \
-{infile} -t [ babelify --global ] > {outfile}'),
-    ('text/jsx', 'export NODE_PATH=/app/node_modules && npx browserify -g browserify-css \
-{infile} -t [ babelify --global --presets [ @babel/preset-react ] ] > {outfile}'),
+    (
+        "module",
+        "export NODE_PATH=/app/node_modules && npx browserify {infile} -t \
+            [ babelify --presets [ @babel/preset-env ] ] > {outfile}",
+    ),
+    (
+        "text/jsx",
+        "export NODE_PATH=/app/node_modules && npx browserify {infile} -t \
+            [ babelify --presets [ @babel/preset-env @babel/preset-react ] ] > {outfile}",
+    ),
 )
 
 COMPRESS_OUTPUT_DIR = 'compressor'
+
+COMPRESS_ENABLED = True
+
+# Enable offline compression in production only
+COMPRESS_OFFLINE = not DEBUG
 
 # Enforce SSL in production
 if DEBUG is False:

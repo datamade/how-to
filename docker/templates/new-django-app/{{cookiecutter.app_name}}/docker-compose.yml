@@ -33,6 +33,8 @@ services:
     environment:
       DJANGO_SECRET_KEY: reallysupersecret{% if cookiecutter.auto_migrate == 'True' %}
       DJANGO_MANAGEPY_MIGRATE: "on"{% endif %}
+      # override the flag in Dockerfile for local development
+      DJANGO_DEBUG: "True"
     entrypoint: /app/docker-entrypoint.sh
     command: {{cookiecutter.run_command}}
 
