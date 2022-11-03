@@ -1,0 +1,2 @@
+# Setup AWS access for a remote Django app
+Many of our Django apps use S3 for storing images and other assets. [Follow the steps in this document](https://docs.google.com/document/d/1IzP3zfbr6-zYNtzWuMs4t3AVdSfi-LtXfXR0hszez94/edit?usp=sharing) to configure an S3 bucket so you can securely access S3 from a remote Django app.
