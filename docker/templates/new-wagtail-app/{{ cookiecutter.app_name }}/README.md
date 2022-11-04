@@ -27,13 +27,19 @@ Since hooks are run locally, you can modify which scripts are run before each co
 
 ### Docker
 
-Before building the Docker container, run
-```bash
-mv env.example .env
-```
-
 Development requires a local installation of [Docker](https://docs.docker.com/install/)
 and [Docker Compose](https://docs.docker.com/compose/install/).
+
+Before building the Docker container, copy over the .env settings
+```bash
+cp env.example .env
+```
+
+Build the app and run it to trigger migrations:
+
+```bash
+docker-compose up --build
+```
 
 To populate the starter content for the CMS, run:
 
