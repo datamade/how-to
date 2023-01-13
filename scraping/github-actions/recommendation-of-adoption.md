@@ -51,7 +51,7 @@ The only advantage that EC2 has is that there is no limit on the length of time 
    </td>
    <td>manually set up logging to disk. to view logs, we would ssh into the server and grep the logs.
    </td>
-   <td>not possible?
+   <td>integrated
    </td>
    <td>integrated
    </td>
