@@ -111,7 +111,7 @@
   "model": "auth.user",
   "pk": 1,
   "fields": {
-    "password": "pbkdf2_sha256$260000$lQ1JU1HnCEqOte2RqKR6kl$9UfdTtt47gg6DHkkGS6t2pAw6lFnf74EdrL0rsML/SU=",
+    "password": "pbkdf2_sha256$260000$iEvdicSWtWGlWWMguyRSDw$KR7TR9ZrLD7O4NI6rSXOy6vipc5a7HfOBWGBktUZ9+8=",
     "last_login": "2022-10-20T20:11:01.590Z",
     "is_superuser": true,
     "username": "datamade-admin",
