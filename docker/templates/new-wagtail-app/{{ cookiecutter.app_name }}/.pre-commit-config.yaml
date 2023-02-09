@@ -1,0 +1,37 @@
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v2.3.0
+    hooks:
+      - id: check-yaml
+      - id: end-of-file-fixer
+      - id: trailing-whitespace
+
+  - repo: https://github.com/psf/black
+    rev: 22.3.0
+    hooks:
+      - id: black
+        exclude: ^({{ cookiecutter.module_name }}/migrations/)
+
+  - repo: https://github.com/pycqa/flake8
+    rev: "9f60881"
+    hooks:
+      - id: flake8
+        files: {{ cookiecutter.module_name }} tests
+        exclude: {{ cookiecutter.module_name }}/migrations
+
+  - repo: https://github.com/rtts/djhtml
+    rev: v1.5.1 # replace with the latest tag on GitHub
+    hooks:
+      - id: djhtml
+        # Indent only HTML files in template directories
+        files: .*/templates/.*\.html$
+        args: [--tabwidth=2] # tabs should be 2 spaces in Django templates
+
+  - repo: https://github.com/pre-commit/mirrors-eslint
+    rev: "1f7d592"
+    hooks:
+      - id: eslint
+        additional_dependencies:
+          - eslint@8.19.0
+          - eslint-plugin-react@7.30.1
+          - eslint-config-prettier@8.5.0

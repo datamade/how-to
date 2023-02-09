@@ -9,3 +9,4 @@ however we've migrated still-relevant documentation to this directory.
 
 - [RDS](rds.md)
 - [Annual server maintenace](annual-server-maintenance.md)
+- [Setup AWS access for a remote Django app](iam-s3.md)

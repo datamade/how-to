@@ -1,0 +1,8 @@
+{% raw %}{% load i18n static slugurl_translate wagtailcore_tags wagtailembeds_tags wagtailimages_tags %}
+
+<li class="nav-item">
+  <a class="nav-link" href="/">{% translate "Home" %}</a>
+</li>
+{% for item in menu.menu %}
+{% include {% endraw %}'{{ cookiecutter.module_name }}/partials/nav-item.html'{% raw %} with item=item %}
+{% endfor %}{% endraw %}
