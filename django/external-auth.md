@@ -8,7 +8,7 @@ TODO
 
 Update your application's `requirements.txt` file to add `django-allauth` as a dependency. Remember to rebuild your application container to ensure that your dependencies are up to date.
 
-Using the [documentation](https://django-allauth.readthedocs.io/en/latest/installation.html) as a reference, we'll need to add several lines of `django-allauth` configuration to `INSTALLED_APPS` in `settings.py`. Some lines will be specific to the social account provider you use, and are specified in the docs. You can also include multiple providers. If we're using Github as an example:
+Using the [documentation](https://django-allauth.readthedocs.io/en/latest/installation.html) as a reference, we'll need to add several lines of `django-allauth` configuration to `INSTALLED_APPS` in `settings.py`. Some lines will be specific to the social account provider you use, and are specified in the docs. We can also include multiple providers. If we're using Github as an example:
 
     INSTALLED_APPS = [
         'django.contrib.admin',
@@ -27,7 +27,7 @@ Using the [documentation](https://django-allauth.readthedocs.io/en/latest/instal
         # custom apps go here...
     ]
 
-Then at the bottom of `settings.py` we need to specify that we're using the allauth backend, add a `SITE_ID` since `allauth` uses this, and (optionally) configure client settings for all of our `SOCIALACCOUNT_PROVIDERS` 
+Then at the bottom of `settings.py` we need to specify that we're using the allauth backend and add a `SITE_ID` since `allauth` uses this.
 
     AUTHENTICATION_BACKENDS = [
         ...
@@ -38,22 +38,8 @@ Then at the bottom of `settings.py` we need to specify that we're using the alla
         'allauth.account.auth_backends.AuthenticationBackend',
         ...
     ]
-    SITE_ID = 1
 
-	# Provider specific settings
-	SOCIALACCOUNT_PROVIDERS = {
-	    'github': {
-	        # For each OAuth based provider, either add a ``SocialApp``
-	        # (``socialaccount`` app) containing the required client
-	        # credentials, or list them here:
-	        'APP': {
-	            'client_id': '123',
-	            'secret': '456',
-	            'key': ''
-	        }
-	    }
-	}
-*Note: as mentioned in the code, if you omit the `APP` settings in `SOCIALACCOUNT_PROVIDERS`, you will have to configure them in the admin instead.*
+    SITE_ID = 1
 
 Now that we have it installed, we need to add allauth to our `urls.py` file. If using wagtail, make sure to insert this path above wagtail's.
 
@@ -67,8 +53,46 @@ Then, run migrations to update the existing database.
 
 	docker-compose run --rm app python manage.py migrate
 
-TODO: talk about setting up an app on the providers' side to get the id and secret
+
+Now that things are setup on our end, we'll move onto the providers' side. The django-allauth docs have [provider specific sections](https://django-allauth.readthedocs.io/en/latest/providers.html) with links to help set up our app on their side. Each provider will have their own process to follow. [Github's section](https://django-allauth.readthedocs.io/en/latest/providers.html#github) has a link to their app registration page, as well as a sample callback url to provide.
+
+Upon registering our app, we will be provided with a client id and a client secret. At this point we can either go through the django admin and set up a new 'social application' with these credentials:
+
+TODO: paste an image here
+
+Or configure client settings for our `SOCIALACCOUNT_PROVIDERS` in `settings.py` and add them there:
+
+	# Provider specific settings
+	SOCIALACCOUNT_PROVIDERS = {
+	    'github': {
+	        # For each OAuth based provider, either add a ``SocialApp``
+	        # (``socialaccount`` app) containing the required client
+	        # credentials, or list them here:
+	        'APP': {
+	            'client_id': 'ex.123',
+	            'secret': 'ex.456',
+	            'key': ''
+	        }
+	    }
+	}
+
+From there we should be seeing a page that has the capacity to sign someone in regularly, and also has a link to sign in with our added providers.
+
+TODO: paste an image here
 
 ## Specifying scope
 
-TODO
+Some providers allow us to specify the scope. The settings for this are also specific to each provider.
+
+For example in GitHub, if we want more than just read-only access to a user's public data, we can specify the scope as follows.
+
+	SOCIALACCOUNT_PROVIDERS = {
+	    'github': {
+	        'SCOPE': [
+	            'user',
+	            'repo',
+	            'read:org',
+	        ],
+    	}
+	}
+
