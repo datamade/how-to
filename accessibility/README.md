@@ -20,9 +20,12 @@ The basic approach involves ensuring that the HTML and layout of our websites is
 
 * Use headings correctly to organize the structure of your content
 * Include proper alt text for images
+* Use [ARIA labels](https://developer.mozilla.org/en-US/docs/Learn/Accessibility/WAI-ARIA_basics) where appropriate
 * Give your links unique and descriptive names
 * Use color with care
 * Ensure that all content can be accessed with the keyboard alone in a logical way
+
+Refer to [MDN's accessibility docs](https://developer.mozilla.org/en-US/docs/Learn/Accessibility) for more details.
 
 ## Accessibility in our Site Launch Checklist
 
