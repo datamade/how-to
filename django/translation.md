@@ -140,6 +140,20 @@ To work around this limitation, we can manually edit the messages files to save 
 3. In `docker-entrypoint.sh` add the line `python manage.py compilemessages` to automatically compile messages whenever docker is run ([example](https://github.com/datamade/mpc-efi/pull/81/files#diff-79738685a656fe6b25061bb14181442210b599f746faeaba408a2401de45038a))
 4. Commit the updated `.po` and `.mo` files to version control
 
+### Translation in Javascript
+
+Django's translation framework also [works with javascript files](https://docs.djangoproject.com/en/4.0/topics/i18n/translation/#internationalization-in-javascript-code). 
+
+A few things to note in addition to the docs:
+
+* Compiling messages for javascript needs to be run explicitly like so: `python manage.py makemessages --locale es -d djangojs`
+* The `<script src="{% url 'javascript-catalog' %}"></script>` tag needs to be defined pretty high up in `base.html` in order to make the `gettext` function available in Wagtail blocks if necessary.
+
+You can see an example of the pattern we set the [MPC EFI](https://github.com/datamade/mpc-efi#updating-translated-text) project. You can see the use of `gettext` in [EfiMap.js](https://github.com/datamade/mpc-efi/blob/main/efi/static/js/EfiMap.js)
+
+1. 
+1. run `python manage.py makemessages --locale es -d djangojs` to compile javascript 
+
 ## Wagtail Internationalization
 For Django sites using the Wagtail CMS, internationalization is supported using either
 [simple_translation](https://docs.wagtail.org/en/stable/reference/contrib/simple_translation.html#simple-translation)
