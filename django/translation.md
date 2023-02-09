@@ -151,9 +151,6 @@ A few things to note in addition to the docs:
 
 You can see an example of the pattern we set the [MPC EFI](https://github.com/datamade/mpc-efi#updating-translated-text) project. You can see the use of `gettext` in [EfiMap.js](https://github.com/datamade/mpc-efi/blob/main/efi/static/js/EfiMap.js)
 
-1. 
-1. run `python manage.py makemessages --locale es -d djangojs` to compile javascript 
-
 ## Wagtail Internationalization
 For Django sites using the Wagtail CMS, internationalization is supported using either
 [simple_translation](https://docs.wagtail.org/en/stable/reference/contrib/simple_translation.html#simple-translation)
