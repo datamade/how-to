@@ -53,6 +53,7 @@ _In alphabetical order and including links to external repository-based document
 - [Security](security/)
     - [GPG and Blackbox](security/gpg/blackbox.md)
     - [Crypto checklist](https://bit.ly/cryptochecklist)
+- [Accessibility](accessibility/)
 - [Software testing](https://github.com/datamade/testing-guidelines)
 - [The shell and Ubuntu](shell/)
     - [tmux, best practices](shell/tmux-best-practices.md)
