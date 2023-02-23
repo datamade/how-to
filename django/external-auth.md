@@ -58,7 +58,7 @@ Now that things are setup on our end, we'll connect to the providers' side. The 
 
 Upon registering our app, we will be provided with a client id and a client secret. At this point we can either go through the django admin and set up a new 'social application' with these credentials while also adding our site to the list of chosen sites:
 
-![image](https://user-images.githubusercontent.com/114717958/217929079-a862a439-95af-4e84-a284-4a7592d4ac1e.png)
+![Add Social Application](../images/add_social_app.png)
 
 
 Or configure client settings for our `SOCIALACCOUNT_PROVIDERS` in `settings.py` and add them there:
@@ -79,7 +79,7 @@ Or configure client settings for our `SOCIALACCOUNT_PROVIDERS` in `settings.py` 
 
 From there, if we navigate to our login page (ex. localhost:8000/accounts/login) we should be seeing a page that has the capacity to sign someone in regularly, and also has links to sign in with our added providers!
 
-![image](https://user-images.githubusercontent.com/114717958/217928845-9337e412-11c5-4e59-a1d2-a07b3f3092ed.png)
+![Log In Page](../images/social_login.png)
 
 
 ## Specifying scope
