@@ -166,12 +166,12 @@ STATICFILES_FINDERS = (
 COMPRESS_PRECOMPILERS = (
     (
         "module",
-        "export NODE_PATH=/app/node_modules && npx browserify {infile} -t \
+        "export NODE_PATH=/app/node_modules && npx browserify -g browserify-css {infile} -t \
             [ babelify --presets [ @babel/preset-env ] ] > {outfile}",
     ),
     (
         "text/jsx",
-        "export NODE_PATH=/app/node_modules && npx browserify {infile} -t \
+        "export NODE_PATH=/app/node_modules && npx browserify -g browserify-css {infile} -t \
             [ babelify --presets [ @babel/preset-env @babel/preset-react ] ] > {outfile}",
     ),
 )
