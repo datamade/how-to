@@ -1,0 +1,16 @@
+{
+    "only": [
+        "./{{ cookiecutter.module_name }}/static"
+    ],
+    "presets": [
+        [
+            "@babel/preset-env", {
+                "targets": "> 0.25%, not dead",
+                "useBuiltIns": "usage",
+                "corejs": {
+                    "proposals": "true"
+                }
+            }
+        ]
+    ]
+}

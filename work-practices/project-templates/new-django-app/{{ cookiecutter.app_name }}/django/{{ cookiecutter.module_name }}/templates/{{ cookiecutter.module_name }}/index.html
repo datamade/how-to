@@ -1,0 +1,26 @@
+{% raw %}{% extends {% endraw %}"{{cookiecutter.module_name}}/base.html"{% raw %} %}
+{% load static %}
+
+{% block title %}Home{% endblock %}
+
+{% block body %}
+<div class="container-fluid mb-1 jumbotron">
+  <div class="row">
+    <div class="col-sm-10 offset-sm-1">
+      <h1 class="mb-3">{% endraw %}{{cookiecutter.app_verbose_name}}{% raw %}</h1>
+    </div>
+  </div>
+</div>
+<div class="container">
+  <div class="row pt-5 pb-4 text-center">
+    <p>Welcome to your app!</p>
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+  <script type="text/javascript" src="{% static 'js/app.js' %}"></script>
+  <script type="text/javascript">
+    console.log('Hello, inline world!')
+  </script>
+{% endblock %}{% endraw %}

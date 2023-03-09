@@ -1,0 +1,11 @@
+{
+	"app_name": "new-datamade-project",
+	"app_verbose_name": "New DataMade Project",
+	"module_name": "new_datamade_project",
+	"auto_migrate": true,
+	"postgis": false,
+	"pg_version": "14",
+	"pg_db": "database",
+	"include_react": true,
+	"include_wagtail": false
+}
