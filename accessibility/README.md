@@ -18,7 +18,7 @@ For more on this, see https://overlayfactsheet.com
 
 The W3C has put together a set of guidelines called the Web Content Accessibility Guidelines (WCAG), with the goal of standardizing accessibility. This is occasionally updated, with the latest version being 2.1. These guidelines are made of testable criteria and are split into a few major sections:
 
-* Perceivable - Info and ui components must be presentable to all users. They cannot be invisible to any of the user’s senses.
+* Perceivable - Info and UI components must be presentable to all users. They cannot be invisible to any of the user’s senses.
 * Operable - UI and navigation must be operable. They cannot require operations that a user cannot perform.
 * Understandable - Info and operation of UI must be understandable. This involves making sure that users know what to expect when interacting with the page.
 * Robust - Content must be robust enough to be interpreted by a wide variety of user agents, including assistive tech. This means future proofing content against evolving technologies.
