@@ -1,7 +1,7 @@
 module.exports = {
   siteMetadata: {
-    title: `Upgrade Dependencies`,
-    description: `upgrade`,
+    title: `{{cookiecutter.app_verbose_name}}`,
+    description: `{{cookiecutter.description}}`,
     author: `DataMade`,
     url: ``,
     image: `/socialcard.png`
