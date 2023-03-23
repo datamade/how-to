@@ -11,6 +11,7 @@ DataMade's preferred content management system.
     - [Comparisons to existing tools](research/comparisons-to-existing-tools.md)
     - [Recommendation of adoption](research/recommendation-of-adoption.md)
 - [Resources for learning](#resources-for-learning)
+- [Wagtail Cache](#wagtail-cache)
 
 ## When to use Wagtail
 A content management system such as Wagtail allows users of a site to add, edit, and delete certain content through a friendly interface separate from the project's code. Wagtail should be used for projects where a client would like the ability to modify content directly without DataMade as an intermediary.
@@ -35,3 +36,14 @@ For any site where people outside DataMade will be using Wagtail, consider creat
 ## Resources for learning
 - Before beginning a first Wagtail implementation, all developers should read [The Zen of Wagtail](https://docs.wagtail.io/en/v2.8/getting_started/the_zen_of_wagtail.html) to familiarize themselves with the guiding concepts.
 - After that, the official [Wagtail documentation](https://docs.wagtail.io/en/stable/) is a good place to start.
+
+
+## Wagtail Cache
+We recommend the `wagtail-cache` library for invalidating the cache whenever a user edits a Wagtail page model. It's simple and lightweight. [Follow the docs to get it setup](https://docs.coderedcorp.com/wagtail-cache/).
+
+Note that wagtail-cache won't invalidate any changes to a custom, non-Wagtail model that is managed in the Wagtail admin dashboard. In that case you'll still need to use the built-in Django caching.
+
+More info about this adoption:
+- [how-to issue about this](https://github.com/datamade/how-to/issues/299)
+- [PR where we piloted this for the IL NWSS project](https://github.com/datamade/il-nwss-dashboard/pull/157)
+- [PR where we used this in for the CRP project](https://github.com/datamade/crp-transparency/pull/134)
