@@ -37,7 +37,6 @@ For any site where people outside DataMade will be using Wagtail, consider creat
 - Before beginning a first Wagtail implementation, all developers should read [The Zen of Wagtail](https://docs.wagtail.io/en/v2.8/getting_started/the_zen_of_wagtail.html) to familiarize themselves with the guiding concepts.
 - After that, the official [Wagtail documentation](https://docs.wagtail.io/en/stable/) is a good place to start.
 
-
 ## Wagtail Cache
 We recommend the `wagtail-cache` library for invalidating the cache whenever a user edits a Wagtail page model. It's simple and lightweight. [Follow the docs to get it setup](https://docs.coderedcorp.com/wagtail-cache/).
 
