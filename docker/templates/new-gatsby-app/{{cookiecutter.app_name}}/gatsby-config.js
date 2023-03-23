@@ -1,7 +1,7 @@
 module.exports = {
   siteMetadata: {
-    title: `{{cookiecutter.app_verbose_name}}`,
-    description: `{{cookiecutter.description}}`,
+    title: `Upgrade Dependencies`,
+    description: `upgrade`,
     author: `DataMade`,
     url: ``,
     image: `/socialcard.png`
@@ -33,7 +33,7 @@ module.exports = {
       resolve: `gatsby-plugin-google-analytics`,
       options: {
         // To enable Google analytics, just set up a property and input the tracking ID here
-        trackingId: "",
+        trackingId: "replace-with-tracking-id",
       },
     },
     {
