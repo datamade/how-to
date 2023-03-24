@@ -34,6 +34,6 @@ The Bootstrap docs are very well-organized and thorough, but to make sure you're
 9. [Navs](https://getbootstrap.com/docs/4.6/components/navs/) are helpful if you want to incorporate navbar-like functionality somewhere other than the header of your site
 10. [Scrollspy](https://getbootstrap.com/docs/4.6/components/scrollspy/) allows you to highlight the nav item that is currently in the viewport. Very handy for helping users keep track of where they are when on a page with lots of well-organized text
 
-### Helpful Helpers
+### Helpful Utilities
 1. [Visually hidden](https://getbootstrap.com/docs/4.6/utilities/visibility/) to make certain tools accessible for assistive tech only
 2. [Text overflow and truncation](https://getbootstrap.com/docs/4.6/utilities/text/#text-wrapping-and-overflow)
