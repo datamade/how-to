@@ -166,3 +166,21 @@ credits: {
     enabled: false
 }
 ```
+
+### Accessibility
+
+Highcharts has an accessibility module that introduces the feature to navigate through your charts with the keyboard, as well as give context about your chart to screen readers.
+
+[Their accessibility docs](https://www.highcharts.com/docs/accessibility/accessibility-module) describe how to include it with a script. If you're using a react component however, you'll have to import the module into that instead, and then initialize it
+```
+import React from "react"
+import { createRoot } from "react-dom/client"
+import Highcharts from "highcharts"
+import highchartsAccessibility from "highcharts/modules/accessibility"  # Importing
+import HighchartsReact from "highcharts-react-official"
+
+highchartsAccessibility(Highcharts)  # Initializing
+
+function SampleChart({ props }) {
+    ...
+```
