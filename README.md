@@ -10,6 +10,8 @@ Here at DataMade, we do a lot of computer programming. In the spirit of [better 
 
 _In alphabetical order and including links to external repository-based documentation._
 
+- [Charting](charting/)
+    - [Highcharts](charting/highcharts/highcharts.md)
 - [Continuous Integration (CI)](ci/)
 - [Deployment](deployment/)
     - [Amazon Web Services](deployment/aws/) (Legacy)
