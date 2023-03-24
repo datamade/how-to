@@ -5,10 +5,10 @@ We use bootstrap in all of our apps to add consistent styles and functionality u
 ## Versioning
 We currently use [Bootstrap 4.6](https://getbootstrap.com/docs/4.6/getting-started/introduction/). Though Bootstrap 5 is around, it does not provide support for Internet Explorer, which we still intend to support as it continues to be an important tool for some clients.
 
-## Guiding Principles & Tips
+## Guiding Principles
 * **Prioritize Grid over Flexbox**: Aim to only use `d-flex` and related classes in situations where you have a variable number of child elements, to space them evenly
 * **Roles, not functionality**: Each Bootstrap component is intended for a specific kind of role, but there are a variety of ways to accomplish similar functionality using different classes and components. This also helps keep code DRY and accessible, as many Bootstrap components
-* **Accessibility** The Components subsections of the Bootstrap 4.6 docs all contain a `Sass > Variables` section so you know how to override styles. Many component subsections, particularly the ones that help structure a page or provide site navigation, also contain `Accessibility` sections with tips on how to utilize [ARIA roles and labels](https://www.w3.org/WAI/ARIA/apg/) properly
+* **Accessibility**: The Components subsections of the Bootstrap 4.6 docs all contain a `Sass > Variables` section so you know how to override styles. Many component subsections, particularly the ones that help structure a page or provide site navigation, also contain `Accessibility` sections with tips on how to utilize [ARIA roles and labels](https://www.w3.org/WAI/ARIA/apg/) properly
 
 ## Reading the Docs
 The Bootstrap docs are very well-organized and thorough, but to make sure you're getting full use of them, here's an overview of the sections and when to look in each one:
