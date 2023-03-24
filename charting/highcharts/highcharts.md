@@ -58,7 +58,7 @@ And add the appropriate scripts to this same template where `window.<reactMountN
 ```
 
 And now you should have a basic chart up and running! :clap::clap::clap:
-![Sample Chart](../images/sample_chart.png)
+![Sample Chart](../../images/sample_chart.png)
 
 ### Adding Data
 
