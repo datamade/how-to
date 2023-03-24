@@ -184,3 +184,5 @@ highchartsAccessibility(Highcharts)  # Initializing
 function SampleChart({ props }) {
     ...
 ```
+
+That’s all you need for keyboard nav. Other modifications can be made using their [accessibility options](https://api.highcharts.com/highcharts/accessibility). This includes [adding descriptions](https://api.highcharts.com/highcharts/xAxis.accessibility.description) for axes and series that screen readers will be able to parse out.
