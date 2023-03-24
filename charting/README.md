@@ -95,9 +95,9 @@ const options = {
 
 ### Customization
 
-From here you can follow the Highcharts docs to modify your chart. Here are some features you can include.
+From here you can follow the [Highcharts api docs](https://api.highcharts.com/highcharts/) to modify your chart. Here are some modifications you can make:
 
-Changing the type of chart
+[Change the type of chart](https://api.highcharts.com/highcharts/chart.type)
 
 ```
 const options = {
@@ -105,16 +105,16 @@ const options = {
         text: 'My chart'
     },
     chart: {
-        type: 'column' <<<
+        type: 'column'
     }
 }
 ```
 
-Label the xAxis and/or yAxis:
+[Title](https://api.highcharts.com/highcharts/xAxis.title.text) and [categorize](https://api.highcharts.com/highcharts/xAxis.categories) the axes
 ```
 title: {
     text: '# of People Who Prefer Each Color'
-}
+},
 xAxis: {
     categories: [
         "Red",
@@ -130,9 +130,40 @@ xAxis: {
     },
 },
 ```
-<!-- TODO -->
-Format the tooltip that shows on hover
 
-Label the amounts for each point on the chart (with dataLabels)
+[Format the tooltip that shows on hover](https://api.highcharts.com/highcharts/tooltip.formatter)
+```
+title: {
+    text: '# of People Who Prefer Each Color'
+},
+tooltip: {
+    formatter: function() {
+        return 'The value for <b>' + this.x + 
+            '</b> is <b>' + this.y + '</b>'
+    }
+}
+```
 
-Disable credits
+[Display amounts for each point on the chart (with dataLabels)](https://api.highcharts.com/highcharts/plotOptions.series.dataLabels)
+```
+title: {
+    text: '# of People Who Prefer Each Color'
+},
+plotOptions: {
+    series: {
+        dataLabels: {
+            enabled: true
+        }
+    }
+},
+```
+
+[Disable credits](https://api.highcharts.com/highcharts/credits.enabled)
+```
+title: {
+    text: '# of People Who Prefer Each Color'
+},
+credits: {
+    enabled: false
+}
+```
