@@ -10,6 +10,8 @@ Here at DataMade, we do a lot of computer programming. In the spirit of [better 
 
 _In alphabetical order and including links to external repository-based documentation._
 
+- [Charting](charting/)
+    - [Highcharts](charting/highcharts/highcharts.md)
 - [Continuous Integration (CI)](ci/)
 - [Deployment](deployment/)
     - [Amazon Web Services](deployment/aws/) (Legacy)
@@ -53,6 +55,7 @@ _In alphabetical order and including links to external repository-based document
 - [Security](security/)
     - [GPG and Blackbox](security/gpg/blackbox.md)
     - [Crypto checklist](https://bit.ly/cryptochecklist)
+- [Accessibility](accessibility/)
 - [Software testing](https://github.com/datamade/testing-guidelines)
 - [The shell and Ubuntu](shell/)
     - [tmux, best practices](shell/tmux-best-practices.md)

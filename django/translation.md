@@ -14,11 +14,13 @@ Django, so think of it as a supplement to the official docs.
     - [Configure Django settings for translations](#configure-django-settings-for-translations)
     - [Tag strings for translation](#tag-strings-for-translation)
 - [Localization](#localization)
-    - [Install Rosetta](#install-rosetta)
     - [Make message files](#make-message-files)
+- [Pattern 1: Rosetta](#pattern-1-rosetta)
     - [Keep message files under version control](#keep-message-files-under-version-control)
     - [Compile messages on build and deploy](#compile-messages-on-build-and-deploy)
     - [Automatically reload catalog files during translation](#automatically-reload-catalog-files-during-translation)
+- [Pattern 2: Manually editing messages](#pattern-2-manually-editing-messages)
+- [Wagtail Internationalization](#wagtail-internationalization)
 - [Exmaples](#examples)
 
 ## Internationalization
@@ -71,13 +73,6 @@ Localization refers to the process of translating tagged strings for display
 to the end user. Localization is typically performed by a team of external
 translators using config files and interfaces supplied by app developers.
 
-### Install Rosetta
-
-[`django-rosetta`](https://django-rosetta.readthedocs.io/) is a Django app that
-provides a friendly admin interface for translators. Follow the
-[setup instructions](https://django-rosetta.readthedocs.io/installation.html)
-to install it in your app.
-
 ### Make message files
 
 In order to expose your translation strings to translators, you can use Django's
@@ -89,6 +84,15 @@ locally and save the resulting `.po` files to version control:
 docker-compose run --rm app ./manage.py makemessages --all
 git add locale/*/LC_MESSAGES/*.po
 ```
+
+## Pattern 1: Rosetta
+
+[`django-rosetta`](https://django-rosetta.readthedocs.io/) is a Django app that
+provides a friendly admin interface for translators. Follow the
+[setup instructions](https://django-rosetta.readthedocs.io/installation.html)
+to install it in your app.
+
+Note that we do not have a Rosetta pattern that is setup to work on Heroku.
 
 ### Keep message files under version control
 
@@ -124,7 +128,46 @@ catalog files to automatically reload every time they are modified. For performa
 reasons, make sure to unset this variable in production environments and once
 translation is finished.
 
+## Pattern 2: Manually editing messages
+
+For sites hosted on Heroku, Pattern 1 with Rosetta will not work, as the compiled `.mo` files
+can't be stored locally and must be under version control. 
+
+To work around this limitation, we can manually edit the messages files to save our compiled translations under version control, following these steps:
+
+1. Set all translation tags and run `makemessages`
+2. Manually edit the `.po` file with the correct translations ([example](https://github.com/datamade/mpc-efi/pull/81/files#diff-0c78e0a56c08e9c92c92fe22245941e38b08c3c8a3b5b755dd0bbf46be1fcfd6))
+3. In `docker-entrypoint.sh` add the line `python manage.py compilemessages` to automatically compile messages whenever docker is run ([example](https://github.com/datamade/mpc-efi/pull/81/files#diff-79738685a656fe6b25061bb14181442210b599f746faeaba408a2401de45038a))
+4. Commit the updated `.po` and `.mo` files to version control
+
+### Translation in Javascript
+
+Django's translation framework also [works with javascript files](https://docs.djangoproject.com/en/4.0/topics/i18n/translation/#internationalization-in-javascript-code). 
+
+A few things to note in addition to the docs:
+
+* Compiling messages for javascript needs to be run explicitly like so: `python manage.py makemessages --locale es -d djangojs`
+* The `<script src="{% url 'javascript-catalog' %}"></script>` tag needs to be defined pretty high up in `base.html` in order to make the `gettext` function available in Wagtail blocks if necessary.
+
+You can see an example of the pattern we set the [MPC EFI](https://github.com/datamade/mpc-efi#updating-translated-text) project. You can see the use of `gettext` in [EfiMap.js](https://github.com/datamade/mpc-efi/blob/main/efi/static/js/EfiMap.js)
+
+## Wagtail Internationalization
+For Django sites using the Wagtail CMS, internationalization is supported using either
+[simple_translation](https://docs.wagtail.org/en/stable/reference/contrib/simple_translation.html#simple-translation)
+or the more advanced [wagtail-localize](https://github.com/wagtail/wagtail-localize).
+
+Our pattern uses `simple_translation`, which provides a user interface that allows users to copy pages and translatable snippets into another language. These copies are created in the source language (not translated)
+and are saved in draft status.
+
+See [Wagtail's documentation on internationalization](https://docs.wagtail.org/en/stable/advanced_topics/i18n.html) for setup instructions.
+
 ## Examples
 
-- [WhoWasInCommand](https://github.com/security-force-monitor/sfm-cms/) is
+- Pattern 1: [WhoWasInCommand](https://github.com/security-force-monitor/sfm-cms/) is
   translated in more than three languages and uses Rosetta for localization.
+
+- Pattern 2: [Chicago Arts Census](https://github.com/datamade/arts-census/pull/19) is a Wagtail
+  site and translated in English and Spanish and hosted on Heroku
+
+- Pattern 2: [MPC Equitable Financial Incentives](https://github.com/datamade/mpc-efi/pull/81) is a Wagtail
+  site and translated in English and Spanish and hosted on Heroku

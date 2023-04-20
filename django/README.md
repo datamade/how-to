@@ -19,3 +19,4 @@ In some cases, it also provides extended documentation for setup and use.
 | File uploads | [`django-storages`](https://django-storages.readthedocs.io/en/latest/) | [Link](file-uploads.md) |
 | React integration | [`django-compressor`](https://github.com/django-compressor/django-compressor) | [Link](django-react-integration.md) |
 | Translation | [`django-rosetta`](https://django-rosetta.readthedocs.io/) | [Link](translation.md) |
+| Add external auth | [`django-allauth`](https://django-allauth.readthedocs.io/en/latest/index.html) | [Link](external-auth.md) |
