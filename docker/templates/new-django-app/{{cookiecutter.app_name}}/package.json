@@ -22,6 +22,7 @@
     "@babel/eslint-parser": "^7.19.1",
     "browserify-css": "^0.15.0",
     "eslint": "^8.34.0",
+    "eslint-config-prettier": "^8.7.0",
     "eslint-config-react-app": "^7.0.1",
     "eslint-plugin-flowtype": "^8.0.3",
     "eslint-plugin-import": "^2.27.5",
