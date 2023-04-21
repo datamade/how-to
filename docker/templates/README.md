@@ -112,6 +112,16 @@ If you need to make a customization and aren't sure how to start, check in with
 a Lead Developer. Chances are we've made that customization before and can
 refer you to an example project.
 
+### 4a. **Optional** Configure Sass to override Bootstrap styles.
+It's easy to use Sass to override Bootstrap styles, but there are a few places where you'll need to set up scripts and imports. These can be easy to miss, making this process tricky to debug, so here's a list of items to make sure you add to your code as you're trying to style over Bootstrap:
+
+    - Import bootstrap styles at the bottom of your Sass file, like [here](https://github.com/datamade/california-dream-index/blob/dbc90bc7ae6b7cb5c5af65e0f8224f5361039965/cdi/static/scss/custom.scss#L63)
+    - Include Bootstrap in your [`package.json` file](https://github.com/datamade/california-dream-index/blob/dbc90bc7ae6b7cb5c5af65e0f8224f5361039965/package.json#L13). Don't forget to add the development script at the bottom! This will compile your changes as you make them.
+
+Check out the [Bootstrap documentation](https://getbootstrap.com/docs/4.5/getting-started/theming/) for information on how to start overriding Bootstrap styles using Sass.
+
+For current examples see our [California Dream Index repo](https://github.com/datamade/california-dream-index/pull/63/files) and our [CRP Microsote repo](https://github.com/datamade/crp-transparency/pull/23/files)
+
 ### 5. Run your application!
 
 Change to your application directory, run `docker-compose up -d` to build your
