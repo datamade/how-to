@@ -35,6 +35,6 @@
     "eslint-plugin-react-hooks": "^4.2.0"
   },
   "scripts": {
-    "develop": "sass --watch /app/{{ cookiecutter.module_name }}/static/scss/custom.scss:/app/crp/static/css/bootstrap.custom.css"
+    "develop": "sass --watch /app/{{ cookiecutter.module_name }}/static/scss/custom.scss:/app/{{ cookiecutter.module_name }}/static/css/bootstrap.custom.css"
   }
 }

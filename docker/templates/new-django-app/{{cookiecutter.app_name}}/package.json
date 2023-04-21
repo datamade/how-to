@@ -9,10 +9,12 @@
     "@babel/preset-react": "^7.18.6",
     "babel-preset-env": "^1.7.0",
     "babelify": "^10.0.0",
+    "bootstrap": "^5.2.3",
     "browserify": "^17.0.0",
     "core-js": "^3.8.3",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "sass": "^1.57.1"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^5.53.0",
@@ -26,5 +28,8 @@
     "eslint-plugin-jsx-a11y": "^6.7.1",
     "eslint-plugin-react": "^7.32.2",
     "eslint-plugin-react-hooks": "^4.6.0"
+  },
+  "scripts": {
+    "develop": "sass --watch /app/{{ cookiecutter.module_name }}/static/scss/custom.scss:/app/{{ cookiecutter.module_name }}/static/css/bootstrap.custom.css"
   }
 }
