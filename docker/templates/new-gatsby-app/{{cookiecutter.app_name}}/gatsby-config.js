@@ -33,7 +33,7 @@ module.exports = {
       resolve: `gatsby-plugin-google-analytics`,
       options: {
         // To enable Google analytics, just set up a property and input the tracking ID here
-        trackingId: "",
+        trackingId: "replace-with-tracking-id",
       },
     },
     {
