@@ -30,3 +30,12 @@ Leaflet with vanilla JavaScript can lead to an unorganized and hard-to-use codeb
 
 #### Further reading
 - [Map templates for Leaflet](https://handsondataviz.org/leaflet.html)
+
+### A Note on Leaflet Accessibility
+[Their accessibility docs](https://leafletjs.com/examples/accessibility/) describe some features that come built into Leaflet. These are: 
+- the map is keyboard navigable by default, and 
+- the strong recommendation to add alt attributes to markers
+
+Although not described in their docs at the time of writing, sifting through issues on Leaflet’s repo shows there is a feature where polygons with tooltips are meant to have screen-readers read those tooltips as the shape's alt attribute. When testing the map on the homepage of the [Chicago Recovery Plan's dashboard](https://chirecoveryplan.com/) with VoiceOver, this feature was cumbersome. Each shape was read aloud as “graphics symbol” instead of something like “Fuller Park”. Through a series of commands, you can eventually get it to read the tooltip, but doing that for each area isn't ideal.
+
+There is a possibility that this is a VoiceOver specific issue, but we would need access to some other screen readers to be sure.

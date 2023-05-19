@@ -41,6 +41,7 @@ _In alphabetical order and including links to external repository-based document
     - [Slack](logging/slack.md)
 - [Mapping](mapping/)
     - [Google APIs (Maps, Geocoding)](mapping/google-apis.md)
+    - [Leaflet](mapping/leaflet.md)
 - [PostgreSQL](postgres/)
     - [A quick and dirty introduction to `sqlalchemy`](postgres/quick-n-dirty-sqlalchemy.md)
     - [Interacting with a remote database](postgres/Interacting-with-a-remote-database.md)
