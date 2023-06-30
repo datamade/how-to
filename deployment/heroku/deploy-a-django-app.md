@@ -58,17 +58,13 @@ The fastest way to get a project up and running on Heroku is to use the [Heroku 
 
 ```
 heroku update beta
-heroku plugins:install @heroku-cli/plugin-manifest
 ```
 
 Confirm that you have the manifest plugin installed:
 
 ```
-heroku plugins | grep manifest
+heroku manifest --help
 ```
-
-If you don't see any output, [follow the official instructions for installing the
-plugin](https://devcenter.heroku.com/changelog-items/1441).
 
 ### Create apps and pipelines for your project
 
