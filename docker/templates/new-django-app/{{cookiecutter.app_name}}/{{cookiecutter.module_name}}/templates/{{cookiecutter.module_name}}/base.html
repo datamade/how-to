@@ -124,14 +124,22 @@
     <script src="{% static 'js/lib/fontawesome.min.js' %}"></script>
     <script src="{% static 'js/lib/solid.min.js' %}"></script>
 
-    <!-- Load Google Tag Manager for analytics (no-op until APIKEY is set) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=APIKEY"></script>
+    <!-- Matomo -->
     <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'APIKEY');
+      var _paq = window._paq = window._paq || [];
+      /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
+      _paq.push(['trackPageView']);
+      _paq.push(['enableLinkTracking']);
+      (function() {
+        var u="https://datamade.matomo.cloud/";
+        _paq.push(['setTrackerUrl', u+'matomo.php']);
+        // replace ZZZ with your site ID
+        _paq.push(['setSiteId', 'ZZZ']);
+        var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+        g.async=true; g.src='//cdn.matomo.cloud/datamade.matomo.cloud/matomo.js'; s.parentNode.insertBefore(g,s);
+      })();
     </script>
+    <!-- End Matomo Code -->
 
     <!-- Load extra external scripts -->
     {% block extra_js %}{% endblock %}
