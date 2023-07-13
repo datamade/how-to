@@ -14,7 +14,7 @@ module.exports = {
     "react/prop-types": "off",
   },
   ignorePatterns: [
-	"**/lib/*",
+    "workplace/static/js/lib/**/*.js",
     "venv/**/*",
     "/static/**/*",
     "/staticfiles/**/*",

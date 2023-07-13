@@ -1,0 +1,3 @@
+[tool.black]
+line-length = 88
+extend-exclude = '\S*\/migrations\/' # ignore django migrations
