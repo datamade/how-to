@@ -9,3 +9,4 @@ DataMade's preferred platform for hosting dynamic (i.e. non-static) applications
 - [Scheduling tasks on Heroku](./scheduling-tasks.md)
 - [Research](./research/)
     - [Recommendation of adoption](./research/recommendation-of-adoption.md)
+- [Heroku CLI](./heroku-cli.md)

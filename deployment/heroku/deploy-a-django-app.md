@@ -69,7 +69,8 @@ heroku manifest --help
 ### Create apps and pipelines for your project
 
 In order to deploy your project, you need to create Heroku apps for staging
-and production, and tie them together in a [pipeline](https://devcenter.heroku.com/articles/pipelines).
+and production, and tie them together in a [pipeline](https://devcenter.heroku.com/articles/pipelines). Be sure that your application is committed to version control before you begin, and that the repo has a `heroku.yml` file. Otherwise Heroku won't use the correct buildpack — we use a container buildpack and not one of their default Python buildpacks.
+
 To create these resources, start by defining the name of your app:
 
 ```bash
@@ -87,7 +88,7 @@ heroku pipelines:connect ${APP_NAME} -r datamade/${APP_NAME}
 
 Your CLI output should look like this:
 ```bash
-heroku create ${APP_NAME}-staging -t datamade --manifest 
+heroku create ${APP_NAME}-staging -t datamade --manifest
 Reading heroku.yml manifest... done
 Creating ⬢ demo-app-staging... done, stack is container
 Adding heroku-postgresql... done
@@ -344,7 +345,7 @@ the [Minnesota Election Archive project](https://github.com/datamade/mn-election
 
 ### Clean up old configurations
 
-For new projects, you can skip this step. For existing projects that are being convered from our older deployment practices, you'll want to consolodate everything into `settings.py` and eventually delete your `settings_local.py` and supporting files. In switching to Heroku, the `settings_local.py` pattern is no longer necessary to store secret values as we'll be using environment variables instead. 
+For new projects, you can skip this step. For existing projects that are being convered from our older deployment practices, you'll want to consolodate everything into `settings.py` and eventually delete your `settings_local.py` and supporting files. In switching to Heroku, the `settings_local.py` pattern is no longer necessary to store secret values as we'll be using environment variables instead.
 
 In addition, you will want to **delete** the following files, as we won't be using Travis, Blackbox or CodeDeploy:
 
@@ -620,14 +621,14 @@ Did you have the `manifest` CLI plugin installed when you first created the Hero
 
 Here's an example where the `manifest` plugin **was not installed** when creating an app:
 ```
-heroku create ${APP_NAME}-staging -t datamade --manifest                                 
+heroku create ${APP_NAME}-staging -t datamade --manifest
 Creating ⬢ demo-app-staging... done
 https://demo-app-staging.herokuapp.com/ | https://git.heroku.com/demo-app-staging.git
 ```
 
 Here is an example where everything worked because the `manifest` plugin was installed:
 ```
-heroku create ${APP_NAME}-staging -t datamade --manifest 
+heroku create ${APP_NAME}-staging -t datamade --manifest
 Reading heroku.yml manifest... done
 Creating ⬢ demo-app-staging... done, stack is container
 Adding heroku-postgresql... done
