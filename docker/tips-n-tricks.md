@@ -29,7 +29,7 @@ Remove `<none>` images that sometimes get generated when a Docker build is inter
 docker rmi $(docker images | grep '^<none>' | awk '{print $3}')
 ```
 
-## Misc
+## Miscellaneous
 Connect to the container's bash session:
 ```bash
 docker-compose run --rm app bash
