@@ -10,13 +10,52 @@ on:
       - main
 
 jobs:
+  run-linters:
+    name: Run linters
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out Git repository
+        uses: actions/checkout@v3
+
+      # Install your linters here
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.10"
+
+      - name: Install Python dependencies
+        run: pip install black flake8
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+
+      # ESLint and Prettier must be in `package.json`
+      - name: Install Node.js dependencies
+        run: npm ci
+
+      - name: Run linters
+        uses: wearerequired/lint-action@v2
+        with:
+          continue_on_error: false
+          black: true
+          black_args: "--check ."
+          flake8: true
+          flake8_args: "--config=.flake8"
+          eslint: true
+          prettier: true
+
   test:
     name: Run tests
+    needs: run-linters
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v3
       - shell: bash
         run: |
           cp .env.example .env
       - name: Build containers and run tests
         run: docker-compose -f docker-compose.yml -f tests/docker-compose.yml run --rm app
+
