@@ -12,12 +12,12 @@
   "formation": {
     "web": {
       "quantity": 1,
-      "size": "hobby"
+      "size": "basic"
     }
   },
   "environments": {
     "review": {
-      "addons": ["heroku-postgresql:hobby-basic"]
+      "addons": ["heroku-postgresql:mini"]
     }
   },
   "buildpacks": [],
