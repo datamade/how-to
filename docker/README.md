@@ -10,6 +10,7 @@ DataMade's preferred container engine.
     - [Comparison to existing tools](research/comparisons-to-existing-tools.md)
     - [Recommendation of Adoption](research/recommendation-of-adoption.md)
 - [Docker for local development](local-development.md)
+- [Useful commands](tips-n-tricks.md)
 
 ## Why containers?
 
