@@ -33,3 +33,12 @@ you can reference `bundleA` in a template like this:
 When developing locally, we use [webpack-dev-server](https://webpack.js.org/configuration/dev-server/). This is a server that both serves our static assets from memory and automatically recreates bundles + reloads webpages when their files are changed.
 
 In production, we don't need to run `webpack-dev-server`. We simply tell Webpack to bundle our assets when building our Docker image. `django-webpack-loader` will then find the bundles (using `webpack-stats.json`) when they're requested by the client.
+
+
+# Example Projects
+
+[Workplace DI](https://github.com/datamade/workplace-di/) is a good example of how we use webpack in a real project.
+
+To get an idea of how Webpack is set up, look over to `webpack.config.js` in that project's root directory. There, you'll find the bundle entrypoints that are later referenced in `workplace/templates/workplace/`. For the differences in how Webpack is used locally vs. in production, head to `Dockerfile.dev` and `Dockerfile`, respectively.
+
+Workplace DI also happens to be one of the first projects that use Webpack here at Datamade. You can check out [this pull request](https://github.com/datamade/how-to/pull/349) to see how we transitioned that project.
