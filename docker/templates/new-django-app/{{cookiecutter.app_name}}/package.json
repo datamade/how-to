@@ -20,7 +20,9 @@
     "@typescript-eslint/eslint-plugin": "^5.53.0",
     "@typescript-eslint/parser": "^5.53.0",
     "@babel/eslint-parser": "^7.19.1",
+    "babel-loader": "^9.1.0",
     "browserify-css": "^0.15.0",
+    "css-loader": "^6.7.2",
     "eslint": "^8.34.0",
     "eslint-config-prettier": "^8.7.0",
     "eslint-config-react-app": "^7.0.1",
@@ -28,9 +30,16 @@
     "eslint-plugin-import": "^2.27.5",
     "eslint-plugin-jsx-a11y": "^6.7.1",
     "eslint-plugin-react": "^7.32.2",
-    "eslint-plugin-react-hooks": "^4.6.0"
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "style-loader": "^3.3.1",
+    "webpack": "^5.75.0",
+    "webpack-bundle-tracker": "^1.7.0",
+    "webpack-cli": "^5.0.0",
+    "webpack-dev-server": "^4.11.1"
   },
   "scripts": {
-    "develop": "sass --watch /app/{{ cookiecutter.module_name }}/static/scss/custom.scss:/app/{{ cookiecutter.module_name }}/static/css/bootstrap.custom.css"
+    "develop": "sass --watch /app/{{ cookiecutter.module_name }}/static/scss/custom.scss:/app/{{ cookiecutter.module_name }}/static/css/bootstrap.custom.css",
+    "build": "webpack --mode=production",
+    "serve": "webpack-dev-server --config webpack.config.js --mode=development --host 0.0.0.0 --hot --open"
   }
 }

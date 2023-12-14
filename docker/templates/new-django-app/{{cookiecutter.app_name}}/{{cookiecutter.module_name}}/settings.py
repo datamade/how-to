@@ -49,7 +49,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'compressor',
+    "webpack_loader",
     '{{cookiecutter.module_name}}'
 ]
 
@@ -145,6 +145,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATIC_ROOT = '/static'
+STATICFILES_DIRS = (os.path.join(BASE_DIR, "assets"),)
 STATICFILES_STORAGE = os.getenv(
     'DJANGO_STATICFILES_STORAGE',
     'whitenoise.storage.CompressedManifestStaticFilesStorage'
@@ -152,36 +153,16 @@ STATICFILES_STORAGE = os.getenv(
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-    'compressor.finders.CompressorFinder',
 )
 
-# Django Compressor configs
-# This array determines which command django-compressor will run for each
-# script type (<script type="module"> for vanilla JavaScript, <script
-# type="text/jsx"> for React). CLI options are _combined_ with the options in
-# the package Babel config, babel.config.json. By default, we use the
-# @babel/preset-env preset. Need to transpile browser incompatible plugins?
-# Add them to the "only" array in babel.config.json, as documented in the
-# README under "Ensuring browser compatibility".
-COMPRESS_PRECOMPILERS = (
-    (
-        "module",
-        "export NODE_PATH=/app/node_modules && npx browserify {infile} -t \
-            [ babelify --global --presets [ @babel/preset-env ] ] > {outfile}",
-    ),
-    (
-        "text/jsx",
-        "export NODE_PATH=/app/node_modules && npx browserify {infile} -t \
-            [ babelify --global --presets [ @babel/preset-env @babel/preset-react ] ] > {outfile}",
-    ),
-)
-
-COMPRESS_OUTPUT_DIR = 'compressor'
-
-COMPRESS_ENABLED = True
-
-# Enable offline compression in production only
-COMPRESS_OFFLINE = not DEBUG
+WEBPACK_LOADER = {
+    "DEFAULT": {
+        "CACHE": not DEBUG,
+        "STATS_FILE": os.path.join(BASE_DIR, "webpack-stats.json"),
+        "POLL_INTERVAL": not DEBUG,
+        "IGNORE": [r".+\.hot-update.js", r".+\.map"],
+    }
+}
 
 # Enforce SSL in production
 if DEBUG is False:

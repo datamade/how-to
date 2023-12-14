@@ -19,12 +19,9 @@
 {% endblock %}
 
 {% block extra_js %}
-{% load compress %}
-<!-- Example of how to use Django Compressor -->
-{% compress js %}
-  <script type="module" src="{% static 'js/base.js' %}"></script>
-  <script type="module">
-    console.log('Hello, inline world!')
-  </script>
-{% endcompress %}
+
+<!-- Example of how to load JavaScript -->
+{% load render_bundle from webpack_loader %}
+{% render_bundle 'base' js %}
+
 {% endblock %}{% endraw %}

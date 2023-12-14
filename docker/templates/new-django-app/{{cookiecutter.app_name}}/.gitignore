@@ -106,6 +106,8 @@ venv.bak/
 # Compiled JavaScript
 node_modules/
 !{{cookiecutter.module_name}}/static/js/lib/
+assets/*
+!assets/.gitkeep
 
 # macOS
 .DS_Store

@@ -1,16 +1,32 @@
 version: '2.4'
 
 services:
+  webpack:
+    # Runs the webpack server for local development.
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+      target: webpack
+    stdin_open: true
+    ports:
+      - 3000:3000
+    volumes:
+      - .:/app
+      - {{cookiecutter.app_name}}-node-modules:/app/node_modules
+    command: npm run serve
   app:
     # As soon as possible, get an image of your app on the github container registry
     # and use that image for local development. This will avoid drift between containers
     # on different machines.
-    # 
+    #
     # When that is ready, uncomment the next line, and delete the following two lines
     # and commit those changes to the repository.
     # image: ghcr.io/datamade/{{cookiecutter.app_name}}:latest
     image: {{cookiecutter.app_name}}
-    build: .    
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+      target: app
     container_name: {{cookiecutter.app_name}}
     # Allow container to be attached to, e.g., to access the pdb shell
     stdin_open: true
