@@ -4,6 +4,7 @@
   "module_name": "my_new_app",
   "run_command": "python manage.py runserver 0.0.0.0:8000",
   "auto_migrate": true,
+  "node_version": 21,
   "postgis": false,
   "pg_version": "15",
   "pg_db": "database"

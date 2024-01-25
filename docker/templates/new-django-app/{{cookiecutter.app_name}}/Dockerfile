@@ -9,9 +9,13 @@ FROM python:3.11
 # Give ourselves some credit
 LABEL maintainer "DataMade <info@datamade.us>"
 
-# Add the NodeSource PPA
+# Add the NodeSource PPA and install Node.js
 # (see: https://github.com/nodesource/distributions/blob/master/README.md)
-RUN curl -sL https://deb.nodesource.com/setup_18.x | bash -
+RUN apt-get update \
+	&& apt-get install sudo \ 
+	&& curl -fsSL https://deb.nodesource.com/setup_{{ cookiecutter.node_version }}.x | sudo -E bash - \
+	&& sudo apt-get install -y nodejs
+
 
 # Install any additional OS-level packages you need via apt-get. RUN statements
 # add additional layers to your image, increasing its final size. Keep your
