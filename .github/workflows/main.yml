@@ -1,14 +1,9 @@
 name: Check for dependency upgrades
 
-# on:
-#   schedule:
-#   # TODO: change this to be once a week or similar
-#     - cron: '30 5 * * 1,3'
 on:
-  push:
-    branches:
-    # TODO: test event, will change
-      - feature/dependency-auto-update
+  schedule:
+    # - cron: '30 5 * * 0'
+    - cron: '30 5 * * *'
   
 jobs:
   upgrade-dependencies:
@@ -30,7 +25,7 @@ jobs:
           nodeenv -p && \
           npm install -g npm-check-updates && \
           find ./docker -name package.json -exec ncu --packageFile {} -u \;
-      # TODO: push to the proper branch
+      # TODO: push to the proper branch after pr approved
       - name: Push to main branch
         run: |
           git config --global user.name "xmedr"
