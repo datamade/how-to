@@ -1,0 +1,41 @@
+name: Check for dependency upgrades
+
+# on:
+#   schedule:
+#   # TODO: change this to be once a week or similar
+#     - cron: '30 5 * * 1,3'
+on:
+  push:
+    branches:
+    # TODO: test event, will change
+      - feature/dependency-auto-update
+  
+jobs:
+  upgrade-dependencies:
+    name: Check for dependency upgrades
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Activate a virtual environment
+        run: python -m venv .venv && source .venv/bin/activate
+      - name: Install pip-upgrader
+        run: pip install pip-upgrader
+      - name: Update python dependencies
+        run: |
+          find ./docker -name requirements.txt -exec pip-upgrade {} --skip-package-installation -p all \;
+      - name: Update node dependencies
+        run: |
+          source .venv/bin/activate && \
+          pip install nodeenv && \
+          nodeenv -p && \
+          npm install -g npm-check-updates && \
+          find ./docker -name package.json -exec ncu --packageFile {} -u \;
+      # TODO: push to the proper branch
+      - name: Push to main branch
+        run: |
+          git config --global user.name "xmedr"
+          git config --global user.email "xavier.medrano@datamade.us"
+
+          git add .
+          git commit -m "Update pypi and node dependencies"
+          git push origin feature/dependency-auto-update
