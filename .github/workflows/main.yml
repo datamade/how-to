@@ -2,8 +2,7 @@ name: Check for dependency upgrades
 
 on:
   schedule:
-    # - cron: '30 5 * * *'
-    - cron: '37 13 * * *'
+    - cron: '30 5 * * *'
   
 jobs:
   upgrade-dependencies:
