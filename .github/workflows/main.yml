@@ -24,7 +24,6 @@ jobs:
           nodeenv -p && \
           npm install -g npm-check-updates && \
           find ./docker -name package.json -exec ncu --packageFile {} -u \;
-      # TODO: push to the proper branch after pr approved
       - name: Push to main branch
         run: |
           git config --global user.name "xmedr"
@@ -32,4 +31,4 @@ jobs:
 
           git add .
           git commit -m "Update pypi and node dependencies"
-          git push origin feature/dependency-auto-update
+          git push origin ${{ github.ref_name }}
