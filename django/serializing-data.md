@@ -1,7 +1,7 @@
 # Using Django Rest Framework serializers for data serialization
 Django Rest Framework can be useful for serializing data beyond the context of an API endpoint. We find it helpful whenever we're serializing json for use in a React component, like when you need to pass GeoJSON to a map or your data objects have nested relationships.
 
-[DRF's docs](https://www.django-rest-framework.org/api-guide/serializers/) are the best place to learn about the serializer classes, but this document has examples for how we use this pattern within the DataMade stack.
+[Django Rest Framework's documentation](https://www.django-rest-framework.org/api-guide/serializers/) is the best place to learn about the serializer classes, but this document shows how we use this pattern within the DataMade stack.
 
 ## Use cases
 - Serializing GeoJSON or JSON data for use in a Django template or React component that's [baked into the Django template](/django/django-react-integration.md)
@@ -26,7 +26,6 @@ class SewershedArea(models.Model):
         primary_key=True,
     )
     boundary = models.GeometryField(blank=True, null=True, srid=3435, dim=2)
-
 ```
 
 ### serializers.py
@@ -64,8 +63,6 @@ class SewershedAreaGeoSerializer(GeoFeatureModelSerializer):
 
     def get_site_id(self, obj):
         return obj.treatment_plant.site_id
-
-    
 ```
 
 ### Use the data
