@@ -4,11 +4,11 @@
   "version": "0.0.0",
   "description": "{{cookiecutter.app_description}}",
   "dependencies": {
-    "@babel/core": "^7.24.0",
-    "@babel/preset-env": "^7.24.0",
+    "@babel/core": "^7.24.4",
+    "@babel/preset-env": "^7.24.4",
     "babelify": "^10.0.0",
     "browserify": "^17.0.0",
-    "core-js": "^3.36.0",
+    "core-js": "^3.36.1",
     "watchify": "^4.0.0"
   },
   "scripts": {
