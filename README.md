@@ -29,6 +29,7 @@ _In alphabetical order and including links to external repository-based document
     - [Forms](django/forms.md)
     - [Translation](django/translation.md)
     - [Wagtail](django/wagtail/)
+    - [Serializing GeoJSON data](django/serializing-data.md)
 - [Docker](docker/)
     - [Docker for local development](docker/local-development.md)
     - [Templates for containerizing your application](docker/templates/)
