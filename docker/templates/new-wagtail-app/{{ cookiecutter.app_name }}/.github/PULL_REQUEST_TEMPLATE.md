@@ -4,6 +4,8 @@ Brief description of what this PR does, and why it is needed.
 
 Closes #XXX
 
+- [ ] Includes a test
+
 ### Demo
 
 Optional. Screenshots, `curl` examples, etc.
