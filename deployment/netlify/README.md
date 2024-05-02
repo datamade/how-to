@@ -33,9 +33,9 @@ Netlify.
    We currently use a shared account because we don't have access to Netlify Teams.
 2. In the console, choose `New site from Git` to configure your app.
 3. Select the `GitHub` provider. Netlify will ask you to authenticate with GitHub. We
-   use [Business Cat](http://github.com/business-cat) for this purpose. Get credentials
-   for Business Cat, authenticate with Netlify, and choose the repo you want to integrate from
-   the dropdown menu.
+   use [Business Cat](http://github.com/business-cat) for this purpose. Get credentials for Business Cat,
+   [add it as a collaborator](https://github.com/datamade/deploy-a-site/blob/master/Private-dependencies.md) to the repo you want to integrate,
+   authenticate with Netlify, and choose the repo from the dropdown menu.
 4. For the `Branch to deploy` option, select `deploy`. If you don't have a `deploy` branch
    yet, create one off of `main` so that you can verify the Netlify deployment.
 5. For the `Build command` option, input whatever command you use to generate
