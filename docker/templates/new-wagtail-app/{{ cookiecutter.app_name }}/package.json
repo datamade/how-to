@@ -19,7 +19,7 @@
     "react-dropdown-select": "^4.11.2",
     "react-leaflet": "^4.2.1",
     "react-select": "^5.8.0",
-    "sass": "^1.76.0",
+    "sass": "^1.77.1",
     "typed.js": "^2.1.0"
   },
   "devDependencies": {
