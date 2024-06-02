@@ -11,13 +11,13 @@
     "@babel/plugin-transform-react-jsx": "^7.24.6",
     "@gatsbyjs/reach-router": "^2.0.1",
     "@popperjs/core": "^2.11.8",
-    "@sentry/gatsby": "^8.4.0",
+    "@sentry/gatsby": "^8.7.0",
     "babel-eslint": "^10.0.0",
     "bootstrap": "^5.3.3",
     "common-tags": "^1.8.2",
-    "eslint": "^9.3.0",
+    "eslint": "^9.4.0",
     "eslint-config-react-app": "^7.0.1",
-    "gatsby": "^5.13.5",
+    "gatsby": "^5.13.6",
     "gatsby-plugin-google-analytics": "^5.13.1",
     "gatsby-plugin-image": "^3.13.1",
     "gatsby-plugin-manifest": "^5.13.1",
@@ -33,7 +33,7 @@
     "typescript": "^5.4.5"
   },
   "devDependencies": {
-    "prettier": "^3.2.5"
+    "prettier": "^3.3.0"
   },
   "keywords": [
     "gatsby"
