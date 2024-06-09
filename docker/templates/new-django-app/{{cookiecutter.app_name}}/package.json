@@ -3,10 +3,10 @@
   "version": "0.0.0",
   "description": "JavaScript development setup for {{cookiecutter.app_verbose_name}}",
   "dependencies": {
-    "@babel/cli": "^7.24.6",
-    "@babel/core": "^7.24.6",
-    "@babel/preset-env": "^7.24.6",
-    "@babel/preset-react": "^7.24.6",
+    "@babel/cli": "^7.24.7",
+    "@babel/core": "^7.24.7",
+    "@babel/preset-env": "^7.24.7",
+    "@babel/preset-react": "^7.24.7",
     "babel-preset-env": "^1.7.0",
     "babelify": "^10.0.0",
     "bootstrap": "^5.3.3",
@@ -17,9 +17,9 @@
     "sass": "^1.77.4"
   },
   "devDependencies": {
-    "@typescript-eslint/eslint-plugin": "^7.11.0",
-    "@typescript-eslint/parser": "^7.11.0",
-    "@babel/eslint-parser": "^7.24.6",
+    "@typescript-eslint/eslint-plugin": "^7.12.0",
+    "@typescript-eslint/parser": "^7.12.0",
+    "@babel/eslint-parser": "^7.24.7",
     "babel-loader": "^9.1.3",
     "browserify-css": "^0.15.0",
     "css-loader": "^7.1.2",
