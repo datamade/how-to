@@ -83,3 +83,9 @@ The process for making changes to the DataMade Stack, and by extension this repo
 ## Code of Conduct
 
 The Code of Conduct in this repo follows the DataMade Anti-Harassment Policy and Procedures, and is documented in [`CODE_OF_CONDUCT.md`](./CODE_OF_CONDUCT.md).
+
+### Infrastructure model
+![Infrastructure main model](.infragenie/infrastructure_main_model.svg)
+- [cookiecutter component model](.infragenie/cookiecutter_component_model.svg)
+
+---
