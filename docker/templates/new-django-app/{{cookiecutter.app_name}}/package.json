@@ -14,16 +14,16 @@
     "core-js": "^3.37.1",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "sass": "^1.77.4"
+    "sass": "^1.77.5"
   },
   "devDependencies": {
-    "@typescript-eslint/eslint-plugin": "^7.12.0",
-    "@typescript-eslint/parser": "^7.12.0",
+    "@typescript-eslint/eslint-plugin": "^7.13.0",
+    "@typescript-eslint/parser": "^7.13.0",
     "@babel/eslint-parser": "^7.24.7",
     "babel-loader": "^9.1.3",
     "browserify-css": "^0.15.0",
     "css-loader": "^7.1.2",
-    "eslint": "^9.4.0",
+    "eslint": "^9.5.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-config-react-app": "^7.0.1",
     "eslint-plugin-flowtype": "^8.0.3",
@@ -32,7 +32,7 @@
     "eslint-plugin-react": "^7.34.2",
     "eslint-plugin-react-hooks": "^4.6.2",
     "style-loader": "^4.0.0",
-    "webpack": "^5.91.0",
+    "webpack": "^5.92.0",
     "webpack-bundle-tracker": "^3.1.0",
     "webpack-cli": "^5.1.4",
     "webpack-dev-server": "^5.0.4"
