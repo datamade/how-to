@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "description": "{{cookiecutter.app_description}}",
   "dependencies": {
-    "@babel/core": "^7.24.8",
+    "@babel/core": "^7.24.9",
     "@babel/preset-env": "^7.24.8",
     "babelify": "^10.0.0",
     "browserify": "^17.0.0",

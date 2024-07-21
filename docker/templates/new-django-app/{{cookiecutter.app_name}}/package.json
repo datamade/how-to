@@ -4,7 +4,7 @@
   "description": "JavaScript development setup for {{cookiecutter.app_verbose_name}}",
   "dependencies": {
     "@babel/cli": "^7.24.8",
-    "@babel/core": "^7.24.8",
+    "@babel/core": "^7.24.9",
     "@babel/preset-env": "^7.24.8",
     "@babel/preset-react": "^7.24.7",
     "babel-preset-env": "^1.7.0",
@@ -17,8 +17,8 @@
     "sass": "^1.77.8"
   },
   "devDependencies": {
-    "@typescript-eslint/eslint-plugin": "^7.16.0",
-    "@typescript-eslint/parser": "^7.16.0",
+    "@typescript-eslint/eslint-plugin": "^7.16.1",
+    "@typescript-eslint/parser": "^7.16.1",
     "@babel/eslint-parser": "^7.24.8",
     "babel-loader": "^9.1.3",
     "browserify-css": "^0.15.0",
@@ -29,7 +29,7 @@
     "eslint-plugin-flowtype": "^8.0.3",
     "eslint-plugin-import": "^2.29.1",
     "eslint-plugin-jsx-a11y": "^6.9.0",
-    "eslint-plugin-react": "^7.34.4",
+    "eslint-plugin-react": "^7.35.0",
     "eslint-plugin-react-hooks": "^4.6.2",
     "style-loader": "^4.0.0",
     "webpack": "^5.93.0",
