@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "description": "JavaScript development setup for {{ cookiecutter.module_name }}",
   "dependencies": {
-    "@babel/cli": "^7.24.8",
+    "@babel/cli": "^7.25.6",
     "@babel/core": "^7.25.2",
     "@babel/preset-env": "^7.25.4",
     "@babel/preset-react": "^7.24.7",
@@ -23,8 +23,8 @@
     "typed.js": "^2.1.0"
   },
   "devDependencies": {
-    "@typescript-eslint/eslint-plugin": "^8.2.0",
-    "@typescript-eslint/parser": "^8.2.0",
+    "@typescript-eslint/eslint-plugin": "^8.3.0",
+    "@typescript-eslint/parser": "^8.3.0",
 	  "@babel/eslint-parser": "^7.25.1",
     "eslint": "^9.9.1",
     "eslint-config-prettier": "^9.1.0",

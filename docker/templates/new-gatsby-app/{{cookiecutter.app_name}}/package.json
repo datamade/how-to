@@ -11,7 +11,7 @@
     "@babel/plugin-transform-react-jsx": "^7.25.2",
     "@gatsbyjs/reach-router": "^2.0.1",
     "@popperjs/core": "^2.11.8",
-    "@sentry/gatsby": "^8.26.0",
+    "@sentry/gatsby": "^8.27.0",
     "babel-eslint": "^10.1.0",
     "bootstrap": "^5.3.3",
     "common-tags": "^1.8.2",
