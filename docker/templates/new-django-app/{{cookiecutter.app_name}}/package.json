@@ -14,28 +14,28 @@
     "core-js": "^3.38.1",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "sass": "^1.77.8"
+    "sass": "^1.78.0"
   },
   "devDependencies": {
-    "@typescript-eslint/eslint-plugin": "^8.3.0",
-    "@typescript-eslint/parser": "^8.3.0",
+    "@typescript-eslint/eslint-plugin": "^8.4.0",
+    "@typescript-eslint/parser": "^8.4.0",
     "@babel/eslint-parser": "^7.25.1",
     "babel-loader": "^9.1.3",
     "browserify-css": "^0.15.0",
     "css-loader": "^7.1.2",
-    "eslint": "^9.9.1",
+    "eslint": "^9.10.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-config-react-app": "^7.0.1",
     "eslint-plugin-flowtype": "^8.0.3",
-    "eslint-plugin-import": "^2.29.1",
-    "eslint-plugin-jsx-a11y": "^6.9.0",
-    "eslint-plugin-react": "^7.35.0",
+    "eslint-plugin-import": "^2.30.0",
+    "eslint-plugin-jsx-a11y": "^6.10.0",
+    "eslint-plugin-react": "^7.35.2",
     "eslint-plugin-react-hooks": "^4.6.2",
     "style-loader": "^4.0.0",
     "webpack": "^5.94.0",
     "webpack-bundle-tracker": "^3.1.1",
     "webpack-cli": "^5.1.4",
-    "webpack-dev-server": "^5.0.4"
+    "webpack-dev-server": "^5.1.0"
   },
   "scripts": {
     "develop": "sass --watch /app/{{ cookiecutter.module_name }}/static/scss/custom.scss:/app/{{ cookiecutter.module_name }}/static/css/bootstrap.custom.css",
