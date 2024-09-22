@@ -15,7 +15,7 @@
     "babel-eslint": "^10.1.0",
     "bootstrap": "^5.3.3",
     "common-tags": "^1.8.2",
-    "eslint": "^9.10.0",
+    "eslint": "^9.11.0",
     "eslint-config-react-app": "^7.0.1",
     "gatsby": "^5.13.7",
     "gatsby-plugin-google-analytics": "^5.13.1",
