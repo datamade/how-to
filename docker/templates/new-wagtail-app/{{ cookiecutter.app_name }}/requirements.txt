@@ -5,9 +5,9 @@ dj-database-url==2.2.0
 whitenoise==6.7.0
 django-compressor==4.5.1
 django-storages==1.14.4
-boto3==1.35.19
-sentry-sdk==2.14.0
-wagtail==6.2.1
+boto3==1.35.32
+sentry-sdk==2.15.0
+wagtail==6.2.2
 csvkit==2.0.1
 
 pytest==8.3.3
