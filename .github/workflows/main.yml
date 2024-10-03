@@ -3,6 +3,9 @@ name: Check for dependency upgrades
 on:
   schedule:
     - cron: '30 5 * * 0'
+  push:
+    branches:
+      - auto/dependency-update
   
 jobs:
   upgrade-dependencies:
@@ -24,11 +27,17 @@ jobs:
           nodeenv -p && \
           npm install -g npm-check-updates && \
           find ./docker -name package.json -exec ncu --packageFile {} -u \;
-      - name: Push to main branch
+      - name: Push to designated branch
         run: |
           git config --global user.name "xmedr"
           git config --global user.email "xavier.medrano@datamade.us"
+          git checkout auto/dependency-update
 
           git add .
           git commit -m "Update pypi and node dependencies"
-          git push origin ${{ github.ref_name }}
+          git push origin auto/dependency-update
+      - name: Create pull request
+        run: |
+          gh pr create -B main -H auto/dependency-update --title 'Update cookiecutter dependencies' --body 'Created by Github action. Review changes to the cookiecutters' dependencies and merge if stable.'
+        env:
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
