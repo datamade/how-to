@@ -38,6 +38,6 @@ jobs:
           git push origin auto/dependency-update
       - name: Create pull request
         run: |
-          gh pr create -B main -H auto/dependency-update --title 'Update cookiecutter dependencies' --body 'Created by Github action. Review changes to the cookiecutters' dependencies and merge if stable.'
+          gh pr create -B main -H auto/dependency-update --title 'Update cookiecutter dependencies' --body 'Created by Github action. Review changes to the cookiecutter dependencies and merge if stable.'
         env:
             GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
