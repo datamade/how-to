@@ -11,32 +11,38 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 import os
 
-import dj_database_url
+import environ
 import sentry_sdk
 from sentry_sdk.integrations.django import DjangoIntegration
 from django.templatetags.static import static
 
 from {{cookiecutter.module_name}}.logging import before_send
 
+
+env = environ.Env(DJANGO_DEBUG=(bool, True),
+                  DJANGO_ALLOWED_HOSTS=(list, []),
+                  SENTRY_DSN=(str, ''),
+                  POSTGRES_REQUIRE_SSL=(bool, False),
+                  DJANGO_ALLOW_SEARCH_INDEXING=(bool, False))
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # Retrieve the secret key from the DJANGO_SECRET_KEY environment variable
-SECRET_KEY = os.environ['DJANGO_SECRET_KEY']
+SECRET_KEY = env('DJANGO_SECRET_KEY')
 
 # Set the DJANGO_DEBUG environment variable to False to disable debug mode
-DEBUG = False if os.getenv('DJANGO_DEBUG', True) == 'False' else True
+DEBUG = env('DJANGO_DEBUG')
 
 # Define DJANGO_ALLOWED_HOSTS as a comma-separated list of valid hosts,
 # e.g. localhost,127.0.0.1,.herokuapp.com
-allowed_hosts = os.getenv('DJANGO_ALLOWED_HOSTS', [])
-ALLOWED_HOSTS = allowed_hosts.split(',') if allowed_hosts else []
+ALLOWED_HOSTS = env('DJANGO_ALLOWED_HOSTS')
 
 
 # Configure Sentry for error logging
-if os.getenv('SENTRY_DSN'):
+if env('SENTRY_DSN'):
     sentry_sdk.init(
-        dsn=os.environ['SENTRY_DSN'],
+        dsn=env('SENTRY_DSN'),
         before_send=before_send,
         integrations=[DjangoIntegration()],
     )
@@ -51,7 +57,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'wagtail.contrib.forms',
-    'wagtail.contrib.modeladmin',
+    'wagtail_modeladmin',
     'wagtail.contrib.redirects',
     'wagtail.contrib.simple_translation',
     'wagtail.contrib.table_block',
@@ -64,7 +70,7 @@ INSTALLED_APPS = [
     'wagtail.images',
     'wagtail.search',
     'wagtail.admin',
-    'wagtail.core',
+    'wagtail',
     'modelcluster',
     'taggit',
     'compressor',
@@ -117,12 +123,15 @@ WSGI_APPLICATION = '{{ cookiecutter.module_name }}.wsgi.application'
 
 DATABASES = {}
 
-DATABASES['default'] = dj_database_url.parse(
-    os.getenv('DATABASE_URL',
-              'postgis://postgres:postgres@postgres:5432/{{ cookiecutter.module_name }}'),
-    conn_max_age=600,
-    ssl_require=True if os.getenv('POSTGRES_REQUIRE_SSL') else False,
-    engine='django.contrib.gis.db.backends.postgis'
+# env.db_url returns a dictionary of database connection settings derived
+# from the connection string. we have some settings we want to always use
+# so we uniont those settings with one coming from the db string
+DATABASES["default"] = {
+    "CONN_MAX_AGE": 600,
+    "OPTIONS": {"sslmode": "require" if env("POSTGRES_REQUIRE_SSL") else "prefer"},
+} | env.db_url(
+    "DATABASE_URL",
+    default='postgis://postgres:postgres@postgres:5432/{{cookiecutter.module_name}}',
 )
 
 # Caching
@@ -173,9 +182,9 @@ LOCALE_PATHS = (
 
 STATIC_URL = '/static/'
 STATIC_ROOT = '/static'
-STATICFILES_STORAGE = os.getenv(
+STATICFILES_STORAGE = env(
     'DJANGO_STATICFILES_STORAGE',
-    'whitenoise.storage.CompressedManifestStaticFilesStorage'
+    default='whitenoise.storage.CompressedManifestStaticFilesStorage'
 )
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',

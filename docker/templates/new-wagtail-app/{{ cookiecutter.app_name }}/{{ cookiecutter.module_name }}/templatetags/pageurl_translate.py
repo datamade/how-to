@@ -1,5 +1,5 @@
 from django import template
-from wagtail.core.models import Page
+from wagtail.models import Page
 
 register = template.Library()
 

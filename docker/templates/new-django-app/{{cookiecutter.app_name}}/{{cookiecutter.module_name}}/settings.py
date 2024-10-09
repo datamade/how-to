@@ -11,31 +11,37 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 import os
 
-import dj_database_url
+import environ
 import sentry_sdk
 from sentry_sdk.integrations.django import DjangoIntegration
 
 from {{cookiecutter.module_name}}.logging import before_send
 
+
+env = environ.Env(DJANGO_DEBUG=(bool, True),
+                  DJANGO_ALLOWED_HOSTS=(list, []),
+                  SENTRY_DSN=(str, ''),
+                  POSTGRES_REQUIRE_SSL=(bool, False),
+                  DJANGO_ALLOW_SEARCH_INDEXING=(bool, False))
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # Retrieve the secret key from the DJANGO_SECRET_KEY environment variable
-SECRET_KEY = os.environ['DJANGO_SECRET_KEY']
+SECRET_KEY = env('DJANGO_SECRET_KEY')
 
 # Set the DJANGO_DEBUG environment variable to False to disable debug mode
-DEBUG = False if os.getenv('DJANGO_DEBUG', True) == 'False' else True
+DEBUG = env("DJANGO_DEBUG")
 
 # Define DJANGO_ALLOWED_HOSTS as a comma-separated list of valid hosts,
 # e.g. localhost,127.0.0.1,.herokuapp.com
-allowed_hosts = os.getenv('DJANGO_ALLOWED_HOSTS', [])
-ALLOWED_HOSTS = allowed_hosts.split(',') if allowed_hosts else []
+ALLOWED_HOSTS = env('DJANGO_ALLOWED_HOSTS')
 
 
 # Configure Sentry for error logging
-if os.getenv('SENTRY_DSN'):
+if env('SENTRY_DSN'):
     sentry_sdk.init(
-        dsn=os.environ['SENTRY_DSN'],
+        dsn=env('SENTRY_DSN'),
         before_send=before_send,
         integrations=[DjangoIntegration()],
     )
@@ -90,17 +96,21 @@ WSGI_APPLICATION = '{{cookiecutter.module_name}}.wsgi.application'
 
 DATABASES = {}
 
-DATABASES['default'] = dj_database_url.parse(
-    os.getenv('DATABASE_URL', 'postgres://postgres:postgres@postgres:5432/{{cookiecutter.pg_db}}'),
-    conn_max_age=600,
-    ssl_require=True if os.getenv('POSTGRES_REQUIRE_SSL') else False{% if cookiecutter.postgis == 'True' %},
-    engine='django.contrib.gis.db.backends.postgis'{% endif %}
+# env.db_url returns a dictionary of database connection settings derived
+# from the connection string. we have some settings we want to always use
+# so we uniont those settings with one coming from the db string
+DATABASES["default"] = {
+    "CONN_MAX_AGE": 600,
+    "OPTIONS": {"sslmode": "require" if env("POSTGRES_REQUIRE_SSL") else "prefer"},
+} | env.db_url(
+    "DATABASE_URL",
+    default='{{ "postgis" if cookiecutter.postgis else "postgres" }}://postgres:postgres@postgres:5432/{{cookiecutter.pg_db}}',
 )
 
 # Caching
 # https://docs.djangoproject.com/en/3.0/topics/cache/
 
-cache_backend = 'dummy.DummyCache' if DEBUG is True else 'db.DatabaseCache'
+cache_backend = 'dummy.DummyCache' if DEBUG else 'db.DatabaseCache'
 CACHES = {
     'default': {
         'BACKEND': f'django.core.cache.backends.{cache_backend}',
@@ -146,9 +156,9 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = '/static'
 STATICFILES_DIRS = (os.path.join(BASE_DIR, "assets"),)
-STATICFILES_STORAGE = os.getenv(
+STATICFILES_STORAGE = env(
     'DJANGO_STATICFILES_STORAGE',
-    'whitenoise.storage.CompressedManifestStaticFilesStorage'
+    default='whitenoise.storage.CompressedManifestStaticFilesStorage'
 )
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
@@ -171,7 +181,7 @@ if DEBUG is False:
 
 # Disable search indexing by default. Set DJANGO_ALLOW_SEARCH_INDEXING env
 # variable to True in container or deploymeny environment to enable indexing.
-if os.getenv('DJANGO_ALLOW_SEARCH_INDEXING', False) == 'True':
+if env('DJANGO_ALLOW_SEARCH_INDEXING'):
     ALLOW_SEARCH_INDEXING = True
 else:
     ALLOW_SEARCH_INDEXING = False

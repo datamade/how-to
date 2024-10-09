@@ -3,7 +3,7 @@
 Django
 psycopg2
 gunicorn
-dj-database-url
+django-environ
 whitenoise
 django-webpack-loader
 sentry-sdk
