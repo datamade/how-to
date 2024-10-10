@@ -3,8 +3,8 @@
 from django.db import migrations, models
 import django.db.models.deletion
 import {{ cookiecutter.module_name }}.blocks
-import wagtail.core.blocks
-import wagtail.core.fields
+import wagtail.blocks
+import wagtail.fields
 import wagtail.embeds.blocks
 import wagtail.images.blocks
 
@@ -22,8 +22,8 @@ class Migration(migrations.Migration):
             name='HomePage',
             fields=[
                 ('page_ptr', models.OneToOneField(auto_created=True, on_delete=django.db.models.deletion.CASCADE, parent_link=True, primary_key=True, serialize=False, to='wagtailcore.page')),
-                ('body', wagtail.core.fields.StreamField([('paragraph', wagtail.core.blocks.RichTextBlock()), ('heading', wagtail.core.blocks.CharBlock(form_classname='full title', icon='title')), ('accordion', wagtail.core.blocks.ListBlock(wagtail.core.blocks.StructBlock([('title', wagtail.core.blocks.CharBlock()), ('paragraph', wagtail.core.blocks.RichTextBlock())]), icon='list-ul')), ('button', wagtail.core.blocks.StructBlock([('text', wagtail.core.blocks.CharBlock()), ('link', wagtail.core.blocks.URLBlock())])), ('callout', wagtail.core.blocks.StructBlock([('paragraph', wagtail.core.blocks.RichTextBlock())])), ('table', {{ cookiecutter.module_name }}.blocks.TableBlock()), ('embedded_media', wagtail.core.blocks.StructBlock([('title', wagtail.core.blocks.CharBlock(required=False)), ('media_link', wagtail.embeds.blocks.EmbedBlock()), ('description', wagtail.core.blocks.TextBlock(required=False))], icon='media')), ('team_members', wagtail.core.blocks.ListBlock(wagtail.core.blocks.StructBlock([('first_name', wagtail.core.blocks.CharBlock()), ('last_name', wagtail.core.blocks.CharBlock()), ('position', wagtail.core.blocks.CharBlock()), ('photo', wagtail.images.blocks.ImageChooserBlock(required=False))]), icon='group'))])),
-                ('intro_text', wagtail.core.fields.RichTextField(blank=True)),
+                ('body', wagtail.fields.StreamField([('paragraph', wagtail.blocks.RichTextBlock()), ('heading', wagtail.blocks.CharBlock(form_classname='full title', icon='title')), ('accordion', wagtail.blocks.ListBlock(wagtail.blocks.StructBlock([('title', wagtail.blocks.CharBlock()), ('paragraph', wagtail.blocks.RichTextBlock())]), icon='list-ul')), ('button', wagtail.blocks.StructBlock([('text', wagtail.blocks.CharBlock()), ('link', wagtail.blocks.URLBlock())])), ('callout', wagtail.blocks.StructBlock([('paragraph', wagtail.blocks.RichTextBlock())])), ('table', {{ cookiecutter.module_name }}.blocks.TableBlock()), ('embedded_media', wagtail.blocks.StructBlock([('title', wagtail.blocks.CharBlock(required=False)), ('media_link', wagtail.embeds.blocks.EmbedBlock()), ('description', wagtail.blocks.TextBlock(required=False))], icon='media')), ('team_members', wagtail.blocks.ListBlock(wagtail.blocks.StructBlock([('first_name', wagtail.blocks.CharBlock()), ('last_name', wagtail.blocks.CharBlock()), ('position', wagtail.blocks.CharBlock()), ('photo', wagtail.images.blocks.ImageChooserBlock(required=False))]), icon='group'))])),
+                ('intro_text', wagtail.fields.RichTextField(blank=True)),
             ],
             options={
                 'abstract': False,
@@ -34,7 +34,7 @@ class Migration(migrations.Migration):
             name='StaticPage',
             fields=[
                 ('page_ptr', models.OneToOneField(auto_created=True, on_delete=django.db.models.deletion.CASCADE, parent_link=True, primary_key=True, serialize=False, to='wagtailcore.page')),
-                ('body', wagtail.core.fields.StreamField([('paragraph', wagtail.core.blocks.RichTextBlock()), ('heading', wagtail.core.blocks.CharBlock(form_classname='full title', icon='title')), ('accordion', wagtail.core.blocks.ListBlock(wagtail.core.blocks.StructBlock([('title', wagtail.core.blocks.CharBlock()), ('paragraph', wagtail.core.blocks.RichTextBlock())]), icon='list-ul')), ('button', wagtail.core.blocks.StructBlock([('text', wagtail.core.blocks.CharBlock()), ('link', wagtail.core.blocks.URLBlock())])), ('callout', wagtail.core.blocks.StructBlock([('paragraph', wagtail.core.blocks.RichTextBlock())])), ('table', {{ cookiecutter.module_name }}.blocks.TableBlock()), ('embedded_media', wagtail.core.blocks.StructBlock([('title', wagtail.core.blocks.CharBlock(required=False)), ('media_link', wagtail.embeds.blocks.EmbedBlock()), ('description', wagtail.core.blocks.TextBlock(required=False))], icon='media')), ('team_members', wagtail.core.blocks.ListBlock(wagtail.core.blocks.StructBlock([('first_name', wagtail.core.blocks.CharBlock()), ('last_name', wagtail.core.blocks.CharBlock()), ('position', wagtail.core.blocks.CharBlock()), ('photo', wagtail.images.blocks.ImageChooserBlock(required=False))]), icon='group'))])),
+                ('body', wagtail.fields.StreamField([('paragraph', wagtail.blocks.RichTextBlock()), ('heading', wagtail.blocks.CharBlock(form_classname='full title', icon='title')), ('accordion', wagtail.blocks.ListBlock(wagtail.blocks.StructBlock([('title', wagtail.blocks.CharBlock()), ('paragraph', wagtail.blocks.RichTextBlock())]), icon='list-ul')), ('button', wagtail.blocks.StructBlock([('text', wagtail.blocks.CharBlock()), ('link', wagtail.blocks.URLBlock())])), ('callout', wagtail.blocks.StructBlock([('paragraph', wagtail.blocks.RichTextBlock())])), ('table', {{ cookiecutter.module_name }}.blocks.TableBlock()), ('embedded_media', wagtail.blocks.StructBlock([('title', wagtail.blocks.CharBlock(required=False)), ('media_link', wagtail.embeds.blocks.EmbedBlock()), ('description', wagtail.blocks.TextBlock(required=False))], icon='media')), ('team_members', wagtail.blocks.ListBlock(wagtail.blocks.StructBlock([('first_name', wagtail.blocks.CharBlock()), ('last_name', wagtail.blocks.CharBlock()), ('position', wagtail.blocks.CharBlock()), ('photo', wagtail.images.blocks.ImageChooserBlock(required=False))]), icon='group'))])),
             ],
             options={
                 'abstract': False,

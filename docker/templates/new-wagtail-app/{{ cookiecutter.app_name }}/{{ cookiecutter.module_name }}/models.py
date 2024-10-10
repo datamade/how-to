@@ -1,8 +1,8 @@
-from wagtail.core.models import Page
-from wagtail.core.fields import RichTextField, StreamField
-from wagtail.core import blocks
+from wagtail.models import Page
+from wagtail.fields import RichTextField, StreamField
+from wagtail import blocks
 from wagtail.embeds.blocks import EmbedBlock
-from wagtail.admin.edit_handlers import StreamFieldPanel, FieldPanel
+from wagtail.admin.panels import FieldPanel
 
 from {{cookiecutter.module_name}}.blocks import (
     AccordionBlock,
@@ -53,7 +53,7 @@ class BasePage(Page):
 
 class StaticPage(BasePage):
     content_panels = Page.content_panels + [
-        StreamFieldPanel('body'),
+        FieldPanel('body'),
     ]
 
     parent_page_types = ['{{ cookiecutter.module_name }}.HomePage']
@@ -64,7 +64,7 @@ class HomePage(BasePage):
 
     content_panels = Page.content_panels + [
         FieldPanel('intro_text'),
-        StreamFieldPanel('body')
+        FieldPanel('body')
     ]
 
     max_count = 1

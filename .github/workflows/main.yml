@@ -24,11 +24,11 @@ jobs:
           nodeenv -p && \
           npm install -g npm-check-updates && \
           find ./docker -name package.json -exec ncu --packageFile {} -u \;
-      - name: Push to main branch
-        run: |
-          git config --global user.name "xmedr"
-          git config --global user.email "xavier.medrano@datamade.us"
+      # - name: Push to main branch
+      #   run: |
+      #     git config --global user.name "xmedr"
+      #     git config --global user.email "xavier.medrano@datamade.us"
 
-          git add .
-          git commit -m "Update pypi and node dependencies"
-          git push origin ${{ github.ref_name }}
+      #     git add .
+      #     git commit -m "Update pypi and node dependencies"
+      #     git push origin ${{ github.ref_name }}

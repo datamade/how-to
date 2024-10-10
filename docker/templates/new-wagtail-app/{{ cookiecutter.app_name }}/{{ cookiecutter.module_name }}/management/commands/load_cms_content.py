@@ -3,13 +3,13 @@
 import os
 import json
 
-from django.core.files.storage import default_storage
+from django.files.storage import default_storage
 from django.apps import apps
-from django.core.management.base import BaseCommand
-from django.core.management import call_command
-from django.core.exceptions import ObjectDoesNotExist
+from django.management.base import BaseCommand
+from django.management import call_command
+from django.exceptions import ObjectDoesNotExist
 
-from wagtail.core.models import Site, Page, PageRevision
+from wagtail.models import Site, Page, PageRevision
 from wagtail.images.models import Image
 
 
