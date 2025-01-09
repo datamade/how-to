@@ -3,7 +3,7 @@
 ## Libraries
 DataMade prefers that web scrapers use the [`scrapy` framework](https://scrapy.org/). Here's what we appreciate about scrapy:
 
-1. Fast. `scrapy` wants to parallel, and so can pull a lot of data very quickly.
+1. Fast. `scrapy` wants to fetch data in parallel, and so it can pull a lot of data very quickly.
 2. Opinionated. `scrapy` scrapers expect files to be organized in particular ways. This is good for reviewing PRs.
 3. Popular. `scrapy` is the most popular scraping framework, so you can find lots of QAs and extensions on the internet.
 4. Extensible. If you need a scrapy that can run some javascript, you can stay within the `scrapy` framework and use middleware like [`scrapy-playwright`](https://github.com/scrapy-plugins/scrapy-playwright). If you need IP rotation or more advanced anti-bot circumventions, there is a good migration path from a normal scrapy script to [Zyte](https://scrapy-zyte-api.readthedocs.io/en/latest/).
