@@ -3,6 +3,8 @@
 This directory records best practices for working with [Docker](https://www.docker.com/),
 DataMade's preferred container engine.
 
+Looking for templates for your Django/Wagtail application? [Check it out!](https://github.com/datamade/cookiecutter-django-app/)
+
 ## Contents
 
 - [Why containers?](#why-containers)
