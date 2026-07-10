@@ -1,3 +1,7 @@
+**NOTE**: This is the archive of the DataMade How-To repo prior to Jul 10, 2026.
+
+---
+
 # how-to
 
 _📚 Doing all sorts of things, the DataMade way_
