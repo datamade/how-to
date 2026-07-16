@@ -1,0 +1,7 @@
+version: '2.4'
+
+services:
+  app:
+    # Don't restart the service when the command exits
+    restart: "no"
+    command: pytest -sxv
